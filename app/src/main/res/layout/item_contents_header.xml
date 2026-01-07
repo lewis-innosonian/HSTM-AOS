@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.hstm_aos.CustomView.RoundedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="30dp"
+    app:rv_backgroundColor="@color/white"
+    app:rv_radius="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/headerIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            tools:src="@drawable/inno_header_title_icon" />
+
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/custom_font"
+            android:textColor="@color/black1"
+            android:textFontWeight="700"
+            android:textSize="20sp"
+            tools:text="ALS" />
+
+        <com.example.hstm_aos.CustomView.RoundedLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:paddingStart="20dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="3dp"
+            app:rv_backgroundColor="@color/black1"
+            app:rv_radius="10dp">
+
+            <TextView
+                android:id="@+id/headerDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/custom_font"
+                android:textColor="@color/white"
+                android:textFontWeight="500"
+                android:textSize="14sp"
+                tools:text="Due: Feb 29. 2028" />
+
+        </com.example.hstm_aos.CustomView.RoundedLinearLayout>
+
+    </LinearLayout>
+
+
+</com.example.hstm_aos.CustomView.RoundedLinearLayout>

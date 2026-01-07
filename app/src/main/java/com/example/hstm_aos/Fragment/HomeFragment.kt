@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hstm_aos.DeviceAdapter
 import com.example.hstm_aos.MainActivity
 import com.example.hstm_aos.R
+import com.example.hstm_aos.ContentsAdapter
+import com.example.hstm_aos.ContentsItem
+import com.example.hstm_aos.StickyHeaderDecoration
 import com.example.hstm_aos.ble.BleManager
 import com.example.hstm_aos.ble.DeviceType
 import kotlinx.coroutines.launch
@@ -35,6 +38,63 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val rv = view.findViewById<RecyclerView>(R.id.deviceRecyclerView)
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
+
+        val rightRv = view.findViewById<RecyclerView>(R.id.rightRecyclerView)
+
+
+        //더미
+        val items = listOf(
+            ContentsItem.Header(
+                iconRes = R.drawable.inno_header_title_icon,
+                title = "ALS",
+                createdAt = "Due: Feb 29. 2028"
+            ),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 2"),
+            ContentsItem.Content("Content 2"),
+            ContentsItem.Content("Content 2"),
+            ContentsItem.Content("Content 2"),
+            ContentsItem.Content("Content 2"),
+            ContentsItem.Content("Content 2"),
+            ContentsItem.Content("Content 2"),
+
+            ContentsItem.Header(
+                iconRes = R.drawable.inno_header_title_icon,
+                title = "BLS",
+                createdAt = "Due: Feb 29. 2028"
+            ),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 1"),
+            ContentsItem.Content("Content 1"),
+
+            ContentsItem.Header(
+                iconRes = R.drawable.inno_header_title_icon,
+                title = "PALS Program",
+                createdAt = "Due: Feb 29. 2028"
+            ),
+            ContentsItem.Content("Content1"),
+            ContentsItem.Content("Content1"),
+            ContentsItem.Content("Content1"),
+            ContentsItem.Content("Content1"),
+            ContentsItem.Content("Content1"),
+            ContentsItem.Content("Content1"),
+
+        )
+
+        val contentsAdapter = ContentsAdapter(items)
+
+        rightRv.layoutManager = LinearLayoutManager(requireContext())
+        rightRv.adapter = contentsAdapter
+        rightRv.addItemDecoration(StickyHeaderDecoration(contentsAdapter))
+
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
