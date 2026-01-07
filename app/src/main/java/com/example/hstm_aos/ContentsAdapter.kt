@@ -1,15 +1,16 @@
 package com.example.hstm_aos
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-
 class ContentsAdapter(
-    private val items: List<ContentsItem>
+    private val items: MutableList<ContentsItem>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -17,21 +18,15 @@ class ContentsAdapter(
         private const val TYPE_CONTENT = 1
     }
 
-    override fun getItemViewType(position: Int): Int =
-        when (items[position]) {
-            is ContentsItem.Header -> TYPE_HEADER
-            is ContentsItem.Content -> TYPE_CONTENT
-        }
+    override fun getItemViewType(position: Int) =
+        if (items[position] is ContentsItem.Header) TYPE_HEADER else TYPE_CONTENT
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return when (viewType) {
-            TYPE_HEADER -> HeaderVH(
-                inflater.inflate(R.layout.item_contents_header, parent, false)
-            )
-            else -> ContentVH(
-                inflater.inflate(R.layout.item_content, parent, false)
-            )
+        return if (viewType == TYPE_HEADER) {
+            HeaderVH(inflater.inflate(R.layout.item_contents_header, parent, false))
+        } else {
+            ContentVH(inflater.inflate(R.layout.item_content, parent, false))
         }
     }
 
@@ -44,22 +39,57 @@ class ContentsAdapter(
         }
     }
 
+    fun updateItems(newItems: List<ContentsItem>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
+
+
     class HeaderVH(view: View) : RecyclerView.ViewHolder(view) {
-
-        private val icon = view.findViewById<ImageView>(R.id.headerIcon)
-        private val title = view.findViewById<TextView>(R.id.headerTitle)
-        private val date = view.findViewById<TextView>(R.id.headerDate)
-
         fun bind(item: ContentsItem.Header) {
-            icon.setImageResource(item.iconRes)
-            title.text = item.title
-            date.text = item.createdAt
+            itemView.findViewById<ImageView>(R.id.headerIcon).setImageResource(item.iconRes)
+            itemView.findViewById<TextView>(R.id.headerTitle).text = item.title
+            itemView.findViewById<TextView>(R.id.headerDate).text = item.createdAt
         }
     }
 
     class ContentVH(view: View) : RecyclerView.ViewHolder(view) {
+
+        private val statusIcon =
+            view.findViewById<ImageView>(R.id.trainingStatusImageView)
+        private val text =
+            view.findViewById<TextView>(R.id.contentText)
+        private val startLayout =
+            view.findViewById<View>(R.id.startLayout)
+
         fun bind(item: ContentsItem.Content) {
-            itemView.findViewById<TextView>(R.id.contentText).text = item.text
+            text.text = item.text
+
+            when (item.status) {
+                TrainingStatus.LOCKED -> {
+                    statusIcon.setImageResource(R.drawable.inno_training_lock_icon)
+                    startLayout.visibility = View.GONE
+                    text.setTextColor(
+                        ContextCompat.getColor(text.context, R.color.black4))
+                }
+
+                TrainingStatus.AVAILABLE -> {
+                    statusIcon.setImageResource(R.drawable.inno_uncheck_icon)
+                    startLayout.visibility = View.VISIBLE
+                    text.setTextColor(
+                        ContextCompat.getColor(text.context, R.color.black2)
+                    )
+                }
+
+                TrainingStatus.COMPLETED -> {
+                    statusIcon.setImageResource(R.drawable.inno_check_icon)
+                    startLayout.visibility = View.VISIBLE
+                    text.setTextColor(
+                        ContextCompat.getColor(text.context, R.color.black2)
+                    )
+                }
+            }
         }
     }
 }

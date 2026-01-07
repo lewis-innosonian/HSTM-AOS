@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var bleManager: BleManager
         private set
 
+    //TODO 함수만들어서 정리
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         requestBlePermission()
         bleManager = BleManager(this)
         bleManager.startScan(clear = true)
+
+        //version 정보
+        binding.versionTextView.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
 
         tabContainer = findViewById(R.id.tabContainer)
 

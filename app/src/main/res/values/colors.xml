@@ -9,5 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black1">#333333</color>
     <color name="black2">#666666</color>
+    <color name="black4">#D9D9D9</color>
+    <color name="black5">#EEEEEE</color>
 
 </resources>
