@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <!-- 왼쪽 view -->
+    <com.example.hstm_aos.CustomView.RoundedLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:rv_radius="30dp"
+        app:rv_backgroundColor="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.50"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="35dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:drawableStart="@drawable/inno_connectable_device_icon"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="700"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:text="Connectable Devices"
+                android:textColor="@color/black1"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/deviceRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ios_spinner_anim" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Searching for devices"
+                    android:textColor="@color/black1"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingTop="35dp"
+            android:paddingBottom="35dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="@color/black1"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="600"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="35dp"
+                android:text="✅ How to connect"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:textColor="@color/black2"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="500"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="35dp"
+                android:text="1. Power on the device.\n2. Searching for devices automatically.\n3. Select a device from the list.\n4. If a manikin is connected, check that its light is on. If AED-Trainer is connected, a sound will be heard."
+                android:textSize="16sp" />
+        </LinearLayout>
+    </com.example.hstm_aos.CustomView.RoundedLinearLayout>
+
+    <!-- 오른쪽 view -->
+    <com.example.hstm_aos.CustomView.RoundedLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_weight="1.3"
+        app:rv_radius="30dp"
+        android:orientation="vertical"
+        app:rv_backgroundColor="@color/white"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="contents" />
+
+    </com.example.hstm_aos.CustomView.RoundedLinearLayout>
+
+</LinearLayout>

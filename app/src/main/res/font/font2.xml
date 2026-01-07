@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <font
+        android:font="@font/pretendard_black"
+        app:font="@font/pretendard_black" />
+
+    <font
+        android:font="@font/pretendard_semibold"
+        app:font="@font/pretendard_semibold" />
+
+    <font
+        android:font="@font/pretendard_extrabold"
+        app:font="@font/pretendard_extrabold" />
+
+    <font
+        android:font="@font/pretendard_light"
+        app:font="@font/pretendard_light" />
+
+</font-family>

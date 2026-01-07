@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundedView">
+        <attr name="rv_radius" format="dimension" />
+        <attr name="rv_backgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundedButton">
+        <attr name="rb_radius" format="dimension" />
+        <attr name="rb_bgColor" format="color" />
+    </declare-styleable>
+
+
+</resources>

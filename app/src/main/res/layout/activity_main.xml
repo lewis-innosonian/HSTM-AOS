@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:background="#F5F5F5F2"
+    android:gravity="center_vertical"
+    android:layout_height="match_parent">
+
+
+    <!-- 탭 영역 -->
+    <RelativeLayout
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+    <LinearLayout
+        android:layout_centerVertical="true"
+        android:id="@+id/tabContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28dp"
+                android:textStyle="bold"
+                android:textColor="@color/black1"
+                android:text="Organization ID"/>
+
+            <TextView
+                android:textSize="14dp"
+                android:textColor="@color/black1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Organization ID?"/>
+        </LinearLayout>
+
+
+        <com.example.hstm_aos.CustomView.RoundedButton
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="97dp"
+            android:paddingEnd="97dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:rb_radius="10dp"
+            app:rb_bgColor="#FD1708"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="600"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:layout_alignParentEnd="true"
+            android:text="Logout"/>
+    </RelativeLayout>
+
+
+    <!-- 화면 변경 영역 -->
+    <FrameLayout
+        android:paddingTop="30dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:paddingBottom="20dp"
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Main Activity for XML"/>
+</LinearLayout>
+
+</layout>

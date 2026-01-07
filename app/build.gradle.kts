@@ -6,7 +6,8 @@ plugins {
 
 android {
     namespace = "com.example.hstm_aos"
-    compileSdk = 35
+    compileSdk = 36
+
 
     defaultConfig {
         applicationId = "com.example.hstm_aos"
@@ -36,6 +37,9 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+        dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -49,6 +53,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
