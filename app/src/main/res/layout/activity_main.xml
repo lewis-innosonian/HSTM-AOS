@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
@@ -12,6 +12,7 @@
 
     <!-- 탭 영역 -->
     <RelativeLayout
+        android:id="@+id/headerView"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
@@ -38,16 +39,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28dp"
-                android:textStyle="bold"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="700"
                 android:textColor="@color/black1"
-                android:text="Organization ID"/>
+                android:text="user ID"/>
 
             <TextView
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="500"
                 android:textSize="14dp"
                 android:textColor="@color/black1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Organization ID?"/>
+                android:text="Organization ID"/>
         </LinearLayout>
 
 
@@ -72,19 +76,60 @@
 
     <!-- 화면 변경 영역 -->
     <FrameLayout
-        android:paddingTop="30dp"
-        android:paddingStart="40dp"
-        android:paddingEnd="40dp"
-        android:paddingBottom="20dp"
+        android:layout_below="@+id/headerView"
+        android:layout_above="@+id/footerView"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="20dp"
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
+    <RelativeLayout
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/footerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <TextView
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/custom_font"
+        android:textFontWeight="400"
+        android:textSize="16dp"
+        android:id="@+id/versionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Main Activity for XML"/>
-</LinearLayout>
+        android:textColor="@color/black1"
+        android:text="1.1.1"/>
+
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@+id/logoImageView"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="400"
+            android:textColor="@color/black1"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Certification Provided By"/>
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/red_cross_logo"/>
+
+
+
+
+    </RelativeLayout>
+</RelativeLayout>
 
 </layout>
