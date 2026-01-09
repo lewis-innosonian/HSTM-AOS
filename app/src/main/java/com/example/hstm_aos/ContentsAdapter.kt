@@ -10,7 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class ContentsAdapter(
-    private val items: MutableList<ContentsItem>
+    private val items: MutableList<ContentsItem>,
+    private val onStartClick: (ContentsItem.Content) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -26,7 +27,7 @@ class ContentsAdapter(
         return if (viewType == TYPE_HEADER) {
             HeaderVH(inflater.inflate(R.layout.item_contents_header, parent, false))
         } else {
-            ContentVH(inflater.inflate(R.layout.item_content, parent, false))
+            ContentVH(inflater.inflate(R.layout.item_content, parent, false), onStartClick)
         }
     }
 
@@ -45,7 +46,6 @@ class ContentsAdapter(
         notifyDataSetChanged()
     }
 
-
     class HeaderVH(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(item: ContentsItem.Header) {
             itemView.findViewById<ImageView>(R.id.headerIcon).setImageResource(item.iconRes)
@@ -54,14 +54,14 @@ class ContentsAdapter(
         }
     }
 
-    class ContentVH(view: View) : RecyclerView.ViewHolder(view) {
+    class ContentVH(
+        view: View,
+        private val onStartClick: (ContentsItem.Content) -> Unit
+    ) : RecyclerView.ViewHolder(view) {
 
-        private val statusIcon =
-            view.findViewById<ImageView>(R.id.trainingStatusImageView)
-        private val text =
-            view.findViewById<TextView>(R.id.contentText)
-        private val startLayout =
-            view.findViewById<View>(R.id.startLayout)
+        private val statusIcon = view.findViewById<ImageView>(R.id.trainingStatusImageView)
+        private val text = view.findViewById<TextView>(R.id.contentText)
+        private val startLayout = view.findViewById<View>(R.id.startLayout)
 
         fun bind(item: ContentsItem.Content) {
             text.text = item.text
@@ -89,6 +89,10 @@ class ContentsAdapter(
                         ContextCompat.getColor(text.context, R.color.black2)
                     )
                 }
+            }
+
+            startLayout.setOnClickListener {
+                onStartClick(item)
             }
         }
     }

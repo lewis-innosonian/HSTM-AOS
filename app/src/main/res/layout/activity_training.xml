@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:background="#F5F5F5F2"
+    android:gravity="center_vertical"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/headerView"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="600"
+            android:textColor="@color/black1"
+            android:textSize="20dp"
+            android:id="@+id/BackLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HOME"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/trainingTypeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28dp"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="700"
+                android:textColor="@color/black1"
+                android:text="Training Type"/>
+
+
+        </LinearLayout>
+
+
+        <com.example.hstm_aos.customview.RoundedButton
+            android:id="@+id/startStopButton"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="46dp"
+            android:paddingEnd="46dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:rb_radius="10dp"
+            app:rb_bgColor="#0061F2"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="600"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:layout_alignParentEnd="true"
+            android:text="Practice Start"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_below="@+id/headerView"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+</RelativeLayout>
+
+</layout>

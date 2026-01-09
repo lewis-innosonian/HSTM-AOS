@@ -1,4 +1,4 @@
-package com.example.hstm_aos.CustomView
+package com.example.hstm_aos.customview
 
 import android.content.Context
 import android.graphics.Canvas

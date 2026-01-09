@@ -8,7 +8,7 @@ import android.view.animation.*
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.hstm_aos.CustomView.RoundedLinearLayout
+import com.example.hstm_aos.customview.RoundedLinearLayout
 
 class CustomToast(private val activity: Activity) {
 

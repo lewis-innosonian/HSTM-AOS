@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.hstm_aos.CustomView.RoundedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.hstm_aos.customview.RoundedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             android:textSize="20sp"
             tools:text="ALS" />
 
-        <com.example.hstm_aos.CustomView.RoundedLinearLayout
+        <com.example.hstm_aos.customview.RoundedLinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -56,9 +56,9 @@
                 android:textSize="14sp"
                 tools:text="Due: Feb 29. 2028" />
 
-        </com.example.hstm_aos.CustomView.RoundedLinearLayout>
+        </com.example.hstm_aos.customview.RoundedLinearLayout>
 
     </LinearLayout>
 
 
-</com.example.hstm_aos.CustomView.RoundedLinearLayout>
+</com.example.hstm_aos.customview.RoundedLinearLayout>

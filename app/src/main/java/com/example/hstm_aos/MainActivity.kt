@@ -23,8 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var tabContainer: LinearLayout
     private val tabs = mutableListOf<View>()
-    lateinit var bleManager: BleManager
-        private set
+    private val bleManager: BleManager
+        get() = MainApplication.ble
 
     //TODO 함수만들어서 정리
     @SuppressLint("MissingPermission")
@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         requestBlePermission()
-        bleManager = BleManager(this)
         bleManager.startScan(clear = true)
 
         //version 정보

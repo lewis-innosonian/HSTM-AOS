@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hstm_aos.*
 import com.example.hstm_aos.ble.BleManager
 import com.example.hstm_aos.ble.DeviceType
+import com.example.hstm_aos.ble.TrainingType
 import com.example.hstm_aos.databinding.FragmentHomeBinding
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -28,7 +30,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         _binding = FragmentHomeBinding.bind(view)
 
-        bleManager = (requireActivity() as MainActivity).bleManager
+        bleManager = (requireActivity().application as MainApplication).bleManager
 
         deviceAdapter = DeviceAdapter(mutableListOf()) { device ->
             bleManager.toggleConnection(device)
@@ -40,7 +42,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         setupContents()
-        contentsAdapter = ContentsAdapter(originalItems.toMutableList())
+        contentsAdapter = ContentsAdapter(originalItems.toMutableList()) { contentItem ->
+            val intent = android.content.Intent(requireContext(), TrainingActivity::class.java).apply {
+                putExtra("contentItem", contentItem as Serializable)
+            }
+            requireContext().startActivity(intent)
+        }
+
 
         binding.rightRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -74,42 +82,50 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 ContentsItem.Content(
                     text = "Adult Compressions",
                     requiredDeviceTypes = setOf(DeviceType.PRO),
-                    status = TrainingStatus.COMPLETED
+                    status = TrainingStatus.COMPLETED,
+                    trainingType = setOf(TrainingType.CCO)
                 ),
                 ContentsItem.Content(
                     text = "Adult Compressions with AED-Trainer",
                     requiredDeviceTypes = setOf(DeviceType.PRO, DeviceType.AED),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CCO, TrainingType.AED),
                 ),
                 ContentsItem.Content(
                     text = "Adult Ventilation",
                     requiredDeviceTypes = setOf(DeviceType.PRO),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.VO)
                 ),
                 ContentsItem.Content(
                     text = "Adult 1-Provider CPR",
                     requiredDeviceTypes = setOf(DeviceType.PRO),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CPR)
                 ),
                 ContentsItem.Content(
                     text = "Adult 1-Provider CPR with AED-Trainer",
                     requiredDeviceTypes = setOf(DeviceType.PRO, DeviceType.AED),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CPR, TrainingType.AED)
                 ),
                 ContentsItem.Content(
                     text = "Infant Compressions",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CCO)
                 ),
                 ContentsItem.Content(
                     text = "Infant Ventilation",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.VO)
                 ),
                 ContentsItem.Content(
                     text = "Infant 1-Provider CPR",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CPR)
                 ),
                 ContentsItem.Header(
                     iconRes = R.drawable.inno_header_title_icon,
@@ -119,37 +135,44 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 ContentsItem.Content(
                     text = "Infant Compressions",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CCO)
                 ),
                 ContentsItem.Content(
                     text = "Infant Compressions",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CCO)
                 ),
                 ContentsItem.Content(
                     text = "Infant Compressions",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CCO)
                 ),
                 ContentsItem.Content(
                     text = "Infant Compressions",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CCO)
                 ),
                 ContentsItem.Content(
                     text = "Infant Compressions",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CCO)
                 ),
                 ContentsItem.Content(
                     text = "Infant Compressions",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CCO)
                 ),
                 ContentsItem.Content(
                     text = "Infant Compressions",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CCO)
                 ),
                 ContentsItem.Header(
                     iconRes = R.drawable.inno_header_title_icon,
@@ -159,7 +182,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 ContentsItem.Content(
                     text = "Infant Compressions",
                     requiredDeviceTypes = setOf(DeviceType.BABY),
-                    status = TrainingStatus.AVAILABLE
+                    status = TrainingStatus.AVAILABLE,
+                    trainingType = setOf(TrainingType.CCO)
                 )
             )
         )

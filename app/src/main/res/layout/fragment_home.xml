@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <!-- 왼쪽 view -->
-    <com.example.hstm_aos.CustomView.RoundedLinearLayout
+    <com.example.hstm_aos.customview.RoundedLinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -102,10 +102,10 @@
                 android:text="1. Power on the device.\n2. Searching for devices automatically.\n3. Select a device from the list.\n4. If a manikin is connected, check that its light is on. If AED-Trainer is connected, a sound will be heard."
                 android:textSize="16sp" />
         </LinearLayout>
-    </com.example.hstm_aos.CustomView.RoundedLinearLayout>
+    </com.example.hstm_aos.customview.RoundedLinearLayout>
 
     <!-- 오른쪽 view -->
-    <com.example.hstm_aos.CustomView.RoundedLinearLayout
+    <com.example.hstm_aos.customview.RoundedLinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
@@ -123,6 +123,6 @@
             android:layout_height="match_parent"
             android:overScrollMode="never"/>
 
-    </com.example.hstm_aos.CustomView.RoundedLinearLayout>
+    </com.example.hstm_aos.customview.RoundedLinearLayout>
 
 </LinearLayout>

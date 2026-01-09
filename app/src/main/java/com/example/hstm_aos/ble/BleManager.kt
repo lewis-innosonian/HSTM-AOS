@@ -247,6 +247,21 @@ class BleManager(private val context: Context) {
         }
     }
 
+    fun getDeviceByAddress(address: String): BleDevice? {
+        return deviceMap[address]
+    }
+
+    fun getCurrentConnectedDevices(): List<BleDevice> {
+        return deviceMap.values.filter { it.isConnected && it.deviceType != null }
+    }
+
+    fun sendPacketToDevice(device: BleDevice, data: ByteArray) {
+        device.device.address.let { address ->
+            gattMap[address]?.let { gatt ->
+                sendUart(gatt, data)
+            } ?: Log.d("kimtest", "Device $address not connected")
+        }
+    }
 
     fun sendUart(gatt: BluetoothGatt, data: ByteArray) {
         val service = gatt.getService(UART_SERVICE_UUID) ?: return
