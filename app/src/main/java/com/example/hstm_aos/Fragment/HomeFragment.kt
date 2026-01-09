@@ -1,5 +1,6 @@
 package com.example.hstm_aos.Fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -46,8 +47,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             adapter = contentsAdapter
             addItemDecoration(StickyHeaderDecoration(contentsAdapter))
         }
-
+        restoreBleState()
         observeBle()
+    }
+
+    private fun restoreBleState() {
+        connectionMap.clear()
+        connectionMap.putAll(bleManager.getCurrentConnectionMap())
+
+        deviceTypeMap.clear()
+        deviceTypeMap.putAll(bleManager.getCurrentDeviceTypeMap())
+
+        updateTrainingStatus()
     }
 
     //TODO 더미데이터..TrainingType도 정의해서 Training화면으로 전달해야함
@@ -177,9 +188,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     bleManager.connectedDevice.collect { (address, connected, type) ->
                         if (connected) {
                             deviceTypeMap[address] = type
+                            CustomToast(requireActivity()).show(
+                                message = "Device connected",
+                                iconRes = R.drawable.inno_toast_connect_icon,
+                                bgColor = Color.parseColor("#1AAF0D")
+                            )
                         } else {
                             deviceTypeMap.remove(address)
+                            CustomToast(requireActivity()).show(
+                                message = "Device disconnected",
+                                iconRes = R.drawable.inno_disconnect_icon,
+                                bgColor = Color.parseColor("#FD1708")
+                            )
                         }
+
                         updateTrainingStatus()
                     }
                 }

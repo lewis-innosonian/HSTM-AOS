@@ -77,6 +77,8 @@ class BleManager(private val context: Context) {
     val receivedPackets: SharedFlow<Pair<String, ByteArray>> =
         _receivedPackets.asSharedFlow()
 
+    private val userDisconnectMap = mutableMapOf<String, Boolean>()
+
     /* ====================================== */
 
     private val filters = listOf(
@@ -135,41 +137,38 @@ class BleManager(private val context: Context) {
 
     fun toggleConnection(device: BleDevice) {
         val address = device.device.address
-
         if (gattMap.containsKey(address)) {
+            userDisconnectMap[address] = true
             gattMap[address]?.disconnect()
             return
         }
-
-        device.device.connectGatt(
-            context,
-            false,
-            gattCallback,
-            BluetoothDevice.TRANSPORT_LE
-        )
+        device.device.connectGatt(context, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
     }
+
 
 
     private val gattCallback = object : BluetoothGattCallback() {
 
-        override fun onConnectionStateChange(
-            gatt: BluetoothGatt,
-            status: Int,
-            newState: Int
-        ) {
+        override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             val address = gatt.device.address
 
             when (newState) {
                 BluetoothProfile.STATE_CONNECTED -> {
                     gattMap[address] = gatt
-
                     gatt.discoverServices()
                 }
 
                 BluetoothProfile.STATE_DISCONNECTED -> {
+                    val userDisconnected = userDisconnectMap[address] ?: false
+                    userDisconnectMap.remove(address)
+
                     gattMap.remove(address)
                     gatt.close()
                     emitConnectionState(address, false)
+
+                    if (!userDisconnected) {
+                        _connectedDevice.tryEmit(Triple(address, false, deviceMap[address]?.deviceType ?: DeviceType.UNKNOWN))
+                    }
                 }
             }
         }
@@ -297,6 +296,17 @@ class BleManager(private val context: Context) {
             hasFe59 -> DeviceType.BABY
             else -> DeviceType.PRO
         }
+    }
+
+
+    fun getCurrentConnectionMap(): Map<String, Boolean> {
+        return _connectionState.value
+    }
+
+    fun getCurrentDeviceTypeMap(): Map<String, DeviceType> {
+        return deviceMap
+            .filter { it.value.isConnected && it.value.deviceType != null }
+            .mapValues { it.value.deviceType!! }
     }
 
 }

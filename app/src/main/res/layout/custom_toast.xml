@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.hstm_aos.CustomView.RoundedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="30dp"
+    android:paddingTop="15dp"
+    android:paddingEnd="30dp"
+    android:id="@+id/toastRoot"
+    android:paddingBottom="15dp"
+    app:rv_radius="40dp">
+
+    <ImageView
+        android:id="@+id/toastIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/toastText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/custom_font"
+        android:text="Message"
+        android:textColor="@android:color/white"
+        android:textFontWeight="500"
+        android:textSize="24sp" />
+
+</com.example.hstm_aos.CustomView.RoundedLinearLayout>
