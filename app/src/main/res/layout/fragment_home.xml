@@ -19,11 +19,12 @@
             android:layout_height="0dp"
             android:layout_weight="2.20"
             android:orientation="vertical"
-            android:paddingStart="20dp"
+
             android:paddingTop="35dp"
-            android:paddingEnd="20dp">
+            >
 
             <TextView
+                android:id="@+id/connectDevicesTextView"
                 android:drawableStart="@drawable/inno_connectable_device_icon"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/custom_font"
@@ -36,15 +37,47 @@
                 android:textColor="@color/black1"
                 android:textSize="20sp" />
 
+            <LinearLayout
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="500"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Model + Device ID"/>
+
+
+                <TextView
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Firmware"/>
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:id="@+id/deviceRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:overScrollMode="never"
                 android:nestedScrollingEnabled="false" />
 
 
             <LinearLayout
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -52,10 +85,10 @@
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp">
 
-                <ImageView
+                <ProgressBar
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@drawable/ios_spinner_anim" />
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -65,19 +98,52 @@
                     android:textColor="@color/black1"
                     android:textSize="16sp" />
             </LinearLayout>
+
+
+            <View
+                android:background="@color/black5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="35dp"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+
+                    android:text="🔉Voice Guide"
+                    android:textColor="@color/black1"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="600"
+                    android:textSize="18sp" />
+
+
+                <com.example.hstm_aos.CustomSwitchView
+                    android:id="@+id/voiceGuideSV"
+                    android:layout_width="55dp"
+                    android:layout_height="30dp"/>
+
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <View
+            android:background="@color/black5"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE" />
+            android:layout_height="1dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:paddingTop="35dp"
-            android:paddingBottom="35dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -99,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
                 android:layout_marginEnd="35dp"
-                android:text="1. Power on the device.\n2. Searching for devices automatically.\n3. Select a device from the list.\n4. If a manikin is connected, check that its light is on. If AED-Trainer is connected, a sound will be heard."
+                android:text="1. Power on the device.\n2. Searching for devices automatically.\n3. Select a device from the list.\n4. If a manikin is connected, check that its light is on. If\n    AED-Trainer is connected, a sound will be heard."
                 android:textSize="16sp" />
         </LinearLayout>
     </com.example.hstm_aos.customview.RoundedLinearLayout>

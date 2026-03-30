@@ -1,135 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    android:layout_width="match_parent"
-    android:background="#F5F5F5F2"
-    android:gravity="center_vertical"
-    android:layout_height="match_parent">
-
-
-    <!-- 탭 영역 -->
     <RelativeLayout
-        android:id="@+id/headerView"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp">
-    <LinearLayout
-        android:layout_centerVertical="true"
-        android:id="@+id/tabContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:background="#F5F5F5"
+        android:layout_height="match_parent">
 
-
-        <LinearLayout
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="28dp"
-                android:fontFamily="@font/custom_font"
-                android:textFontWeight="700"
-                android:textColor="@color/black1"
-                android:text="user ID"/>
-
-            <TextView
-                android:fontFamily="@font/custom_font"
-                android:textFontWeight="500"
-                android:textSize="14dp"
-                android:textColor="@color/black1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Organization ID"/>
-        </LinearLayout>
-
-
-        <com.example.hstm_aos.customview.RoundedButton
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="97dp"
-            android:paddingEnd="97dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            app:rb_radius="10dp"
-            app:rb_bgColor="#FD1708"
-            android:fontFamily="@font/custom_font"
-            android:textFontWeight="600"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:layout_alignParentEnd="true"
-            android:text="Logout"/>
-    </RelativeLayout>
-
-
-    <!-- 화면 변경 영역 -->
-    <FrameLayout
-        android:layout_below="@+id/headerView"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:id="@+id/rootLayout"
         android:layout_above="@+id/footerView"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/fragmentContainer"
+        android:visibility="gone"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-
-    <RelativeLayout
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/footerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <TextView
-        android:layout_centerVertical="true"
-        android:fontFamily="@font/custom_font"
-        android:textFontWeight="400"
-        android:textSize="16dp"
-        android:id="@+id/versionTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black1"
-        android:text="1.1.1"/>
+        android:background="#F5F5F5"
+        android:gravity="center_vertical"
+        android:layout_height="match_parent">
 
 
-        <TextView
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_toLeftOf="@+id/logoImageView"
-            android:fontFamily="@font/custom_font"
-            android:textFontWeight="400"
-            android:textColor="@color/black1"
-            android:textSize="16dp"
-            android:layout_width="wrap_content"
+        <!-- 탭 영역 -->
+        <RelativeLayout
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:id="@+id/headerView"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Certification Provided By"/>
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+            <LinearLayout
+                android:layout_centerVertical="true"
+                android:id="@+id/tabContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
 
-        <ImageView
-            android:id="@+id/logoImageView"
-            android:layout_alignParentRight="true"
+
+
+
+            <LinearLayout
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+
+                    android:id="@+id/userIDTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="700"
+                    android:textColor="@color/black1"
+                    android:text="user ID"/>
+
+
+            </LinearLayout>
+
+
+            <com.example.hstm_aos.customview.RoundedButton
+                android:id="@+id/logoutRoundedButton"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="97dp"
+                android:paddingEnd="97dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                app:rb_radius="10dp"
+                app:rb_bgColor="@android:color/transparent"
+                app:rb_strokeColor="#FD1708"
+                app:rb_strokeWidth="1dp"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="600"
+                android:textSize="16sp"
+                android:textColor="#FD1708"
+                android:layout_alignParentEnd="true"
+                android:text="Logout"/>
+
+
+
+        </RelativeLayout>
+
+
+        <!-- 화면 변경 영역 -->
+        <FrameLayout
+            android:layout_below="@+id/headerView"
+
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+
+
+        <com.example.hstm_aos.customview.RoundedLinearLayout
+            android:id="@+id/guideHelpLayout"
+            android:layout_marginStart="140dp"
+            android:layout_below="@id/headerView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/red_cross_logo"/>
+            app:rv_radius="10dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            app:rv_backgroundColor="@color/black"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tabInfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do you need help?"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="400"/>
+
+            <ImageView
+                android:layout_marginStart="8dp"
+                android:id="@+id/closeImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/inno_close_white_icon"/>
+
+        </com.example.hstm_aos.customview.RoundedLinearLayout>
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/footerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="400"
+                android:textSize="16dp"
+                android:id="@+id/versionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black1"
+                android:text="1.1.1"/>
+
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toLeftOf="@+id/logoImageView"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="400"
+                android:textColor="@color/black1"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Certification Provided By"/>
+
+            <ImageView
+                android:id="@+id/logoImageView"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/red_cross_logo"/>
 
 
 
+
+        </RelativeLayout>
 
     </RelativeLayout>
-</RelativeLayout>
-
 </layout>

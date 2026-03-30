@@ -1,3 +1,70 @@
 <resources>
-    <string name="app_name">HSTM_AOS</string>
+    <string name="app_name">Resuscitation-Skills</string>
+    <string name="head">Head</string>
+    <string name="center">Center</string>
+
+
+    <string name="comp_depth">Comp\nDepth</string>
+    <string name="comp_release">Comp\nRelease</string>
+    <string name="comp_rate">Comp\nRate</string>
+    <string name="result_hand_position">Hand\nPosition</string>
+    <string name="result_finger_position">Finger\nPosition</string>
+    <string name="comp_fraction">Comp\nFraction</string>
+    <string name="comp_count">Comp\nCount</string>
+    <string name="vent_volume">Vent\nVolume</string>
+    <string name="vent_count">Vent\nCount</string>
+    <string name="vent_rate">Vent\nRate</string>
+    <string name="vent_speed">Vent\nSpeed</string>
+    <string name="finger_position">Finger position</string>
+
+    <string name="damaged">Damaged</string>
+
+    <string name="pick_manikin">Pick a manikin type\nfor training</string>
+    <string name="result_compression_depth">Compression\nDepth</string>
+    <string name="result_compression_release">Compression\nRelease</string>
+    <string name="result_compression_rate">Compression\nRate</string>
+    <string name="result_compression_fraction">Compression\nFraction</string>
+    <string name="result_compression_count">Compression\nCount</string>
+
+    <string name="result_ventilation_volume">Ventilation\nVolume</string>
+    <string name="result_ventilation_count">Ventilation\nCount</string>
+    <string name="result_ventilation_rate">Ventilation\nRate</string>
+    <string name="result_ventilation_speed">Ventilation\nSpeed</string>
+
+
+
+    <string name="rescue_vent_volume">Rescue\nVolume</string>
+    <string name="rescue_vent_count">Rescue\nCount</string>
+    <string name="rescue_vent_speed">Rescue\nSpeed</string>
+
+
+    <string name="overall_score">Overall Score</string>
+    <string name="ventilation_count">Ventilation Count</string>
+    <string name="ventilation_rate">Ventilation Rate</string>
+    <string name="ventilation_speed">Ventilation Speed</string>
+    <string name="compression_depth_result">Comp depth</string>
+    <string name="compression_release_result">Comp release</string>
+    <string name="compression_rate_result">Comp rate</string>
+    <string name="compression_fraction">Comp fraction</string>
+    <string name="compression_count">Comp count</string>
+    <string name="ventilation_volume_result">Vent volume</string>
+    <string name="cpr_metric_criteria">Metric Criteria Chart</string>
+    <string name="time_series_chart">Time Series Chart</string>
+    <string name="by_cycle">CPR Score by Cycle</string>
+
+
+    <string name="feedback_too_deep">Too Deep</string>
+    <string name="feedback_too_slow">Too Slow</string>
+    <string name="feedback_too_fast">Too Fast</string>
+    <string name="feedback_incorrect_abdomen">Incorrect (Abdomen)</string>
+    <string name="feedback_incorrect_lr">Incorrect (LR)</string>
+    <string name="feedback_too_few">Too few</string>
+    <string name="feedback_too_many">Too many</string>
+    <string name="feedback_too_little">Too Little</string>
+    <string name="feedback_too_much">Too Much</string>
+    <string name="feedback_good">Good</string>
+    <string name="hand_position">Hand position</string>
+    <string name="incomplete">Incomplete</string>
+    <string name="feedback_too_shallow">Too Shallow</string>
+
 </resources>

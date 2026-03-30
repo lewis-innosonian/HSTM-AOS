@@ -2,7 +2,9 @@ package com.example.hstm_aos
 
 import android.graphics.Canvas
 import android.view.View
+import androidx.core.graphics.withTranslation
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hstm_aos.adapter.ContentsAdapter
 
 class StickyHeaderDecoration(
     private val adapter: ContentsAdapter
@@ -22,10 +24,9 @@ class StickyHeaderDecoration(
         if (childInContact != null &&
             adapter.getItemViewType(parent.getChildAdapterPosition(childInContact)) == 0
         ) {
-            c.save()
-            c.translate(0f, (childInContact.top - headerView.height).toFloat())
-            headerView.draw(c)
-            c.restore()
+            c.withTranslation(0f, (childInContact.top - headerView.height).toFloat()) {
+                headerView.draw(this)
+            }
         } else {
             headerView.draw(c)
         }

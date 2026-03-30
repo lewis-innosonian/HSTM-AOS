@@ -1,15 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    <!-- LEFT MENU -->
+    <com.example.hstm_aos.customview.RoundedLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="30dp"
+        android:orientation="vertical"
+        app:rv_backgroundColor="@color/white"
+        app:rv_radius="30dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="700"
+            android:textSize="20sp"
+            android:textColor="@color/black1"
+            android:text="A Little more guidance"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="500"
+            android:textSize="16sp"
+            android:textColor="@color/black2"
+            android:text="Here are instructions from\nHealthStream Red Cross Practice Center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="20dp"
+        android:id="@+id/rvMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="guide and help"
-        android:textSize="24sp"/>
+        />
 
+    </com.example.hstm_aos.customview.RoundedLinearLayout>
 
+    <com.example.hstm_aos.customview.RoundedLinearLayout
+        android:layout_width="0dp"
+        android:clipToOutline="true"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_weight="2.15"
+        app:rv_radius="30dp"
+        android:orientation="vertical"
+        app:rv_backgroundColor="@color/white"
+        android:gravity="center">
+
+    <!-- RIGHT CONTENT -->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    </com.example.hstm_aos.customview.RoundedLinearLayout>
 </LinearLayout>

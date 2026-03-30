@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/edu_guide_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/custom_font"
+        android:textFontWeight="600"
+        android:textSize="20sp"
+        android:lineSpacingExtra="0dp"
+        android:lineSpacingMultiplier="1.0"
+        android:includeFontPadding="false"
+        android:textColor="@color/black1"
+        android:text="Perform 2-Rescuer CPR on the manikin"/>
+
+    <TextView
+        android:includeFontPadding="false"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/custom_font"
+        android:textFontWeight="400"
+        android:textSize="16sp"
+        android:lineSpacingExtra="0dp"
+        android:lineSpacingMultiplier="1.0"
+        android:textColor="@color/black2"
+        android:text="Your first passing score will be recorded in your transcript."/>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.36"
+            android:layout_marginTop="20dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            >
+    <com.example.hstm_aos.customview.RoundedLinearLayout
+        android:id="@+id/llGuide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:rv_radius="30dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:rv_backgroundColor="#F5F5F5">
+
+
+        <TextView
+            android:id="@+id/tvGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="700"
+            android:textSize="65sp"
+            android:textColor="@color/black1"
+            android:layout_gravity="center"
+            android:text="Ready"
+            tools:text="READY"/>
+
+
+
+
+    </com.example.hstm_aos.customview.RoundedLinearLayout>
+
+            <TextView
+                android:id="@+id/switchGuideTextView"
+                android:visibility="invisible"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="600"
+                android:textSize="24sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="#711BFF"
+                android:text="Switching roles"/>
+
+
+        </RelativeLayout>
+
+        <com.example.hstm_aos.customview.RoundedLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_marginStart="270dp"
+            android:layout_marginEnd="270dp"
+            android:layout_marginTop="18dp"
+            android:layout_gravity="center"
+            android:paddingEnd="60dp"
+            android:layout_height="0dp"
+            app:rv_radius="30dp"
+            app:rv_borderColor="#333333"
+            app:rv_borderWidth="1dp"
+            android:layout_weight="1">
+
+            <com.example.hstm_aos.customview.RoundedLinearLayout
+                android:layout_marginEnd="50dp"
+                android:gravity="center"
+                android:layout_width="250dp"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                app:rv_radius="30dp"
+                app:rv_backgroundColor="#333333"
+                app:rv_borderWidth="1dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvCycleCount"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="700"
+                    android:textSize="20dp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cycle 0"/>
+            </com.example.hstm_aos.customview.RoundedLinearLayout>
+
+
+            <LinearLayout
+
+                android:id="@+id/compCountLayout"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/inno_comp_icon_24"/>
+
+                <TextView
+                    android:id="@+id/tvCompressionCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="700"
+                    android:textSize="20sp"
+                    android:textColor="@color/black1"
+                    android:text="0/30"
+                    android:layout_marginStart="8dp"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ventCountTextView"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/inno_vent_icon_24" />
+
+                <TextView
+                    android:id="@+id/tvVentCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/custom_font"
+                    android:text="0/2"
+                    android:textColor="@color/black1"
+                    android:textFontWeight="700"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+
+        </com.example.hstm_aos.customview.RoundedLinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7.31">
+
+
+
+
+            <com.example.hstm_aos.customview.RoundedLinearLayoutWithTitle
+                android:id="@+id/depthContainer"
+                android:paddingTop="38dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                app:rv_radius="40dp"
+                app:rv_borderColor="#711BFF"
+                app:rv_borderWidth="1dp"
+                app:rv_titleText="asdijasoijdioasjda"
+                app:rv_titleTextColor="@color/white"
+                app:rv_titleBgColor="#711BFF"
+                app:rv_titlePadding="0dp">
+
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minWidth="240dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/positionTextView"
+                        android:gravity="center"
+                        android:drawableStart="@drawable/inno_position_icon_17"
+                        android:drawablePadding="6dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black2"
+                        android:textSize="18dp"
+                        android:fontFamily="@font/custom_font"
+                        android:textFontWeight="700"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Position"/>
+                    <com.example.hstm_aos.customview.CustomHandPositionView
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/hand_position_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginStart="30dp"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2">
+
+                    <TextView
+                        android:id="@+id/depthTextView"
+                        android:gravity="center"
+                        android:drawableStart="@drawable/inno_depth_icon_17"
+                        android:drawablePadding="6dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black2"
+                        android:textSize="18dp"
+                        android:fontFamily="@font/custom_font"
+                        android:textFontWeight="700"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Depth"/>
+
+                    <com.example.hstm_aos.customview.DepthDashedView
+                        android:id="@+id/depth_view"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+
+
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:minWidth="240dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="30dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/rateTextView"
+                        android:gravity="center"
+                        android:drawableStart="@drawable/inno_rate_icon_17"
+                        android:drawablePadding="6dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black2"
+                        android:textSize="18dp"
+                        android:fontFamily="@font/custom_font"
+                        android:textFontWeight="700"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rate"/>
+
+                    <com.example.hstm_aos.customview.GradientFanView
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/speed_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+
+                </LinearLayout>
+
+            </com.example.hstm_aos.customview.RoundedLinearLayoutWithTitle>
+
+
+            <com.example.hstm_aos.customview.RoundedLinearLayoutWithTitle
+                android:layout_marginStart="20dp"
+                android:id="@+id/ventContainer"
+                android:paddingTop="38dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1.14"
+                app:rv_radius="40dp"
+                app:rv_borderColor="#711BFF"
+                app:rv_borderWidth="1dp"
+                app:rv_titleText="asdijasoijdioasjda"
+                app:rv_titleTextColor="@color/white"
+                app:rv_titleBgColor="#711BFF"
+                app:rv_titlePadding="0dp">
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2">
+
+                    <TextView
+                        android:id="@+id/volumeTextView"
+                        android:gravity="center"
+                        android:drawableStart="@drawable/inno_vent_icon_17"
+                        android:drawablePadding="6dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black2"
+                        android:textSize="18dp"
+                        android:fontFamily="@font/custom_font"
+                        android:textFontWeight="700"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Volume"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.example.hstm_aos.customview.VentCustomView
+                            android:id="@+id/vent_view"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            />
+
+
+                        <!--                        <ImageView-->
+
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="match_parent"-->
+                        <!--                            android:src="@drawable/inno_vent_background"/>-->
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </com.example.hstm_aos.customview.RoundedLinearLayoutWithTitle>
+
+
+
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="50dp">
+
+    <com.example.hstm_aos.customview.RoundedLinearLayout
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="30dp"
+        android:paddingTop="15dp"
+        android:paddingEnd="30dp"
+        android:paddingBottom="15dp"
+        android:visibility="invisible"
+        app:rv_radius="100dp"
+        app:rv_backgroundColor="@color/black"
+        app:rv_borderWidth="0dp">
+
+        <ImageView
+            android:id="@+id/cycleInfoImageView"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/inno_cycle_check_toast_icon"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/cycleTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_semibold"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+
+    </com.example.hstm_aos.customview.RoundedLinearLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/button"
+        android:layout_toRightOf="@id/button"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:text=""
+        android:textSize="18sp"
+        android:visibility="gone" />
+</RelativeLayout>
+
+</RelativeLayout>
+</layout>

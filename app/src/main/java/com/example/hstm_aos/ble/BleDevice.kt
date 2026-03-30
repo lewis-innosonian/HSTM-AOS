@@ -14,6 +14,7 @@ data class BleDevice(
 enum class DeviceType : Serializable {
     BABY,
     PRO,
+    CHILD,
     AED,
     UNKNOWN
 }
@@ -23,5 +24,6 @@ enum class TrainingType : Serializable {
     CPR,
     CCO,
     VO,
+    TWORESCUER,
     AED
 }

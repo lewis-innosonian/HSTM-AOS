@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/headerView"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:drawableStart="@drawable/inno_back_arrow_icon"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="600"
+            android:textColor="@color/black1"
+            android:textSize="20sp"
+            android:id="@+id/BackLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Try Again"/>
+
+
+
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/userIDTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="700"
+                android:textColor="@color/black1"
+                android:text="user ID"/>
+
+
+            <TextView
+                android:id="@+id/trainingTypeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="500"
+                android:textColor="@color/black1"
+                android:text="Training Type"/>
+
+
+        </LinearLayout>
+
+
+        <com.example.hstm_aos.customview.RoundedButton
+            android:id="@+id/startStopButton"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="85dp"
+            android:paddingEnd="85dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:rb_radius="10dp"
+            app:rb_bgColor="@android:color/transparent"
+            app:rb_strokeColor="#FD1708"
+            app:rb_strokeWidth="1dp"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="600"
+            android:textSize="16sp"
+            android:textColor="#FD1708"
+            android:layout_alignParentEnd="true"
+            android:text="Exit"/>
+    </RelativeLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:paddingBottom="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black1"
+            android:textSize="18sp"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="700"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Score"/>
+
+
+        <TextView
+            android:id="@+id/cprOverallScoreTextView"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black1"
+            android:textSize="40sp"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="700"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="88"/>
+
+            <TextView
+                android:id="@+id/passingScoreTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black1"
+                android:fontFamily="@font/montserrat_bold"
+                android:text=""/>
+
+        </LinearLayout>
+
+
+            <View
+                android:visibility="gone"
+                android:id="@+id/aedScoreLineView"
+                android:layout_marginStart="20dp"
+                android:paddingRight="20dp"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#999999"/>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/aedScoreLayout"
+                android:paddingLeft="48dp"
+                android:paddingRight="48dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/black1"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="700"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AED-T Score"/>
+
+
+                <TextView
+                    android:id="@+id/aedTScoreTextView"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/black1"
+                    android:textSize="40sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="700"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="88"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/lookUpTermTextView"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/custom_font"
+            android:gravity="center"
+            android:text="View Glossary"
+            android:drawableLeft="@drawable/inno_look_up_term_icon"
+            android:drawablePadding="6dp"
+            android:textSize="14dp"
+            android:layout_marginBottom="12dp"
+            android:textColor="@color/black1"
+            android:textFontWeight="500" />
+
+
+        <com.example.hstm_aos.customview.CustomBarChartView
+            android:id="@+id/customBarChart"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="144dp"/>
+
+
+        <View
+            android:layout_marginTop="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black5"/>
+
+
+        <TextView
+            android:layout_marginTop="60dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black1"
+            android:textSize="18sp"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="700"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Feedback"/>
+
+
+        <TextView
+            android:id="@+id/guidePromptsTextView"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black1"
+            android:textSize="18sp"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="600"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You have compliance CPR skills. However, it's fast when chest compressions are applied. It's important to maintain proper speed, and for that, it can help to think of the animation's Baby Shark bgm."/>
+
+        <View
+            android:layout_marginTop="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black5"/>
+
+
+
+        <LinearLayout
+
+            android:layout_marginTop="60dp"
+            android:gravity="center_horizontal"
+            android:id="@+id/tabContainer"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <include layout="@layout/item_result_custom_tab"/>
+            <include
+                layout="@layout/item_result_custom_tab"
+                />
+            <include layout="@layout/item_result_custom_tab"
+                />
+
+        </LinearLayout>
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:layout_marginTop="10dp"
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>
+
+</layout>

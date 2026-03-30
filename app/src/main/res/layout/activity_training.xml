@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:background="#F5F5F5F2"
+    android:background="@color/white"
     android:gravity="center_vertical"
     android:layout_height="match_parent">
     <RelativeLayout
@@ -20,21 +20,49 @@
         android:paddingEnd="20dp">
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         <TextView
+            android:drawableStart="@drawable/inno_back_arrow_icon"
+            android:drawablePadding="6dp"
             android:fontFamily="@font/custom_font"
             android:textFontWeight="600"
             android:textColor="@color/black1"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:id="@+id/BackLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HOME"/>
+            android:text="Home"/>
 
-        </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/timerLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/inno_timer_icon"/>
+
+                <TextView
+                    android:id="@+id/timerText"
+                    android:layout_marginStart="6dp"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="600"
+                    android:textColor="@color/black1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"/>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_centerVertical="true"
@@ -44,14 +72,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/userIDTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="700"
+                android:textColor="@color/black1"
+                android:text="user ID"/>
+
 
             <TextView
                 android:id="@+id/trainingTypeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="28dp"
+                android:textSize="18dp"
                 android:fontFamily="@font/custom_font"
-                android:textFontWeight="700"
+                android:textFontWeight="500"
                 android:textColor="@color/black1"
                 android:text="Training Type"/>
 
@@ -80,14 +118,48 @@
 
     <FrameLayout
         android:layout_below="@+id/headerView"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/trainingOverLayout"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:background="#B2333333"
+        android:layout_height="match_parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:visibility="visible"
+            android:id="@+id/passLottieView"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="63dp"
+            android:layout_height="50dp"
+            app:lottie_rawRes="@raw/vcc_lotti_white"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+
+
+        <TextView
+            android:layout_marginStart="20dp"
+            android:id="@+id/overTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Practice is Over"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="700"
+            android:textColor="@color/white"
+            android:textSize="40dp" />
+    </LinearLayout>
 
 
 </RelativeLayout>

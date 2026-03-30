@@ -1,11 +1,7 @@
 package com.example.hstm_aos.customview
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Path
-import android.graphics.RectF
+import android.graphics.*
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
 import com.example.hstm_aos.R
@@ -18,8 +14,12 @@ class RoundedButton @JvmOverloads constructor(
 
     private var radius = 0f
     private var bgColor = Color.TRANSPARENT
+    private var strokeColor = Color.TRANSPARENT
+    private var strokeWidth = 0f
 
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     private val rect = RectF()
     private val path = Path()
 
@@ -34,35 +34,74 @@ class RoundedButton @JvmOverloads constructor(
                     R.styleable.RoundedButton_rb_bgColor,
                     Color.TRANSPARENT
                 )
+                strokeColor = getColor(
+                    R.styleable.RoundedButton_rb_strokeColor,
+                    Color.TRANSPARENT
+                )
+                strokeWidth = getDimension(
+                    R.styleable.RoundedButton_rb_strokeWidth,
+                    0f
+                )
             } finally {
                 recycle()
             }
         }
 
-        paint.color = bgColor
+        fillPaint.style = Paint.Style.FILL
+        fillPaint.color = bgColor
+
+        strokePaint.style = Paint.Style.STROKE
+        strokePaint.color = strokeColor
+        strokePaint.strokeWidth = strokeWidth
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        rect.set(0f, 0f, w.toFloat(), h.toFloat())
+
+        val halfStroke = strokeWidth / 2f
+
+        rect.set(
+            halfStroke,
+            halfStroke,
+            w.toFloat() - halfStroke,
+            h.toFloat() - halfStroke
+        )
+
         path.reset()
         path.addRoundRect(rect, radius, radius, Path.Direction.CW)
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawPath(path, paint)
+        // 배경
+        canvas.drawPath(path, fillPaint)
+
+        // 테두리
+        if (strokeWidth > 0f) {
+            canvas.drawPath(path, strokePaint)
+        }
+
         canvas.clipPath(path)
         super.onDraw(canvas)
     }
 
     fun setRadius(radius: Float) {
         this.radius = radius
+        requestLayout()
         invalidate()
     }
 
     fun setBgColor(color: Int) {
         bgColor = color
-        paint.color = color
+        fillPaint.color = color
+        invalidate()
+    }
+
+    fun setStroke(color: Int, width: Float) {
+        strokeColor = color
+        strokeWidth = width
+        strokePaint.color = color
+        strokePaint.strokeWidth = width
+        requestLayout()
         invalidate()
     }
 }

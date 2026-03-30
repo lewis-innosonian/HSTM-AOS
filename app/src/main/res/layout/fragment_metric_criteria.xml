@@ -1,0 +1,1389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:gravity="center">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/cprMetricCriteriaChestLayout"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/custom_font"
+                                android:text="Compression Depth"
+                                android:textColor="#333333"
+                                android:textFontWeight="600"
+                                android:textSize="20dp" />
+
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="2.7"
+                                android:gravity="center">
+
+
+                                <LinearLayout
+                                    android:id="@+id/CompressionDepthLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/detail_result_border_view"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/compression_depth_too_shallow_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:fontFamily="@font/custom_font"
+                                            android:gravity="center"
+                                            android:text="@string/feedback_too_shallow"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/compression_depth_too_shallow"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="#1A75CCFD"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_good"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/compression_depth_good"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="600"
+                                            android:textSize="28dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/compression_depth_too_deep_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_too_deep"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/compression_depth_too_deep"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/dimCompressionDepthTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/detail_result_border_dim_view"
+                                    android:gravity="center"
+                                    android:padding="20dp"
+                                    android:text="-"
+                                    android:textSize="22dp"
+                                    android:visibility="gone" />
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/custom_font"
+                                android:text="Compression Release"
+                                android:textColor="#333333"
+                                android:textFontWeight="600"
+                                android:textSize="20dp" />
+
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="2.7"
+                                android:gravity="center">
+
+
+                                <LinearLayout
+                                    android:id="@+id/recoilLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/detail_result_border_view"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/recoil_incomplete_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:fontFamily="@font/custom_font"
+                                            android:gravity="center"
+                                            android:text="@string/incomplete"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/recoil_incomplete"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/detail_result_border_color_view"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_good"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/recoil_good"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="600"
+                                            android:textSize="28dp" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+
+                                <TextView
+                                    android:id="@+id/dimRecoilTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/detail_result_border_dim_view"
+                                    android:gravity="center"
+                                    android:padding="20dp"
+                                    android:text="-"
+                                    android:textSize="22dp"
+                                    android:visibility="gone" />
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/custom_font"
+                                android:text="Compression Rate"
+                                android:textColor="#333333"
+                                android:textFontWeight="600"
+                                android:textSize="20dp" />
+
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="2.7"
+                                android:gravity="center">
+
+
+                                <LinearLayout
+                                    android:id="@+id/compressionRateLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/detail_result_border_view"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/compression_rate_too_slow_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:fontFamily="@font/custom_font"
+                                            android:gravity="center"
+                                            android:text="@string/feedback_too_slow"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/compression_rate_too_slow"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="#1A75CCFD"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_good"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/compression_rate_good"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="600"
+                                            android:textSize="28dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/compression_rate_too_fast_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_too_fast"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/compression_rate_too_fast"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/dimCompressionRateTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/detail_result_border_dim_view"
+                                    android:gravity="center"
+                                    android:padding="20dp"
+                                    android:text="-"
+                                    android:textSize="22dp"
+                                    android:visibility="gone" />
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:id="@+id/cprMetricHandPostionTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/custom_font"
+                                android:text="Hand Position"
+                                android:textColor="#333333"
+                                android:textFontWeight="600"
+                                android:textSize="20dp" />
+
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="2.7"
+                                android:gravity="center">
+
+                                <LinearLayout
+                                    android:id="@+id/handPositionLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="2.7"
+                                    android:background="@drawable/detail_result_border_view"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/hand_position_incorrect_stomach_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:fontFamily="@font/custom_font"
+                                            android:gravity="center"
+                                            android:text="@string/feedback_incorrect_abdomen"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/hand_position_incorrect_stomach"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="#1A75CCFD"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_good"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/hand_position_good"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="600"
+                                            android:textSize="28dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/hand_position_incorrect_lr_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_incorrect_lr"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/hand_position_incorrect_lr"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/dimHandPositionTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/detail_result_border_dim_view"
+                                    android:gravity="center"
+                                    android:padding="20dp"
+                                    android:text="-"
+                                    android:textSize="22dp"
+                                    android:visibility="gone" />
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/custom_font"
+                                android:text="Compression Fraction"
+                                android:textColor="#333333"
+                                android:textFontWeight="600"
+                                android:textSize="20dp" />
+
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="2.7"
+                                android:gravity="center">
+
+                                <com.example.hstm_aos.customview.RoundedLinearLayout
+                                    android:id="@+id/scoreOfCcfLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="2.7"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    app:rv_backgroundColor="#1A75CCFD"
+                                    app:rv_borderColor="#75CCFD"
+                                    app:rv_borderWidth="1.5dp"
+                                    app:rv_radius="20dp">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:fontFamily="@font/custom_font"
+                                            android:gravity="center"
+                                            android:text="Score"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/score_of_ccf"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="600"
+                                            android:textSize="28dp" />
+
+                                    </LinearLayout>
+
+                                </com.example.hstm_aos.customview.RoundedLinearLayout>
+
+                                <TextView
+                                    android:id="@+id/dimScoreOfCcfTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/detail_result_border_dim_view"
+                                    android:gravity="center"
+                                    android:padding="20dp"
+                                    android:text="-"
+                                    android:textSize="22dp"
+                                    android:visibility="gone" />
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/cprMetricCriteriaChestCountLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/custom_font"
+                                android:text="Compression Count"
+                                android:textColor="#333333"
+                                android:textFontWeight="600"
+                                android:textSize="20dp" />
+
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="2.7"
+                                android:gravity="center">
+
+                                <LinearLayout
+                                    android:id="@+id/compressionNoLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="2.7"
+                                    android:background="@drawable/detail_result_border_view"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/compression_no_too_few_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:fontFamily="@font/custom_font"
+                                            android:gravity="center"
+                                            android:text="@string/feedback_too_few"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/compression_no_too_few"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="#1A75CCFD"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_good"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/compression_no_good"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="600"
+                                            android:textSize="28dp" />
+
+                                    </LinearLayout>
+
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/compression_no_too_many_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_too_many"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/compression_no_too_many"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/dimCompressionNoTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/detail_result_border_dim_view"
+                                    android:gravity="center"
+                                    android:padding="20dp"
+                                    android:text="-"
+                                    android:textSize="22dp"
+                                    android:visibility="gone" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/cprMetricCriteriaVentLayout"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/custom_font"
+                                android:text="Ventilation Volume"
+                                android:textColor="#333333"
+                                android:textFontWeight="600"
+                                android:textSize="20dp" />
+
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="2.7"
+                                android:gravity="center">
+
+
+                                <LinearLayout
+                                    android:id="@+id/ventilationVolumeLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="2.7"
+                                    android:background="@drawable/detail_result_border_view"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/ventilation_volume_too_little_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:fontFamily="@font/custom_font"
+                                            android:gravity="center"
+                                            android:text="@string/feedback_too_little"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/ventilation_volume_too_little"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="#1A75CCFD"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_good"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/ventilation_volume_good"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="600"
+                                            android:textSize="28dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/ventilation_volume_too_much_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_too_much"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/ventilation_volume_too_much"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/dimVentilationVolumeTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/detail_result_border_dim_view"
+                                    android:gravity="center"
+                                    android:padding="20dp"
+                                    android:text="-"
+                                    android:textSize="22dp"
+                                    android:visibility="gone" />
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:id="@+id/ventCountTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.7"
+                                android:fontFamily="@font/custom_font"
+                                android:text="Ventilation Count"
+                                android:textColor="#333333"
+                                android:textFontWeight="600"
+                                android:textSize="20dp" />
+
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="2.7"
+                                android:gravity="center">
+
+                                <LinearLayout
+                                    android:id="@+id/ventilationRateLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="2.7"
+                                    android:background="@drawable/detail_result_border_view"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/ventilation_rate_infrequently_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:fontFamily="@font/custom_font"
+                                            android:gravity="center"
+                                            android:text="@string/feedback_too_slow"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/ventilation_rate_infrequently"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="#1A75CCFD"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_good"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+
+                                            android:id="@+id/ventilation_rate_good"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#0061F2"
+                                            android:textFontWeight="600"
+
+                                            android:textSize="28dp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="#75CCFD" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/ventilation_rate_too_frequently_title"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="@string/feedback_too_fast"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:id="@+id/ventilation_rate_too_frequently"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/custom_font"
+                                            android:text="20%"
+                                            android:textColor="#333333"
+                                            android:textFontWeight="500"
+                                            android:textSize="20dp" />
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/dimVentilationRateTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/detail_result_border_dim_view"
+                                    android:gravity="center"
+                                    android:padding="20dp"
+                                    android:text="-"
+                                    android:textSize="22dp"
+                                    android:visibility="gone" />
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ventilationSpeedLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.7"
+                            android:fontFamily="@font/custom_font"
+                            android:text="@string/ventilation_speed"
+                            android:textColor="#333333"
+                            android:textFontWeight="600"
+                            android:textSize="20dp" />
+
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="2.7"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:id="@+id/ventilationSpeedShowView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="2.7"
+                                android:background="@drawable/detail_result_border_view"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/ventilation_speed_too_slow_title"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:fontFamily="@font/custom_font"
+                                        android:gravity="center"
+                                        android:text="@string/feedback_too_slow"
+                                        android:textColor="#333333"
+                                        android:textFontWeight="500"
+                                        android:textSize="14dp" />
+
+                                    <TextView
+                                        android:id="@+id/ventilation_speed_too_slow_data"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/custom_font"
+                                        android:text="20%"
+                                        android:textColor="#333333"
+                                        android:textFontWeight="500"
+                                        android:textSize="20dp" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#75CCFD" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="#1A75CCFD"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/custom_font"
+                                        android:text="@string/feedback_good"
+                                        android:textColor="#0061F2"
+                                        android:textFontWeight="500"
+                                        android:textSize="14dp" />
+
+                                    <TextView
+
+                                        android:id="@+id/ventilation_speed_good"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/custom_font"
+                                        android:text="20%"
+                                        android:textColor="#0061F2"
+                                        android:textFontWeight="600"
+
+                                        android:textSize="28dp" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#75CCFD" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/ventilation_speed_too_fast_title"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/custom_font"
+                                        android:text="@string/feedback_too_fast"
+                                        android:textColor="#333333"
+                                        android:textFontWeight="500"
+                                        android:textSize="14dp" />
+
+                                    <TextView
+                                        android:id="@+id/ventilation_speed_too_fast_data"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/custom_font"
+                                        android:text="20%"
+                                        android:textColor="#333333"
+                                        android:textFontWeight="500"
+                                        android:textSize="20dp" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:id="@+id/dimVentilationSpeedTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/detail_result_border_dim_view"
+                                android:gravity="center"
+                                android:padding="20dp"
+                                android:text="-"
+                                android:textSize="22dp"
+                                android:visibility="gone" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

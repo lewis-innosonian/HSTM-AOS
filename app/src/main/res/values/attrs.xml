@@ -3,12 +3,26 @@
     <declare-styleable name="RoundedView">
         <attr name="rv_radius" format="dimension" />
         <attr name="rv_backgroundColor" format="color" />
+        <attr name="rv_borderColor" format="color"/>
+        <attr name="rv_borderWidth" format="dimension"/>
+
+        <attr name="rv_titleText" format="string"/>
+        <attr name="rv_titleTextColor" format="color"/>
+        <attr name="rv_titleBgColor" format="color"/>
+        <attr name="rv_titleTextSize" format="dimension"/>
+        <attr name="rv_titlePadding" format="dimension"/>
+
     </declare-styleable>
 
     <declare-styleable name="RoundedButton">
         <attr name="rb_radius" format="dimension" />
         <attr name="rb_bgColor" format="color" />
+        <attr name="rb_strokeColor" format="color" />
+        <attr name="rb_strokeWidth" format="dimension" />
+
     </declare-styleable>
+
+
 
 
 </resources>

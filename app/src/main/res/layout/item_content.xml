@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -17,18 +18,24 @@
 
         <!-- 잠금(inno_training_lock_icon), 진행가능(inno_uncheck_icon), 징행완료(inno_check_icon) -->
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/trainingStatusImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:src="@drawable/inno_training_lock_icon" />
 
+        <LinearLayout
+            android:layout_toLeftOf="@id/startLayout"
+            android:layout_toRightOf="@+id/trainingStatusImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
         <TextView
+            android:maxWidth="380dp"
             android:id="@+id/contentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_toLeftOf="@+id/startLayout"
             android:layout_toRightOf="@+id/trainingStatusImageView"
             android:ellipsize="end"
             android:fontFamily="@font/custom_font"
@@ -36,15 +43,31 @@
             android:textColor="@color/black4"
             android:textFontWeight="600"
             android:textSize="18sp"
+            tools:text="Contentasjdoijaisodjoaisdjoiajsdoijasiodjaoisdasdoiajsdoijasoidjoiasjdoiasjoidjasiodjioasjdoiasjdoijasoidjaiosjdioajsodasdoajsodjaiosjdioajsdoijasoidjas text" />
+
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/durationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toRightOf="@+id/contentText"
+            android:layout_toLeftOf="@+id/startLayout"
+            android:fontFamily="@font/custom_font"
+            android:maxLines="1"
+            android:textColor="@color/black4"
+            android:textFontWeight="500"
+            android:textSize="14sp"
             tools:text="Content text" />
-
-
+</LinearLayout>
         <LinearLayout
             android:id="@+id/startLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:visibility="gone">
+            android:visibility="invisible">
 
             <TextView
                 android:layout_width="wrap_content"

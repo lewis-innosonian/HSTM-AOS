@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="30dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog_rounded">
+
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_manikin"
+        android:textColor="#333333"
+        android:textSize="28dp"
+        android:fontFamily="@font/custom_font"
+        android:textFontWeight="600"/>
+    
+
+    <RadioGroup
+        android:layout_marginTop="14dp"
+        android:id="@+id/radioGroup"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/radioAdult"
+            android:textSize="24dp"
+            android:textFontWeight="400"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_custom_selector"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/custom_font"
+            android:textColor="#666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adult"/>
+
+        <RadioButton
+            android:id="@+id/radioChild"
+            android:textSize="24dp"
+            android:textFontWeight="400"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_custom_selector"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/custom_font"
+            android:textColor="#666666"
+            android:layout_marginStart="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Child"/>
+    </RadioGroup>
+
+
+
+
+</LinearLayout>

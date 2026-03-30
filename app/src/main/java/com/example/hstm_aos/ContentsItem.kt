@@ -5,6 +5,7 @@ import com.example.hstm_aos.ble.DeviceType
 import com.example.hstm_aos.ble.TrainingType
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
+import kotlin.time.Duration
 
 sealed class ContentsItem : Serializable {
     @Parcelize
@@ -17,8 +18,12 @@ sealed class ContentsItem : Serializable {
     @Parcelize
     data class Content(
         val text: String,
+        val duration: String,
         val requiredDeviceTypes: Set<DeviceType>,
-        val status: TrainingStatus,
-        val trainingType : Set<TrainingType>
+        var status: TrainingStatus,
+        val trainingType : Set<TrainingType>,
+        val skillTypeId: Int,  // OpenSkill.Skill_Type_id
+        val certType: Int,      // OpenSkill.Cert_Type
+        val passing_Score : Int
     ) : ContentsItem(), Parcelable
 }

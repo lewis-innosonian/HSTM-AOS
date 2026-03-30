@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.example.hstm_aos.customview.RoundedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="620dp"
+    android:layout_height="700dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:rv_radius="30dp"
+    android:gravity="center_horizontal"
+    app:rv_backgroundColor="@color/white"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Organization"
+        android:fontFamily="@font/custom_font"
+        android:textFontWeight="700"
+        android:textColor="@color/black1"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Which organization are you completing this skills check for?"
+        android:textSize="16sp"
+        android:fontFamily="@font/custom_font"
+        android:textFontWeight="500"
+        android:gravity="center"
+        android:textColor="@color/black2"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="25dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/orgRecycler"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+
+
+
+
+    <com.example.hstm_aos.customview.RoundedButton
+        android:id="@+id/btnContinue"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:fontFamily="@font/custom_font"
+        android:textFontWeight="600"
+        android:textSize="20sp"
+        android:text="Continue"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#1E64D6"
+        android:textColor="#FFFFFF"
+        app:rb_radius="10dp"
+        app:rb_bgColor="#0061F2"
+        app:rb_strokeColor="#0061F2"
+        app:rb_strokeWidth="0dp"/>
+
+</com.example.hstm_aos.customview.RoundedLinearLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "824492675819",
+    "project_id": "hstm-672dc",
+    "storage_bucket": "hstm-672dc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824492675819:android:90f744fec572b47a31e4ae",
+        "android_client_info": {
+          "package_name": "com.example.hstm_aos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALhOdHhG5l0nMTSKSHMpLWAOPMFAhpssQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

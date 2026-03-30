@@ -13,9 +13,13 @@ import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.Context
+import android.graphics.Color
 import android.os.ParcelUuid
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import androidx.appcompat.app.AppCompatActivity
+import com.example.hstm_aos.customview.CustomToast
+import com.example.hstm_aos.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -24,10 +28,11 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
-class BleManager(private val context: Context) {
+class BleManager(private var context: Context) {
 
     private val FE59_UUID =
         UUID.fromString("0000fe59-0000-1000-8000-00805f9b34fb")
@@ -67,9 +72,9 @@ class BleManager(private val context: Context) {
     val connectionState: StateFlow<Map<String, Boolean>> = _connectionState.asStateFlow()
 
     private val _connectedDevice =
-        MutableSharedFlow<Triple<String, Boolean, DeviceType>>(extraBufferCapacity = 5)
+        MutableSharedFlow<Triple<BleDevice, Boolean, DeviceType>>(extraBufferCapacity = 5)
 
-    val connectedDevice: SharedFlow<Triple<String, Boolean, DeviceType>> =
+    val connectedDevice: SharedFlow<Triple<BleDevice, Boolean, DeviceType>> =
         _connectedDevice.asSharedFlow()
 
     private val _receivedPackets =
@@ -79,6 +84,9 @@ class BleManager(private val context: Context) {
 
     private val userDisconnectMap = mutableMapOf<String, Boolean>()
 
+
+    private val toastQueue: ArrayDeque<() -> Unit> = ArrayDeque()
+    private var isShowingToast = false
     /* ====================================== */
 
     private val filters = listOf(
@@ -117,17 +125,17 @@ class BleManager(private val context: Context) {
         _scanResults.value = deviceMap.values.toList()
     }
 
-    private fun emitConnectionState(address: String, connected: Boolean) {
+    private fun emitConnectionState(device: BleDevice, connected: Boolean) {
         _connectionState.value = _connectionState.value.toMutableMap().apply {
-            this[address] = connected
+            this[device.device.address] = connected
         }
 
-        val device = deviceMap[address]
+        val device = deviceMap[device.device.address]
         device?.isConnected = connected
 
         if (connected && device?.deviceType != null) {
             _connectedDevice.tryEmit(
-                Triple(address, true, device.deviceType!!)
+                Triple(device, true, device.deviceType!!)
             )
         }
 
@@ -145,13 +153,30 @@ class BleManager(private val context: Context) {
         device.device.connectGatt(context, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
     }
 
+    private fun initUart(gatt: BluetoothGatt, deviceType: DeviceType) {
+        val service = gatt.getService(UART_SERVICE_UUID) ?: return
+        val rxChar = service.getCharacteristic(UART_RX_UUID)
+
+        gatt.setCharacteristicNotification(rxChar, true)
+        val cccd = rxChar.getDescriptor(CCCD_UUID)
+        cccd.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
+        gatt.writeDescriptor(cccd)
+    }
+
+    fun setManualDeviceType(address: String, type: DeviceType) {
+        deviceMap[address]?.deviceType = type
+
+        gattMap[address]?.let { gatt ->
+            initUart(gatt, type)
+        }
+    }
 
 
     private val gattCallback = object : BluetoothGattCallback() {
 
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             val address = gatt.device.address
-
+            val device = deviceMap[gatt.device.address]
             when (newState) {
                 BluetoothProfile.STATE_CONNECTED -> {
                     gattMap[address] = gatt
@@ -164,11 +189,22 @@ class BleManager(private val context: Context) {
 
                     gattMap.remove(address)
                     gatt.close()
-                    emitConnectionState(address, false)
+                    emitConnectionState(device!!, false)
 
                     if (!userDisconnected) {
-                        _connectedDevice.tryEmit(Triple(address, false, deviceMap[address]?.deviceType ?: DeviceType.UNKNOWN))
+
+                        showToast(
+                            "${gatt.device.name} disconnected",
+                            R.drawable.inno_disconnect_icon,
+                            "#FD1708"
+                        )
+
+
                     }
+
+
+
+                    _connectedDevice.tryEmit(Triple(device!!, false, deviceMap[address]?.deviceType ?: DeviceType.UNKNOWN))
                 }
             }
         }
@@ -176,24 +212,25 @@ class BleManager(private val context: Context) {
         override fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
             if (status != BluetoothGatt.GATT_SUCCESS) return
 
-            val deviceName = gatt.device.name ?: ""
-
-            val type = detectDeviceType(gatt)
             val address = gatt.device.address
+            val type = detectDeviceType(gatt)
 
             deviceMap[address]?.deviceType = type
 
             Log.d("BLE_TYPE", "${gatt.device.name} → $type")
 
-            val service = gatt.getService(UART_SERVICE_UUID) ?: return
+//            if (type == DeviceType.UNKNOWN) {
+//                // 🔥 Activity에게 선택 요청
+//                _connectedDevice.tryEmit(
+//                    Triple(address, true, DeviceType.UNKNOWN)
+//                )
+////                return
+//            }
 
-            val rxChar = service.getCharacteristic(UART_RX_UUID)
-            gatt.setCharacteristicNotification(rxChar, true)
-
-            val cccd = rxChar.getDescriptor(CCCD_UUID)
-            cccd.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
-            gatt.writeDescriptor(cccd)
+            initUart(gatt, type)
         }
+
+
 
         override fun onDescriptorWrite(
             gatt: BluetoothGatt,
@@ -209,7 +246,8 @@ class BleManager(private val context: Context) {
             val dataToSend = when (deviceType) {
                 DeviceType.AED -> byteArrayOf(0x61, 0x00)
                 DeviceType.BABY,
-                DeviceType.PRO -> byteArrayOf(0x51, 0x00, 0x00)
+//                DeviceType.PRO -> byteArrayOf(0x51, 0x00, 0x00)
+                DeviceType.UNKNOWN -> byteArrayOf(0x51, 0x00, 0x00)
 
                 else -> return
             }
@@ -228,11 +266,26 @@ class BleManager(private val context: Context) {
             val address = gatt.device.address
             val data = characteristic.value
 
+            val device = deviceMap[address]
+
+
             val headerPacket = data.sliceArray(0 until 1)
             val header = headerPacket.joinToString(", ") { "%02X".format(it) }
 
             if (header == "A2" || header == "B1") {
-                emitConnectionState(address, true)
+                val versionBytes = data.copyOfRange(1, 9)
+                val versionString = versionBytes.toString(Charsets.UTF_8).trim()
+                device?.firmwareVersion = versionString
+
+                showToast(
+                    "Device connected",
+                    R.drawable.inno_toast_connect_icon,
+                    "#1AAF0D"
+                )
+
+                if (device != null) {
+                    emitConnectionState(device, true)
+                }
             }
 
             _receivedPackets.tryEmit(address to data)
@@ -308,8 +361,10 @@ class BleManager(private val context: Context) {
         // 여기서 child 필요할때 이름으로 분기해야될듯..?
         return when {
             hasAedService -> DeviceType.AED
+            hasFe59 && gatt.device.name.contains("pro", ignoreCase = true) ->
+                DeviceType.UNKNOWN
             hasFe59 -> DeviceType.BABY
-            else -> DeviceType.PRO
+            else -> DeviceType.UNKNOWN
         }
     }
 
@@ -322,6 +377,58 @@ class BleManager(private val context: Context) {
         return deviceMap
             .filter { it.value.isConnected && it.value.deviceType != null }
             .mapValues { it.value.deviceType!! }
+    }
+
+//
+//    private fun showToast(message: String, icon: Int, color: String) {
+//        val activity = context as? AppCompatActivity ?: return
+//
+//        activity.runOnUiThread {
+//            CustomToast(activity).show(
+//                message = message,
+//                iconRes = icon,
+//                bgColor = Color.parseColor(color)
+//            )
+//        }
+//    }
+
+
+    private fun showToast(message: String, icon: Int, color: String) {
+        val activity = context as? AppCompatActivity ?: return
+
+        activity.runOnUiThread {
+            toastQueue.add {
+                CustomToast(activity).show(
+                    message = message,
+                    iconRes = icon,
+                    bgColor = Color.parseColor(color)
+                )
+            }
+
+            if (!isShowingToast) {
+                showNextToast()
+            }
+        }
+    }
+
+    private fun showNextToast() {
+        val activity = context as? AppCompatActivity ?: return
+
+        val next = toastQueue.removeFirstOrNull() ?: run {
+            isShowingToast = false
+            return
+        }
+
+        isShowingToast = true
+        next()
+
+        activity.window.decorView.postDelayed({
+            showNextToast()
+        }, 2000)
+    }
+
+    fun attachActivity(activity: AppCompatActivity) {
+        this.context = activity
     }
 
 }

@@ -1,0 +1,199 @@
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:id="@+id/historyLayout"
+        android:minWidth="450dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:minWidth="450dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/scoreBackground"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1A75CCFD"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/cycleNumber"
+                    android:textColor="#0061F2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/overall_score"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"/>
+
+                <TextView
+                    android:id="@+id/cycleScore"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="82"
+                    android:textColor="#0061F2"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="600"
+                    android:textSize="28sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/compressionDepthScore"
+                    android:textColor="#D9D9D9"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="0%" />
+
+                <TextView
+                    android:id="@+id/compressionRelease"
+                    android:textColor="#D9D9D9"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="0%" />
+
+                <TextView
+                    android:id="@+id/compressionRateScore"
+                    android:textColor="#D9D9D9"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="0%" />
+
+                <TextView
+                    android:id="@+id/handPositionScore"
+                    android:textColor="#D9D9D9"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="0%" />
+
+
+                <TextView
+                    android:id="@+id/compressionFraction"
+                    android:textColor="#D9D9D9"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="0%" />
+
+                <TextView
+                    android:id="@+id/noOtCompression"
+                    android:textColor="#D9D9D9"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="0%" />
+
+
+                <TextView
+                    android:id="@+id/ventilationVolume"
+                    android:textColor="#D9D9D9"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="0%" />
+
+                <TextView
+                    android:id="@+id/ventilationRate"
+                    android:textColor="#D9D9D9"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="0%" />
+
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/ventilationSpeed"
+                    android:textColor="#666666"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/custom_font"
+                    android:textFontWeight="500"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="0%" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#eeeeee" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</layout>

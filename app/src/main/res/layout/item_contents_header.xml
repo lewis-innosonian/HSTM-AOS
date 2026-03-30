@@ -36,6 +36,7 @@
             tools:text="ALS" />
 
         <com.example.hstm_aos.customview.RoundedLinearLayout
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
