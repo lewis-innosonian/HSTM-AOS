@@ -121,6 +121,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
     private var exoPlayer: ExoPlayer? = null
     private var currentSoundRes: Int? = null
 
+    private var finishCycle = 8
 
     /* =========================
      * Phase
@@ -843,7 +844,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
     private fun onCycleCompleted() {
         cycleCount++
 
-        if (cycleCount >= 9 && ventCount >= 2) {
+        if (cycleCount >= finishCycle+1 && ventCount >= 2) {
 
             isFinish = true
             lifecycleScope.launch {
@@ -940,11 +941,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
         Log.d("kimtest5555","update")
 
-        if ((cycleCount == 3 &&isVirtualTime)) {
-//            binding.switchGuideTextView.visibility = View.VISIBLE
-        } else if (cycleCount == 5 && !isVirtualTime){
-//            binding.switchGuideTextView.visibility = View.VISIBLE
-        }
+
 
         if (isVirtualTime) {
             binding.tvGuide.text = "Waiting for your turn"
@@ -1077,11 +1074,11 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
     private fun updateCycleText() {
 
-        if (cycleCount != 9) {
+        if (cycleCount != finishCycle + 1) {
             binding.button.post {
                 expandWithAnimation(
                     binding.button,
-                    "Cycle" + " ${cycleCount}/6",
+                    "Cycle" + " ${cycleCount}/${finishCycle}",
                     cycleCount.toString()
                 )
             }
