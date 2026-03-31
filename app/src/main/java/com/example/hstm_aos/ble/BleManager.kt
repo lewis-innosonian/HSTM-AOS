@@ -22,6 +22,7 @@ import com.example.hstm_aos.customview.CustomToast
 import com.example.hstm_aos.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -56,6 +57,40 @@ class BleManager(private var context: Context) {
 
     /* =================================================== */
 
+    private val OTA_SERVICE_UUID =
+        UUID.fromString("00001234-0000-1000-8000-00805f9b34fb")
+
+    private val OTA_CONTROL_UUID =
+        UUID.fromString("00009a14-0000-1000-8000-00805f9b34fb")
+
+    private val OTA_DATA_UUID =
+        UUID.fromString("00005678-0000-1000-8000-00805f9b34fb")
+
+    private val OTA_STATUS_UUID =
+        UUID.fromString("00009a15-0000-1000-8000-00805f9b34fb")
+
+    private val PSK_KEY = byteArrayOf(
+        0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+        0x08,0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,
+        0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,
+        0x18,0x19,0x1A,0x1B,0x1C,0x1D,0x1E,0x1F
+    )
+    @Volatile
+    private var otaStatus: Int = -1
+    private var writtenBytes = 0
+    private var totalBytes = 0
+    private var otaChunks: List<ByteArray> = emptyList()
+    private var otaIndex = 0
+
+    /* =================================================== */
+
+
+
+    private val writeQueue: ArrayDeque<Pair<BluetoothGatt, ByteArray>> = ArrayDeque()
+//    val item = writeQueue.removeFirstOrNull()
+
+    private var isWriting = false
+
     private val adapter =
         (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
     private val scanner = adapter.bluetoothLeScanner
@@ -87,25 +122,24 @@ class BleManager(private var context: Context) {
 
     private val toastQueue: ArrayDeque<() -> Unit> = ArrayDeque()
     private var isShowingToast = false
-    /* ====================================== */
 
-    private val filters = listOf(
-        ScanFilter.Builder()
-            .setServiceUuid(ParcelUuid.fromString("0000180a-0000-1000-8000-00805f9b34fb"))
-            .build(),
-        ScanFilter.Builder()
-            .setServiceUuid(ParcelUuid.fromString("00000001-0000-1000-8000-00805f9b34fb"))
-            .build(),
-        ScanFilter.Builder()
-            .setServiceUuid(ParcelUuid.fromString("0000fe59-0000-1000-8000-00805f9b34fb"))
-            .build()
-    )
 
 
     private val scanCallback = object : ScanCallback() {
+        @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
         override fun onScanResult(type: Int, result: ScanResult) {
             val device = result.device ?: return
             val address = device.address
+            val name = device.name ?: result.scanRecord?.deviceName ?: ""
+
+            val isMatched = name.contains("Brayden", true)
+
+
+            val hasService = result.scanRecord?.serviceUuids?.any {
+                it.uuid == FE59_UUID || it.uuid == AED_SERVICE_UUID
+            } == true
+
+            if (!isMatched && !hasService) return
 
             val item = deviceMap[address]
             if (item == null) {
@@ -117,6 +151,7 @@ class BleManager(private var context: Context) {
             } else {
                 item.rssi = result.rssi
             }
+
             emitScanResults()
         }
     }
@@ -142,7 +177,7 @@ class BleManager(private var context: Context) {
         emitScanResults()
     }
 
-
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     fun toggleConnection(device: BleDevice) {
         val address = device.device.address
         if (gattMap.containsKey(address)) {
@@ -152,7 +187,7 @@ class BleManager(private var context: Context) {
         }
         device.device.connectGatt(context, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
     }
-
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     private fun initUart(gatt: BluetoothGatt, deviceType: DeviceType) {
         val service = gatt.getService(UART_SERVICE_UUID) ?: return
         val rxChar = service.getCharacteristic(UART_RX_UUID)
@@ -162,7 +197,7 @@ class BleManager(private var context: Context) {
         cccd.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
         gatt.writeDescriptor(cccd)
     }
-
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     fun setManualDeviceType(address: String, type: DeviceType) {
         deviceMap[address]?.deviceType = type
 
@@ -174,13 +209,17 @@ class BleManager(private var context: Context) {
 
     private val gattCallback = object : BluetoothGattCallback() {
 
+        @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             val address = gatt.device.address
             val device = deviceMap[gatt.device.address]
             when (newState) {
                 BluetoothProfile.STATE_CONNECTED -> {
                     gattMap[address] = gatt
-                    gatt.discoverServices()
+
+                    gatt.requestMtu(512)
+
+//                    gatt.discoverServices()
                 }
 
                 BluetoothProfile.STATE_DISCONNECTED -> {
@@ -190,25 +229,29 @@ class BleManager(private var context: Context) {
                     gattMap.remove(address)
                     gatt.close()
                     emitConnectionState(device!!, false)
-
                     if (!userDisconnected) {
-
                         showToast(
                             "${gatt.device.name} disconnected",
                             R.drawable.inno_disconnect_icon,
                             "#FD1708"
                         )
-
-
                     }
-
-
-
                     _connectedDevice.tryEmit(Triple(device!!, false, deviceMap[address]?.deviceType ?: DeviceType.UNKNOWN))
                 }
             }
         }
 
+        @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+        override fun onMtuChanged(gatt: BluetoothGatt, mtu: Int, status: Int) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                Log.d("BLE", "MTU 변경 성공: $mtu")
+            } else {
+                Log.d("BLE", "MTU 변경 실패")
+            }
+
+            gatt.discoverServices()
+        }
+        @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
         override fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
             if (status != BluetoothGatt.GATT_SUCCESS) return
 
@@ -219,19 +262,11 @@ class BleManager(private var context: Context) {
 
             Log.d("BLE_TYPE", "${gatt.device.name} → $type")
 
-//            if (type == DeviceType.UNKNOWN) {
-//                // 🔥 Activity에게 선택 요청
-//                _connectedDevice.tryEmit(
-//                    Triple(address, true, DeviceType.UNKNOWN)
-//                )
-////                return
-//            }
-
             initUart(gatt, type)
         }
 
 
-
+        @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
         override fun onDescriptorWrite(
             gatt: BluetoothGatt,
             descriptor: BluetoothGattDescriptor,
@@ -256,6 +291,19 @@ class BleManager(private var context: Context) {
 
             Log.d("BLE_SEND", "Init packet → $deviceType")
         }
+
+        override fun onCharacteristicRead(
+            gatt: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            status: Int
+        ) {
+            if (characteristic.uuid == OTA_STATUS_UUID) {
+                val value = characteristic.value[0].toInt()
+                otaStatus = value
+                Log.d("OTA", "STATUS = $value")
+            }
+        }
+
 
         override fun onCharacteristicChanged(
             gatt: BluetoothGatt,
@@ -296,18 +344,62 @@ class BleManager(private var context: Context) {
             characteristic: BluetoothGattCharacteristic,
             status: Int
         ) {
+            if (characteristic.uuid != OTA_DATA_UUID) return
 
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                val size = characteristic.value?.size ?: 0
+                writtenBytes += size
+
+                val progress = (writtenBytes * 100) / totalBytes
+                Log.d("OTA", "REAL Progress: $progress%")
+
+                scope.launch {
+                    delay(10)
+                    writeNextChunk(gatt)
+                }
+
+            } else {
+                Log.e("OTA", "Write faail: $status")
+            }
+        }
+    }
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    fun enqueueWrite(gatt: BluetoothGatt, data: ByteArray) {
+        writeQueue.add(gatt to data)
+        if (!isWriting) {
+            writeNext()
+        }
+    }
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    private fun writeNext() {
+        val item = writeQueue.removeFirstOrNull() ?: run {
+            isWriting = false
+            return
+        }
+
+        val (gatt, data) = item
+
+        val service = gatt.getService(OTA_SERVICE_UUID) ?: return
+        val char = service.getCharacteristic(OTA_DATA_UUID) ?: return
+
+        isWriting = true
+
+        char.value = data
+        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+
+        val success = gatt.writeCharacteristic(char)
+
+        if (!success) {
+            isWriting = false
+            writeNext()
         }
     }
 
-    fun getDeviceByAddress(address: String): BleDevice? {
-        return deviceMap[address]
-    }
 
     fun getCurrentConnectedDevices(): List<BleDevice> {
         return deviceMap.values.filter { it.isConnected && it.deviceType != null }
     }
-
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     fun sendPacketToDevice(device: BleDevice, data: ByteArray) {
         device.device.address.let { address ->
             gattMap[address]?.let { gatt ->
@@ -315,7 +407,7 @@ class BleManager(private var context: Context) {
             } ?: Log.d("kimtest", "Device $address not connected")
         }
     }
-
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     fun sendUart(gatt: BluetoothGatt, data: ByteArray) {
         val service = gatt.getService(UART_SERVICE_UUID) ?: return
         val txChar = service.getCharacteristic(UART_TX_UUID) ?: return
@@ -338,22 +430,14 @@ class BleManager(private var context: Context) {
             emitScanResults()
         }
         scanner.startScan(
-            filters,
+            null,
             ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
                 .build(),
             scanCallback
         )
     }
-
-    fun stopScan() {
-        scanner.stopScan(scanCallback)
-    }
-
-    fun disconnectAll() {
-        gattMap.values.forEach { it.disconnect() }
-    }
-
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     fun detectDeviceType(gatt: BluetoothGatt): DeviceType {
         val hasFe59 = gatt.getService(FE59_UUID) != null
         val hasAedService = gatt.getService(AED_SERVICE_UUID) != null
@@ -378,20 +462,6 @@ class BleManager(private var context: Context) {
             .filter { it.value.isConnected && it.value.deviceType != null }
             .mapValues { it.value.deviceType!! }
     }
-
-//
-//    private fun showToast(message: String, icon: Int, color: String) {
-//        val activity = context as? AppCompatActivity ?: return
-//
-//        activity.runOnUiThread {
-//            CustomToast(activity).show(
-//                message = message,
-//                iconRes = icon,
-//                bgColor = Color.parseColor(color)
-//            )
-//        }
-//    }
-
 
     private fun showToast(message: String, icon: Int, color: String) {
         val activity = context as? AppCompatActivity ?: return
@@ -429,6 +499,209 @@ class BleManager(private var context: Context) {
 
     fun attachActivity(activity: AppCompatActivity) {
         this.context = activity
+    }
+
+    //m161 firmwareUpdate
+
+    private fun encryptChunk(plain: ByteArray): ByteArray {
+        val iv = ByteArray(12)
+        java.security.SecureRandom().nextBytes(iv)
+
+        val cipher = javax.crypto.Cipher.getInstance("AES/GCM/NoPadding")
+        val keySpec = javax.crypto.spec.SecretKeySpec(PSK_KEY, "AES")
+        val spec = javax.crypto.spec.GCMParameterSpec(128, iv)
+
+        cipher.init(javax.crypto.Cipher.ENCRYPT_MODE, keySpec, spec)
+        val encrypted = cipher.doFinal(plain)
+
+        return iv + encrypted
+    }
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    private fun sendDfuTrigger(gatt: BluetoothGatt) {
+        val service = gatt.getService(UART_SERVICE_UUID) ?: return
+        val char = service.getCharacteristic(UART_TX_UUID) ?: return
+
+        val data = byteArrayOf(0x51, 0x01, 0x01)
+
+        char.value = data
+        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+        gatt.writeCharacteristic(char)
+
+        Log.d("OTA", "DFU Trigger sent")
+    }
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    private fun sendStart(gatt: BluetoothGatt, total: Int) {
+        val service = gatt.getService(OTA_SERVICE_UUID) ?: return
+        val char = service.getCharacteristic(OTA_CONTROL_UUID) ?: return
+
+        val buffer = java.nio.ByteBuffer.allocate(5)
+            .order(java.nio.ByteOrder.LITTLE_ENDIAN)
+
+        buffer.put(0x01)
+        buffer.putInt(total)
+
+        char.value = buffer.array()
+        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+        gatt.writeCharacteristic(char)
+
+        Log.d("OTA", "START sent total=$total")
+    }
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    private fun sendEnd(gatt: BluetoothGatt) {
+        val service = gatt.getService(OTA_SERVICE_UUID) ?: return
+        val char = service.getCharacteristic(OTA_CONTROL_UUID) ?: return
+
+        char.value = byteArrayOf(0x02)
+        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+        gatt.writeCharacteristic(char)
+
+        Log.d("OTA", "END sent")
+    }
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    suspend fun waitForReady(gatt: BluetoothGatt): Boolean {
+
+        repeat(20) {
+            readOtaStatus(gatt)
+            delay(300)
+
+            if (otaStatus == 0x01) { // READY
+                Log.d("OTA", "Device READY")
+                return true
+            }
+        }
+
+        Log.e("OTA", "Device NOT READY")
+        return false
+    }
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    fun startOta(address: String, firmware: ByteArray) {
+        val gatt = gattMap[address] ?: return
+        otaStatus = -1
+
+        scope.launch {
+            try {
+                val chunkSize = 460
+
+                val numChunks = (firmware.size + chunkSize - 1) / chunkSize
+                val encryptedTotal = firmware.size + numChunks * (12 + 16)
+
+                writtenBytes = 0
+                totalBytes = encryptedTotal
+
+                Log.d("OTA", "START : total=$encryptedTotal")
+
+                sendDfuTrigger(gatt)
+                delay(500)
+
+                sendStart(gatt, encryptedTotal)
+                delay(500)
+
+                val ready = waitForReady(gatt)
+                if (!ready) {
+                    Log.e("OTA", "Abort: device not ready")
+                    return@launch
+                }
+
+                otaChunks = mutableListOf<ByteArray>().apply {
+                    for (offset in 0 until firmware.size step chunkSize) {
+                        val chunk = firmware.copyOfRange(
+                            offset,
+                            minOf(offset + chunkSize, firmware.size)
+                        )
+                        add(encryptChunk(chunk))
+                    }
+                }
+
+                otaIndex = 0
+
+                Log.d("OTA", "Chunk count = ${otaChunks.size}")
+
+                writeNextChunk(gatt)
+
+            } catch (e: Exception) {
+                Log.e("OTA", "Error: ${e.message}")
+            }
+        }
+    }
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    private fun writeNextChunk(gatt: BluetoothGatt) {
+
+        if (otaIndex >= otaChunks.size) {
+            Log.d("OTA", "All chunks sent : END!!!!!!")
+
+            sendEnd(gatt)
+
+            scope.launch {
+                delay(1000)
+
+                repeat(30) {
+                    try {
+                        readOtaStatus(gatt)
+                        delay(1000)
+
+                        if (otaStatus == 0x03) {
+                            Log.d("OTA", "OTA SUCCESS")
+                            return@launch
+                        }
+
+                        if (otaStatus == 0x04) {
+                            Log.e("OTA", "OTA ERROR")
+                            return@launch
+                        }
+
+                    } catch (e: Exception) {
+                        Log.d("OTA", "Device disconnected")
+                        return@launch
+                    }
+                }
+
+                Log.d("OTA", "OTA finish")
+            }
+
+            return
+        }
+
+        val data = otaChunks[otaIndex]
+        otaIndex++
+
+        val service = gatt.getService(OTA_SERVICE_UUID) ?: return
+        val char = service.getCharacteristic(OTA_DATA_UUID) ?: return
+
+        char.value = data
+        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+
+        val success = gatt.writeCharacteristic(char)
+
+        if (!success) {
+            otaIndex--
+            writeNextChunk(gatt)
+        }
+    }
+
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    fun readOtaStatus(gatt: BluetoothGatt) {
+        val service = gatt.getService(OTA_SERVICE_UUID) ?: return
+        val char = service.getCharacteristic(OTA_STATUS_UUID) ?: return
+
+        gatt.readCharacteristic(char)
+    }
+    @RequiresPermission(Manifest.permission.BLUETOOTH_SCAN)
+    fun stopScan() {
+        scanner.stopScan(scanCallback)
+    }
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    fun disconnectAll() {
+        gattMap.values.forEach { it.disconnect() }
+    }
+
+
+    fun getDeviceByAddress(address: String): BleDevice? {
+        return deviceMap[address]
     }
 
 }
