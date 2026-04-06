@@ -40,7 +40,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var bleManager: BleManager
     private lateinit var deviceAdapter: DeviceAdapter
-    private lateinit var contentsAdapter: ContentsAdapter
+    private val contentsAdapter= mutableListOf<ContentsAdapter>()
 
     private val deviceTypeMap = mutableMapOf<String, DeviceType>()
     private val connectionMap = mutableMapOf<String, Boolean>()
@@ -81,7 +81,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         bleManager = (requireActivity().application as MainApplication).bleManager
 
         setupDeviceRecyclerView()
-        setupContentsAdapter()
 //        deviceAdapter.submitList(createDummyDevices())
         restoreBleState()
         observeBle()
@@ -90,6 +89,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val skills = arguments?.getSerializable("skills") as? List<OpenSkill> ?: emptyList()
         categorizeSkills(skills)
         fillContentItems()
+        setupContentsAdapter()
 
         view.post {
             adjustSearchingPosition()
@@ -130,14 +130,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        }
 //    }
 
-    fun markContentCompleted(completedItem: ContentsItem.Content) {
-        val updated = originalItems.map { item ->
-            if (item is ContentsItem.Content && item.text == completedItem.text) {
-                item.copy(status = TrainingStatus.COMPLETED)
-            } else item
-        }
-        contentsAdapter.updateItems(updated)
-    }
+//    fun markContentCompleted(completedItem: ContentsItem.Content) {
+//        val updated = originalItems.map { item ->
+//            if (item is ContentsItem.Content && item.text == completedItem.text) {
+//                item.copy(status = TrainingStatus.COMPLETED)
+//            } else item
+//        }
+//        contentsAdapter.updateItems(updated)
+//    }
 
     private fun setupDeviceRecyclerView() {
 
@@ -168,26 +168,62 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+
+
     private fun setupContentsAdapter() {
-        contentsAdapter = ContentsAdapter(originalItems.toMutableList()) { contentItem ->
-            if (contentItem.trainingType.contains(TrainingType.TWORESCUER)){
-                val intent = Intent(requireContext(), TwoRescuerTrainingActivity::class.java).apply {
-                    putExtra("contentItem", contentItem as Serializable)
+
+        val contentList = originalItems.filterIsInstance<ContentsItem.Content>()
+        val splitLists = splitContentItems(contentList)
+
+        contentsAdapter.clear()
+
+        val adapters = splitLists.map { list ->
+            ContentsAdapter(list.toMutableList()) { contentItem ->
+                if (contentItem.trainingType.contains(TrainingType.TWORESCUER)) {
+                    val intent = Intent(requireContext(), TwoRescuerTrainingActivity::class.java).apply {
+                        putExtra("contentItem", contentItem as Serializable)
+                    }
+                    startActivity(intent)
+                } else {
+                    val intent = Intent(requireContext(), TrainingActivity::class.java).apply {
+                        putExtra("contentItem", contentItem as Serializable)
+                    }
+                    startActivity(intent)
                 }
-                requireContext().startActivity(intent)
-            }else {
-                val intent = Intent(requireContext(), TrainingActivity::class.java).apply {
-                    putExtra("contentItem", contentItem as Serializable)
-                }
-                requireContext().startActivity(intent)
             }
         }
-        binding.rightRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = contentsAdapter
-            addItemDecoration(StickyHeaderDecoration(contentsAdapter))
-        }
+
+        contentsAdapter.addAll(adapters)
+
+        binding.recyclerView1.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView2.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView3.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.recyclerView1.adapter = adapters.getOrNull(0)
+        binding.recyclerView2.adapter = adapters.getOrNull(1)
+        binding.recyclerView3.adapter = adapters.getOrNull(2)
     }
+
+//    private fun setupContentsAdapter() {
+//        contentsAdapter = ContentsAdapter(originalItems.toMutableList()) { contentItem ->
+//            if (contentItem.trainingType.contains(TrainingType.TWORESCUER)){
+//                val intent = Intent(requireContext(), TwoRescuerTrainingActivity::class.java).apply {
+//                    putExtra("contentItem", contentItem as Serializable)
+//                }
+//                requireContext().startActivity(intent)
+//            }else {
+//                val intent = Intent(requireContext(), TrainingActivity::class.java).apply {
+//                    putExtra("contentItem", contentItem as Serializable)
+//                }
+//                requireContext().startActivity(intent)
+//            }
+//        }
+//        binding.rightRecyclerView.apply {
+//            layoutManager = LinearLayoutManager(requireContext())
+//            adapter = contentsAdapter
+//            addItemDecoration(StickyHeaderDecoration(contentsAdapter))
+//        }
+//    }
 
     private fun restoreBleState() {
         connectionMap.clear()
@@ -367,7 +403,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
-        contentsAdapter.updateItems(originalItems)
+//        contentsAdapter.updateItems(originalItems)
         updateTrainingStatus()
     }
 
@@ -491,7 +527,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             connectionMap[addr] == true
         }.values.toSet()
 
-        val updated = originalItems.map { item ->
+        val updated = originalItems.mapNotNull { item ->
             if (item is ContentsItem.Content) {
                 val newStatus = when {
                     !connectedDeviceTypes.containsAll(item.requiredDeviceTypes) -> TrainingStatus.LOCKED
@@ -499,17 +535,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     else -> TrainingStatus.AVAILABLE
                 }
                 item.copy(status = newStatus)
-            } else item
+            } else null
         }
-//        if (bleManager.getCurrentDeviceTypeMap().size > 0){
-//            binding.connectDevicesTextView.text = "Connectable Devices (${bleManager.getCurrentDeviceTypeMap().size} Connected)"
-//        }else {
-//            binding.connectDevicesTextView.text = "Connectable Devices"
-//        }
 
-        contentsAdapter.updateItems(updated)
+        val splitLists = splitContentItems(updated)
+
+        contentsAdapter.forEachIndexed { index, adapter ->
+            adapter.updateItems(splitLists.getOrNull(index) ?: emptyList())
+        }
     }
 
+    private fun splitContentItems(items: List<ContentsItem.Content>): List<List<ContentsItem.Content>> {
+        val size = items.size / 3
+
+        return listOf(
+            items.subList(0, size),
+            items.subList(size, size * 2),
+            items.subList(size * 2, items.size)
+        )
+    }
 
 
 

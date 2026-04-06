@@ -176,17 +176,99 @@
         android:layout_marginStart="20dp"
         android:layout_weight="3"
         app:rv_radius="30dp"
+        android:paddingTop="35dp"
+        android:paddingBottom="35dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:orientation="vertical"
         app:rv_backgroundColor="@color/white"
         android:gravity="center">
 
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/custom_font"
+                android:textColor="@color/black1"
+                android:textFontWeight="700"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/inno_header_title_icon"
+                android:text="ALS"/>
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rightRecyclerView"
+            android:layout_marginTop="15dp"
+            android:id="@+id/recyclerView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginStart="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/custom_font"
+                android:textColor="@color/black1"
+                android:textFontWeight="700"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/inno_header_title_icon"
+                android:text="BLS"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="15dp"
+                android:id="@+id/recyclerView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginStart="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/custom_font"
+                android:textColor="@color/black1"
+                android:textFontWeight="700"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/inno_header_title_icon"
+                android:text="PALS Program"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="15dp"
+                android:id="@+id/recyclerView3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"/>
+
+
+        </LinearLayout>
 
     </com.example.hstm_aos.customview.RoundedLinearLayout>
 
