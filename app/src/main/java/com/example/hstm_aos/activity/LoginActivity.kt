@@ -661,25 +661,12 @@ fun WelcomeScreen(
     onLoginClick: () -> Unit
 ) {
     val scale = rememberScale()
-
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .systemBarsPadding()
     ) {
-        AnimatedLoginButton(
-            enabled = enabled,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(
-                    end = scaleDp(20.dp, scale),
-                    top = scaleDp(10.dp, scale),
-                ),
-            scale = scale,
-            onClick = onLoginClick
-        )
-
 
         Column(
             modifier = Modifier.align(Alignment.Center),
@@ -688,7 +675,7 @@ fun WelcomeScreen(
 
             // 심장 아이콘
             Image(
-                painter = painterResource(id = R.drawable.hstm_icon), // 빨간 심장 아이콘
+                painter = painterResource(id = R.drawable.hstm_icon),
                 contentDescription = null,
                 modifier = Modifier.size(scaleDp(60.dp, scale))
             )
@@ -702,12 +689,11 @@ fun WelcomeScreen(
                 fontFamily = InterFontFamily,
                 textAlign = TextAlign.Center,
                 color = colorResource(id = R.color.black1),
-                modifier = Modifier.padding(horizontal = scaleDp(100.dp, scale)) // 양옆 100dp
+                modifier = Modifier.padding(horizontal = scaleDp(100.dp, scale))
             )
 
             Spacer(Modifier.height(scaleDp(16.dp, scale)))
 
-// 설명 텍스트
             Text(
                 text = "Master your high quality CPR skills and earn digital certificates (BLS, ALS, PALS) with the American Red Cross Resuscitation Suite and Brayden Pro manikins.\n" +
                         "To complete your skills checks on your facility's dedicated self-directed manikin and Resuscitation.\n" +
@@ -718,11 +704,20 @@ fun WelcomeScreen(
                 fontFamily = InterFontFamily,
                 textAlign = TextAlign.Center,
                 lineHeight = 34.sp,
-                modifier = Modifier.padding(horizontal = scaleDp(100.dp, scale)) // 양옆 100dp
+                modifier = Modifier.padding(horizontal = scaleDp(100.dp, scale))
+            )
+
+            Spacer(Modifier.height(scaleDp(30.dp, scale)))
+
+            AnimatedLoginButton(
+                enabled = enabled,
+                modifier = Modifier,
+                scale = scale,
+                onClick = onLoginClick
             )
         }
 
-        // 하단 버전 및 인증 제공자
+        // 하단 영역 그대로 유지
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -753,107 +748,12 @@ fun WelcomeScreen(
                 Image(
                     painter = painterResource(id = R.mipmap.red_cross_logo),
                     contentDescription = null,
-//                    modifier = Modifier.size(scaleDp(20.dp, scale))
                 )
             }
         }
     }
 }
 
-
-@Composable
-fun BorderDotRunner(
-    modifier: Modifier,
-    cornerRadius: Dp,
-    dotRadius: Dp = 4.dp,
-    inset: Dp = 6.dp
-) {
-    val transition = rememberInfiniteTransition(label = "runner")
-
-    // 은은한 힌트용 컬러 (배경보다 살짝 밝음)
-    val runnerColor = Color(0xFF0E0E0E)
-
-    // ⭐ 아주 느리게 회전
-    val progress by transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = 5000, // 천천히
-                easing = LinearEasing
-            ),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "progress"
-    )
-
-    Canvas(modifier = modifier) {
-
-        val insetPx = inset.toPx()
-        val radiusPx = (cornerRadius.toPx() - insetPx).coerceAtLeast(0f)
-
-        // 안쪽 트랙 Path
-        val path = Path().apply {
-            addRoundRect(
-                RoundRect(
-                    rect = Rect(
-                        insetPx,
-                        insetPx,
-                        size.width - insetPx,
-                        size.height - insetPx
-                    ),
-                    cornerRadius = CornerRadius(radiusPx, radiusPx)
-                )
-            )
-        }
-
-        val pm = PathMeasure(path.asAndroidPath(), false)
-        val length = pm.length
-
-        val pos = FloatArray(2)
-        val tan = FloatArray(2)
-        pm.getPosTan(length * progress, pos, tan)
-
-        // 진행 방향 각도
-        val angle =
-            atan2(tan[1], tan[0]) * 180f / Math.PI.toFloat()
-
-        withTransform({
-            rotate(
-                degrees = angle,
-                pivot = Offset(pos[0], pos[1])
-            )
-        }) {
-            val r = dotRadius.toPx()
-
-            // 퍼짐 (은은한 빛)
-            drawOval(
-                color = runnerColor.copy(alpha = 0.12f),
-                topLeft = Offset(
-                    pos[0] - r * 1.6f,
-                    pos[1] - r * 0.7f
-                ),
-                size = Size(
-                    width = r * 3.2f,
-                    height = r * 1.4f
-                )
-            )
-
-            // 메인 덩어리
-            drawOval(
-                color = runnerColor.copy(alpha = 0.22f),
-                topLeft = Offset(
-                    pos[0] - r * 1.2f,
-                    pos[1] - r * 0.6f
-                ),
-                size = Size(
-                    width = r * 2.4f,
-                    height = r * 1.2f
-                )
-            )
-        }
-    }
-}
 
 @Composable
 fun AnimatedLoginButton(
@@ -863,111 +763,88 @@ fun AnimatedLoginButton(
     onClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-    val density = LocalDensity.current
 
-    val backExtra = scaleDp(5.dp, scale)
     var w by remember { mutableStateOf(0) }
     var h by remember { mutableStateOf(0) }
-
-
-
-
-    val backAlpha by animateFloatAsState(
-        targetValue = if (pressed) 0f else 0.4f,
-        animationSpec = tween(150),
-        label = "backAlpha"
-    )
 
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
 
-        if (w > 0 && h > 0) {
-            val extra = scaleDp(5.dp, scale)
-            val density = LocalDensity.current
 
-            // 애니메이션 상태
-            val transition = rememberInfiniteTransition()
-            val progress by transition.animateFloat(
-                initialValue = -1f,
-                targetValue = 1f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(2000, easing = LinearEasing)
-                ),
-                label = "linearGradientMove"
-            )
-
-            Box(
-                modifier = Modifier
-                    .width(with(density) { w.toDp() } + extra * 2)
-                    .height(with(density) { h.toDp() } + extra * 2)
-                    .align(Alignment.Center)
-            ) {
-                Canvas(modifier = Modifier.matchParentSize()) {
-
-                    val strokeWidth = 8.dp.toPx()
-                    val inset = strokeWidth / 2
-                    val corner = 10.dp.toPx()
-
-                    val rectTopLeft = Offset(inset, inset)
-                    val rectSize = Size(
-                        size.width - inset * 2,
-                        size.height - inset * 2
-                    )
-
-                    // ✅ 고정 Glow 테두리
-                    drawRoundRect(
-                        color = Color(0xFF0061F2).copy(alpha = 0.4f),
-                        topLeft = rectTopLeft,
-                        size = rectSize,
-                        style = Stroke(width = strokeWidth),
-                        cornerRadius = CornerRadius(corner, corner)
-                    )
-
-                    // ✅ 하이라이트 이동 범위도 rect 기준으로!
-                    val startX = rectTopLeft.x + rectSize.width * progress
-                    val endX = startX + rectSize.width / 3
-
-                    val brush = Brush.linearGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            Color.White.copy(alpha = 0.6f),
-                            Color.Transparent
-                        ),
-                        start = Offset(startX, rectTopLeft.y),
-                        end = Offset(endX, rectTopLeft.y)
-                    )
-
-                    drawRoundRect(
-                        brush = brush,
-                        topLeft = rectTopLeft,
-                        size = rectSize,
-                        style = Stroke(width = strokeWidth),
-                        cornerRadius = CornerRadius(corner, corner)
-                    )
-                }
-            }
-        }
-
-
-
-
-        val strokeDp = 6.dp
+//        if (w > 0 && h > 0) {
+//            val extra = scaleDp(5.dp, scale)
+//            val density = LocalDensity.current
+//
+//            val transition = rememberInfiniteTransition()
+//            val progress by transition.animateFloat(
+//                initialValue = -1f,
+//                targetValue = 1f,
+//                animationSpec = infiniteRepeatable(
+//                    animation = tween(2000, easing = LinearEasing)
+//                ),
+//                label = "linearGradientMove"
+//            )
+//
+//            Box(
+//                modifier = Modifier
+//                    .width(with(density) { w.toDp() } + extra * 2)
+//                    .height(with(density) { h.toDp() } + extra * 2)
+//                    .align(Alignment.Center)
+//            ) {
+//                Canvas(modifier = Modifier.matchParentSize()) {
+//
+//                    val strokeWidth = 8.dp.toPx()
+//                    val inset = strokeWidth / 2
+//                    val corner = 10.dp.toPx()
+//
+//                    val rectTopLeft = Offset(inset, inset)
+//                    val rectSize = Size(
+//                        size.width - inset * 2,
+//                        size.height - inset * 2
+//                    )
+//
+//                    drawRoundRect(
+//                        color = Color(0xFF0061F2).copy(alpha = 0.4f),
+//                        topLeft = rectTopLeft,
+//                        size = rectSize,
+//                        style = Stroke(width = strokeWidth),
+//                        cornerRadius = CornerRadius(corner, corner)
+//                    )
+//
+//                    val startX = rectTopLeft.x + rectSize.width * progress
+//                    val endX = startX + rectSize.width / 3
+//
+//                    val brush = Brush.linearGradient(
+//                        colors = listOf(
+//                            Color.Transparent,
+//                            Color.White.copy(alpha = 0.6f),
+//                            Color.Transparent
+//                        ),
+//                        start = Offset(startX, rectTopLeft.y),
+//                        end = Offset(endX, rectTopLeft.y)
+//                    )
+//
+//                    drawRoundRect(
+//                        brush = brush,
+//                        topLeft = rectTopLeft,
+//                        size = rectSize,
+//                        style = Stroke(width = strokeWidth),
+//                        cornerRadius = CornerRadius(corner, corner)
+//                    )
+//                }
+//            }
+//        }
 
         Surface(
             modifier = Modifier
-                .padding(strokeDp / 2)
+                .width(400.dp)
                 .clickable(
                     enabled = enabled,
                     interactionSource = interactionSource,
                     indication = null
-                ) { onClick() }
-                .onSizeChanged {
-                    w = it.width
-                    h = it.height
-                },
+                ) { onClick() },
             color = Color(0xFF0061F2),
             shape = RoundedCornerShape(10.dp),
             shadowElevation = 0.dp
@@ -977,10 +854,12 @@ fun AnimatedLoginButton(
                 color = Color.White,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = InterFontFamily,
+                fontSize = 20.sp,
                 modifier = Modifier.padding(
-                    vertical = 10.dp,
-                    horizontal = 50.dp
-                )
+                    vertical = 18.dp,
+                    horizontal = 0.dp
+                ),
+                textAlign = TextAlign.Center
             )
         }
     }
