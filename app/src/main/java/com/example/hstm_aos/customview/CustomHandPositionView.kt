@@ -11,6 +11,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.example.hstm_aos.R
 import java.util.Locale
@@ -78,6 +79,13 @@ class CustomHandPositionView @JvmOverloads constructor(
         style = Paint.Style.FILL
         isAntiAlias = true
         color = Color.parseColor("#D9D9D9")
+    }
+
+
+    private val virtualPaint = Paint().apply {
+        style = Paint.Style.FILL
+        isAntiAlias = true
+        color = ContextCompat.getColor(context, R.color.virtual_color)
     }
 
     private val textPaint = Paint().apply {
@@ -200,8 +208,8 @@ class CustomHandPositionView @JvmOverloads constructor(
 
         val radius = getCurrentRadius()
 
-        val useGreen = if (virtualData) grayPaint else greenPaint
-        val useRed = if (virtualData) grayPaint else redPaint
+        val useGreen = if (virtualData) virtualPaint else greenPaint
+        val useRed = if (virtualData) virtualPaint else redPaint
 
         val downX = vx(125f)
         val downY = vy(210f) - radius   // 위로 radius만큼

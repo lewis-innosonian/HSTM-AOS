@@ -47,18 +47,21 @@ class TimeSeriesChartView @JvmOverloads constructor(
     private val startMargin by lazy { dp(START_MARGIN_DP) }
     private val aedWidth by lazy { dp(AED_WIDTH_DP) }
 
-    private val aedGap by lazy { barGap * 0.5f } // ← 여기 조절
+    private val aedGap by lazy { barGap * 0.5f }
 
     private fun p(c: Int) = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = c }
     private val green = p(Color.parseColor("#56ED89"))
     private val gray = p(Color.parseColor("#D9D9D9"))
+    private val virtual = p(ContextCompat.getColor(context, R.color.virtual_color))
     private val red = p(Color.parseColor("#A52F1D"))
     private val blue = p(Color.parseColor("#618AF5"))
-    private val linePaint = p(Color.parseColor("#1AAF0D")).apply { strokeWidth = dp(1f) }
-    private val ventLinePaint = p(Color.parseColor("#0061F2")).apply { strokeWidth = dp(1f) }
+    private val linePaint = p(Color.parseColor("#666666")).apply { strokeWidth = dp(1f)
+        pathEffect = DashPathEffect(floatArrayOf(dp(4f), dp(4f)), 0f)}
+    private val ventLinePaint = p(Color.parseColor("#666666")).apply { strokeWidth = dp(1f)
+        pathEffect = DashPathEffect(floatArrayOf(dp(4f), dp(4f)), 0f)}
     private val aedPaint = p(Color.parseColor("#1AFB6B24"))
-    private val normalChestBgPaint = p(Color.parseColor("#0D56ED89"))
-    private val normalVentBgPaint = p(Color.parseColor("#F2F7FE"))
+    private val normalChestBgPaint = p(Color.parseColor("#ffffff"))
+    private val normalVentBgPaint = p(Color.parseColor("#ffffff"))
     private val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         color = Color.parseColor("#666666")
@@ -273,7 +276,7 @@ class TimeSeriesChartView @JvmOverloads constructor(
                 val maxDepth = if (isBaby) 40f else 60f
 
                 val paint = when {
-                    data.is_virtual_action -> gray
+                    data.is_virtual_action -> virtual
                     data.depthMax / 2f < minDepth -> gray
                     data.depthMax / 2f in minDepth..maxDepth -> green
                     else -> red
@@ -302,7 +305,7 @@ class TimeSeriesChartView @JvmOverloads constructor(
 
 
                 val paint = when {
-                    data.is_virtual_action -> gray
+                    data.is_virtual_action -> virtual
                     data.ventMax  < minVent -> gray
                     data.ventMax.toFloat() in minVent..maxVent -> blue
                     else -> red
@@ -435,14 +438,14 @@ class TimeSeriesGuideView @JvmOverloads constructor(
     }
 
     private val textPaintChest = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#34C759")
+        color = Color.parseColor("#666666")
         textSize = sp(14f)
         typeface = inter500
         textAlign = Paint.Align.LEFT
     }
 
     private val textPaintVent = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#3B82F6")
+        color = Color.parseColor("#666666")
         textSize = sp(14f)
         typeface = inter500
         textAlign = Paint.Align.LEFT

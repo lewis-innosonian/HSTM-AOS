@@ -38,6 +38,12 @@ class RoundedLinearLayoutWithTitle @JvmOverloads constructor(
     private var topExtra = 0f
     private var borderProgress = 0f
 
+    val d = resources.displayMetrics.density
+    private var inactiveBorderWidth = 1f * d
+    private var  activeBorderWidth = 5f * d
+
+
+
     init {
         setWillNotDraw(false)
         clipChildren = false
@@ -54,17 +60,19 @@ class RoundedLinearLayoutWithTitle @JvmOverloads constructor(
             bgPaint.color =
                 getColor(R.styleable.RoundedView_rv_backgroundColor, Color.TRANSPARENT)
 
+
             borderPaint.apply {
                 style = Paint.Style.STROKE
-                strokeWidth = borderWidth
+                strokeWidth = inactiveBorderWidth
                 color = Color.parseColor("#DDDDDD")
             }
 
             activeBorderPaint.apply {
                 style = Paint.Style.STROKE
-                strokeWidth = borderWidth
-                color = Color.parseColor("#711BFF")
+                strokeWidth = inactiveBorderWidth
+                color = Color.parseColor("#0061F2")
             }
+
 
             titlePaint.apply {
                 textSize = 16 * resources.displayMetrics.scaledDensity
@@ -89,7 +97,7 @@ class RoundedLinearLayoutWithTitle @JvmOverloads constructor(
         rect.set(0f, topExtra, width.toFloat(), height.toFloat())
         canvas.drawRoundRect(rect, radius, radius, bgPaint)
 
-        val half = borderWidth / 2
+        val half = activeBorderPaint.strokeWidth / 2
         rect.inset(half, half)
         canvas.drawRoundRect(rect, radius, radius, borderPaint)
 
@@ -135,7 +143,7 @@ class RoundedLinearLayoutWithTitle @JvmOverloads constructor(
             title
         }
 
-        titleBgColor = Color.parseColor("#711BFF")
+        titleBgColor = Color.parseColor("#0061F2")
         titleVisible = true
 
         animateBorder(1f)
@@ -147,11 +155,21 @@ class RoundedLinearLayoutWithTitle @JvmOverloads constructor(
     }
 
     private fun animateBorder(target: Float) {
+        val startWidth = activeBorderPaint.strokeWidth
+        val endWidth = if (target == 1f) activeBorderWidth else inactiveBorderWidth
+
         ValueAnimator.ofFloat(borderProgress, target).apply {
             duration = 420
             interpolator = DecelerateInterpolator()
+
             addUpdateListener {
+                val fraction = it.animatedFraction
+
                 borderProgress = it.animatedValue as Float
+
+                val currentWidth = startWidth + (endWidth - startWidth) * fraction
+                activeBorderPaint.strokeWidth = currentWidth
+
                 invalidate()
             }
             start()

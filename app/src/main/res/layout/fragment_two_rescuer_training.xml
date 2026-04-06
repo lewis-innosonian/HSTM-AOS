@@ -211,11 +211,11 @@
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
                 app:rv_radius="40dp"
-                app:rv_borderColor="#711BFF"
-                app:rv_borderWidth="1dp"
+                app:rv_borderColor="#0061F2"
+                app:rv_borderWidth="5dp"
                 app:rv_titleText="asdijasoijdioasjda"
                 app:rv_titleTextColor="@color/white"
-                app:rv_titleBgColor="#711BFF"
+                app:rv_titleBgColor="#0061F2"
                 app:rv_titlePadding="0dp">
 
 
@@ -285,6 +285,7 @@
 
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:minWidth="240dp"
@@ -332,7 +333,7 @@
                 android:layout_weight="1.14"
                 app:rv_radius="40dp"
                 app:rv_borderColor="#711BFF"
-                app:rv_borderWidth="1dp"
+                app:rv_borderWidth="5dp"
                 app:rv_titleText="asdijasoijdioasjda"
                 app:rv_titleTextColor="@color/white"
                 app:rv_titleBgColor="#711BFF"

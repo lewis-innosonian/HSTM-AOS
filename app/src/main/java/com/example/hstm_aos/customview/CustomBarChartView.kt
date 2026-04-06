@@ -12,10 +12,6 @@ import androidx.core.content.res.ResourcesCompat
 import com.example.hstm_aos.R
 
 class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
-    private val barPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#34C85A")
-        style = Paint.Style.FILL
-    }
 
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.parseColor("#333333")
@@ -24,15 +20,25 @@ class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context,
         pathEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
     }
 
+    private val successBarPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.parseColor("#34C85A")
+        style = Paint.Style.FILL
+    }
+
+    private val failBarPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.parseColor("#A52F1D")
+        style = Paint.Style.FILL
+    }
+
     private val score80LinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#333333") // 원하는 색상
+        color = Color.parseColor("#333333")
         strokeWidth = 2f
         style = Paint.Style.STROKE
         pathEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
     }
 
     private val score80TextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#000000") // 점선 색이랑 맞춰도 좋음
+        color = Color.parseColor("#000000")
         textSize = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP,
             20f,
@@ -83,7 +89,7 @@ class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context,
     private var type: String = "default"
     private var trainingType: String = "cpr"
     private var guideLine: String = "cpr"
-
+    private var passScore: Float = 84f
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -91,6 +97,11 @@ class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context,
         viewHeight = h
         barWidth =
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40f, resources.displayMetrics)
+    }
+
+    fun setPassScore(score: Float) {
+        this.passScore = score
+        invalidate()
     }
 
     fun setType(type: String, trainingType: String, guideLine: String, includeAed: Boolean = false) {
@@ -191,8 +202,7 @@ class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context,
         val maxValue = 100f
         val unitHeight = (viewHeight - (paddingTop + paddingBottom)) / maxValue
 
-        val score80 = 84f
-        val score80Y = baseY - (score80 * unitHeight)
+        val score80Y = baseY - (passScore * unitHeight)
 
 
 
@@ -205,7 +215,7 @@ class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context,
         val textX = margin10dp
         val textY = score80Y - (score80TextPaint.ascent() + score80TextPaint.descent()) / 2
 
-        canvas.drawText("84", textX, textY, score80TextPaint)
+        canvas.drawText(passScore.toInt().toString(), textX, textY, score80TextPaint)
 
         val thresholdY = baseY - (maxValue * unitHeight)
 
@@ -224,7 +234,8 @@ class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context,
             val right = centerX + barWidth / 2f
             val bottom = baseY.toFloat()
 
-            canvas.drawRect(left, top, right, bottom, barPaint)
+            val paint = if (value >= passScore) successBarPaint else failBarPaint
+            canvas.drawRect(left, top, right, bottom, paint)
 
             val textX = centerX
             val textY = baseY + labelPaint.textSize + 8f

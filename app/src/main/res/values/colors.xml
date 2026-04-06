@@ -12,6 +12,6 @@
     <color name="black4">#D9D9D9</color>
     <color name="black5">#EEEEEE</color>
     <color name="black6">#F5F5F5</color>
-
+    <color name="virtual_color">#BAB5FF</color>
 
 </resources>
