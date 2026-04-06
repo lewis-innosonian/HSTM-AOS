@@ -9,6 +9,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Base64
@@ -47,6 +48,20 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hstm_aos.adapter.OrganizationAdapter
+import com.example.hstm_aos.ble.DfuService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.suspendCancellableCoroutine
+import no.nordicsemi.android.dfu.DfuProgressListenerAdapter
+import no.nordicsemi.android.dfu.DfuServiceInitiator
+import no.nordicsemi.android.dfu.DfuServiceListenerHelper
+import java.io.BufferedInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.net.URL
+import java.util.LinkedList
+import java.util.Queue
 
 class MainActivity : BaseActivity() {
 
@@ -61,6 +76,49 @@ class MainActivity : BaseActivity() {
     companion object {
         private const val TAG = "kimtest"
     }
+
+    //firmware Update Listener
+
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    private val dfuInProgressDevices = mutableSetOf<String>()
+    private val dfuQueue: Queue<Pair<String, String>> = LinkedList()
+    private var isDfuRunning = false
+
+    private val dfuListener = object : DfuProgressListenerAdapter() {
+
+        override fun onDeviceConnecting(deviceAddress: String) {
+            Log.d("DFU", "onDeviceConnecting")
+        }
+
+        override fun onDfuProcessStarting(deviceAddress: String) {
+            Log.d("DFU", "onDfuProcessStarting")
+        }
+
+        override fun onProgressChanged(
+            deviceAddress: String,
+            percent: Int,
+            speed: Float,
+            avgSpeed: Float,
+            currentPart: Int,
+            partsTotal: Int
+        ) {
+            Log.d("DFU", "onProgressChanged: $percent%")
+        }
+
+        override fun onDfuCompleted(deviceAddress: String) {
+            Log.d("DFU", "onDfuCompleted")
+            dfuInProgressDevices.remove(deviceAddress)
+            startNextDfu()
+        }
+
+        override fun onError(deviceAddress: String, error: Int, errorType: Int, message: String) {
+            Log.e("DFU", "onError: $message")
+            dfuInProgressDevices.remove(deviceAddress)
+            startNextDfu()
+        }
+    }
+
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,8 +149,159 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         bleManager.attachActivity(this)
+        DfuServiceListenerHelper.registerProgressListener(this, dfuListener)
     }
 
+    override fun onPause() {
+        super.onPause()
+        DfuServiceListenerHelper.unregisterProgressListener(this, dfuListener)
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private fun startDfuService(deviceAddress: String, url: String) {
+
+        Log.d("DFU", "start DFU → $deviceAddress")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DfuServiceInitiator.createDfuNotificationChannel(this)
+        }
+
+        scope.launch {
+            try {
+                disconnectAndWait(deviceAddress)
+                val file = downloadFirmware(url)
+                startDfu(deviceAddress, file)
+
+            } catch (e: Exception) {
+                Log.e("DFU", "DFU ERROR", e)
+            }
+        }
+    }
+
+    //url 넣고 테스트
+    fun addDfu(deviceAddress: String, url: String) {
+        if (dfuInProgressDevices.contains(deviceAddress)) return
+
+        dfuQueue.add(deviceAddress to url)
+
+        if (!isDfuRunning) {
+            startNextDfu()
+        }
+    }
+
+    private fun startNextDfu() {
+        val next = dfuQueue.poll() ?: run {
+            isDfuRunning = false
+            return
+        }
+
+        isDfuRunning = true
+        startDfuService(next.first, next.second)
+    }
+
+    @SuppressLint("MissingPermission")
+    private suspend fun disconnectAndWait(address: String) {
+        val device = bleManager.getDeviceByAddress(address) ?: return
+
+        if (device.isConnected) {
+            bleManager.toggleConnection(device)
+        }
+
+        repeat(20) {
+            delay(200)
+            val current = bleManager.getDeviceByAddress(address)
+            if (current?.isConnected == false) return
+        }
+
+        Log.d("DFU", "disconnect timeout")
+    }
+
+
+    private suspend fun downloadFirmware(url: String): File =
+        withContext(Dispatchers.IO) {
+
+            val client = OkHttpClient()
+            val request = Request.Builder().url(url).build()
+
+            client.newCall(request).execute().use { response ->
+
+                if (!response.isSuccessful) {
+                    throw IOException("Download failed: $response")
+                }
+
+                val tempFile = File.createTempFile("dfu_temp", ".zip", cacheDir)
+                tempFile.deleteOnExit()
+
+                response.body?.byteStream()?.use { input ->
+                    FileOutputStream(tempFile).use { output ->
+                        input.copyTo(output)
+                    }
+                } ?: throw IOException("Empty response")
+
+                return@withContext tempFile
+            }
+        }
+
+    private fun startDfu(deviceAddress: String, file: File) {
+
+        Log.d("kimtest4","StartDFU")
+        val uri = Uri.fromFile(file)
+
+        val initiator = DfuServiceInitiator(deviceAddress)
+            .setKeepBond(true)
+            .setRestoreBond(true)
+            .setForceDfu(true)
+            .setForeground(true)
+            .setDisableNotification(false)
+            .setUnsafeExperimentalButtonlessServiceInSecureDfuEnabled(true)
+            .setZip(uri)
+
+        initiator.start(
+            this,
+            DfuService::class.java
+        )
+
+        dfuInProgressDevices.add(deviceAddress)
+    }
+
+
+    private fun startDfuFromUrl(deviceAddress: String, fileUrl: String) {
+
+        Thread {
+            try {
+                val url = URL(fileUrl)
+                val connection = url.openConnection()
+                connection.connect()
+
+                val input = BufferedInputStream(url.openStream())
+                val file = File(cacheDir, "dfu.zip")
+
+                val output = FileOutputStream(file)
+                val data = ByteArray(1024)
+                var count: Int
+
+                while (input.read(data).also { count = it } != -1) {
+                    output.write(data, 0, count)
+                }
+
+                output.flush()
+                output.close()
+                input.close()
+
+                runOnUiThread {
+                    Log.d("kimtest4","dfu Start")
+                    startDfu(deviceAddress, file)
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
+    }
+
+
+    //
 
 
     private fun handleGetSkillsResponse(body: String) {
@@ -236,7 +445,11 @@ class MainActivity : BaseActivity() {
         UserInfoManager.setLastName(this, selectedOrg.Last_name ?: "-")
 
         binding.userIDTextView.text =
-            "${UserInfoManager.getFirstName(this)} ${UserInfoManager.getLastName(this)}, ${UserInfoManager.getOrganizations(this)}"
+            "${UserInfoManager.getFirstName(this)} ${UserInfoManager.getLastName(this)}, ${
+                UserInfoManager.getOrganizations(
+                    this
+                )
+            }"
 
         initUI()
         setupFragments(skills)
@@ -305,7 +518,10 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun openGuideAndHelpFragment(docList: List<GuideAndHelpFragment.GuideMenuItem>, fragment: Fragment) {
+    private fun openGuideAndHelpFragment(
+        docList: List<GuideAndHelpFragment.GuideMenuItem>,
+        fragment: Fragment
+    ) {
         val index = fragments.indexOf(fragment)
         if (index >= 0) {
             selectTab(index)
@@ -316,16 +532,16 @@ class MainActivity : BaseActivity() {
 
     private fun setupLogoutButton() {
 
-            // 1️⃣ WebView 관련 데이터 삭제
-            clearWebViewData()
+        // 1️⃣ WebView 관련 데이터 삭제
+        clearWebViewData()
 
-            UserInfoManager.clear(this@MainActivity)
+        UserInfoManager.clear(this@MainActivity)
 
-            // 3️⃣ LoginActivity 재시작
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
+        // 3️⃣ LoginActivity 재시작
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
 
     }
 
@@ -344,7 +560,28 @@ class MainActivity : BaseActivity() {
 
     private fun initUI() {
         binding.logoutRoundedButton.setOnClickListener {
-            setupLogoutButton()
+//            setupLogoutButton()
+
+            val device = bleManager.getCurrentConnectedDevices().firstOrNull()
+                ?: return@setOnClickListener
+
+            startDfuFromUrl(device.device.address,"https://blog.kakaocdn.net/dna/bL4D8B/dJMcaipkYif/AAAAAAAAAAAAAAAAAAAAADz_lvawIHm_Wh0P9bH8yLBrDpyIUYbVCc9TgSYuV87e/app_dfu_package_3018D.zip?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1777561199&allow_ip=&allow_referer=&signature=GMbrvMN7LzsmJM%2B%2FERkCZRT%2Bi7I%3D&attach=1&knm=tfile.zip")
+
+
+//
+//            val firmware = assets.open("firmware2.bin").readBytes()
+//
+//            bleManager.startOta(device.device.address, firmware)
+
+        }
+
+        binding.logoutRoundedButton1.setOnClickListener {
+            val device = bleManager.getCurrentConnectedDevices().firstOrNull()
+                ?: return@setOnClickListener
+
+            val firmware = assets.open("firmware1.bin").readBytes()
+
+            bleManager.startOta(device.device.address, firmware)
         }
 
         binding.closeImageView.setOnClickListener {
@@ -481,12 +718,6 @@ class MainActivity : BaseActivity() {
             text.visibility = View.GONE
         }
     }
-
-
-
-
-
-
 
 
     private fun showFragment(fragment: Fragment) {

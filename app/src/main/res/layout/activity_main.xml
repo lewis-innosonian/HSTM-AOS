@@ -82,7 +82,28 @@
                 android:textSize="16sp"
                 android:textColor="#FD1708"
                 android:layout_alignParentEnd="true"
-                android:text="Logout"/>
+                android:text="40번대"/>
+
+
+            <com.example.hstm_aos.customview.RoundedButton
+                android:id="@+id/logoutRoundedButton1"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="97dp"
+                android:paddingEnd="97dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                app:rb_radius="10dp"
+                app:rb_bgColor="@android:color/transparent"
+                app:rb_strokeColor="#FD1708"
+                app:rb_strokeWidth="1dp"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="600"
+                android:textSize="16sp"
+                android:textColor="#FD1708"
+                android:layout_centerHorizontal="true"
+                android:text="86번대"/>
 
 
 
