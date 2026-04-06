@@ -50,6 +50,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val ALScontents = mutableMapOf<Int, OpenSkill>()
     private val BLScontents = mutableMapOf<Int, OpenSkill>()
     private val PALScontents = mutableMapOf<Int, OpenSkill>()
+    //
+    private lateinit var howtoConnectDialog: HowToConnectDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentHomeBinding.bind(view)
@@ -61,6 +63,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             binding.voiceGuideSV.isChecked = false
         }
 
+        binding.howToDisconnectLayout.setOnClickListener{
+            howtoConnectDialog = HowToConnectDialog.newInstance()
+            howtoConnectDialog.show(parentFragmentManager, "howToConnectDialog")
+        }
 
         binding.voiceGuideSV.onCheckedChangeListener = { isChecked ->
             if (isChecked) {
@@ -495,11 +501,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 item.copy(status = newStatus)
             } else item
         }
-        if (bleManager.getCurrentDeviceTypeMap().size > 0){
-            binding.connectDevicesTextView.text = "Connectable Devices (${bleManager.getCurrentDeviceTypeMap().size} Connected)"
-        }else {
-            binding.connectDevicesTextView.text = "Connectable Devices"
-        }
+//        if (bleManager.getCurrentDeviceTypeMap().size > 0){
+//            binding.connectDevicesTextView.text = "Connectable Devices (${bleManager.getCurrentDeviceTypeMap().size} Connected)"
+//        }else {
+//            binding.connectDevicesTextView.text = "Connectable Devices"
+//        }
 
         contentsAdapter.updateItems(updated)
     }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.example.hstm_aos.customview.RoundedLinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="60dp"
+        android:paddingBottom="60dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        app:rv_radius="20dp"
+        app:rv_backgroundColor="@color/white"
+        >
+
+
+        <TextView
+            android:id="@+id/messageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="1. Power on the device.\n2. Searching for devices automatically.\n3. Select a device from the list.\n4. If a manikin is connected, check that its light is on. If\n    AED-Trainer is connected, a sound will be heard."
+            android:textColor="#666666"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="400"
+            android:textSize="24dp" />
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            >
+
+            <com.example.hstm_aos.customview.RoundedButton
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="600"
+                android:id="@+id/reconnectButton"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:minWidth="200dp"
+                android:gravity="center"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:text="Confirm"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                app:rb_bgColor="#2072ED"
+                app:rb_radius="10dp"
+
+                />
+
+
+        </LinearLayout>
+    </com.example.hstm_aos.customview.RoundedLinearLayout>
+</layout>
