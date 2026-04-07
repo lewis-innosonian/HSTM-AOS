@@ -1,0 +1,115 @@
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#F5F5F5"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:id="@+id/rootLayout"
+        android:layout_above="@+id/footerView"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:background="#F5F5F5"
+        android:gravity="center_vertical"
+        android:layout_height="match_parent">
+
+
+        <!-- 탭 영역 -->
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/headerView"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <com.example.hstm_aos.customview.RoundedButton
+                android:id="@+id/skipRoundedButton"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="97dp"
+                android:paddingEnd="97dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+
+                app:rb_radius="10dp"
+                app:rb_bgColor="#0061F2"
+                app:rb_strokeColor="#0061F2"
+                app:rb_strokeWidth="0dp"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="600"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:layout_alignParentEnd="true"
+                android:text="Skip"/>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_below="@+id/headerView"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/footerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="400"
+            android:textSize="16dp"
+            android:id="@+id/versionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black1"
+            android:text="1.1.1"/>
+
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@+id/logoImageView"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="400"
+            android:textColor="@color/black1"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Certification Provided By"/>
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/red_cross_logo"/>
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
+</layout>

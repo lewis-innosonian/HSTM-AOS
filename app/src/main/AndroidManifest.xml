@@ -69,6 +69,7 @@
 
         </activity>
 
+        <activity android:name=".activity.GuideHelpActivity"/>
         <activity android:name=".activity.ResultActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".activity.TrainingActivity"/>
