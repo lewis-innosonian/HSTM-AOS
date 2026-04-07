@@ -299,7 +299,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
             override fun onFinish() {
                 binding.timerText.text = "00:00"
-                (activity as? TrainingActivity)?.startStopButtonPerformClick()
+                (activity as? TwoRescuerTrainingActivity)?.startStopButtonPerformClick()
 //                binding.startStopButton.performClick()
             }
         }.start()

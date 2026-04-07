@@ -43,7 +43,7 @@ class TwoRescuerTrainingActivity : BaseActivity() ,
     private var requiredTypes: Set<DeviceType> = emptySet()
 
     private var timer: CountDownTimer? = null
-    private var totalSeconds = 360 //연습시간 변경해야함
+    private var totalSeconds = 360
     private lateinit var trainingTypes: Set<TrainingType>
     private var contentItem: ContentsItem.Content? = null
     private lateinit var mannequinType: Set<DeviceType>
@@ -136,8 +136,10 @@ class TwoRescuerTrainingActivity : BaseActivity() ,
                     loadTrainingFragment()
                 } else {
                     //팝업
-
-//                    stopTimer()
+                    val fragment =
+                        supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                                as? TrainingFragment
+                    fragment?.stopTimer()
                     binding.trainingOverLayout.visibility = View.GONE
                     binding.startStopButton.setBgColor(android.graphics.Color.parseColor("#0061F2"))
 
@@ -354,9 +356,11 @@ class TwoRescuerTrainingActivity : BaseActivity() ,
     }
 
     private fun resetUI(apiResult: HstmResponse) {
-
+        val fragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                    as? TrainingFragment
         binding.trainingOverLayout.visibility = View.GONE
-//        stopTimer()
+        fragment?.stopTimer()
 
         binding.startStopButton.setBgColor(android.graphics.Color.parseColor("#0061F2"))
 
@@ -392,7 +396,8 @@ class TwoRescuerTrainingActivity : BaseActivity() ,
         startActivity(intent)
     }
 
-
-    //타이머
+    fun startStopButtonPerformClick(){
+        binding.startStopButton.performClick()
+    }
 
 }
