@@ -161,6 +161,7 @@
 
 
             <ImageView
+                android:id="@+id/howToConnectIcon"
                 android:src="@drawable/inno_how_to_connect_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

@@ -4,14 +4,26 @@ package com.example.hstm_aos.Fragment
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
+import android.content.res.Resources
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.Paint
+import android.graphics.PixelFormat
+import android.graphics.RectF
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +31,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hstm_aos.*
+import com.example.hstm_aos.activity.MainActivity
 import com.example.hstm_aos.activity.TrainingActivity
 import com.example.hstm_aos.activity.TwoRescuerTrainingActivity
 import com.example.hstm_aos.adapter.ContentsAdapter
@@ -52,7 +65,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val PALScontents = mutableMapOf<Int, OpenSkill>()
     //
     private lateinit var howtoConnectDialog: HowToConnectDialog
-
+    private lateinit var congratulationsDialog : CongratulationsDialog
+    private val completedCourseLogged = mutableSetOf<Int>()
+    private var lastCompletedCourseCount = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentHomeBinding.bind(view)
 
@@ -62,10 +77,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         } else {
             binding.voiceGuideSV.isChecked = false
         }
+        congratulationsDialog = CongratulationsDialog()
 
         binding.howToDisconnectLayout.setOnClickListener{
-            howtoConnectDialog = HowToConnectDialog.newInstance()
-            howtoConnectDialog.show(parentFragmentManager, "howToConnectDialog")
+            showTooltip(binding.howToConnectIcon)
+//            howtoConnectDialog = HowToConnectDialog.newInstance()
+//            howtoConnectDialog.show(parentFragmentManager, "howToConnectDialog")
         }
 
         binding.voiceGuideSV.onCheckedChangeListener = { isChecked ->
@@ -408,41 +425,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
 
-    private fun createDummyDevices(): List<BleDevice> {
-        return listOf(
-            BleDevice(
-                device = mockBluetoothDevice("00:11:22:33:44:01", "Manikin PRO"),
-                rssi = -45,
-                isConnected = true,
-                firmwareVersion = "v1.2.0",
-                deviceType = DeviceType.PRO
-            ),
-            BleDevice(
-                device = mockBluetoothDevice("00:11:22:33:44:02", "Manikin BABY"),
-                rssi = -60,
-                isConnected = false,
-                firmwareVersion = "v1.1.3",
-                deviceType = DeviceType.BABY
-            ),
-            BleDevice(
-                device = mockBluetoothDevice("00:11:22:33:44:03", "Manikin CHILD"),
-                rssi = -70,
-                isConnected = false,
-                firmwareVersion = null,
-                deviceType = DeviceType.CHILD
-            ),
-            // 🔍 Searching 상태용 (타입 모름)
-            BleDevice(
-                device = mockBluetoothDevice("00:11:22:33:44:04", "Searching..."),
-                rssi = -90,
-                isConnected = false,
-                firmwareVersion = null,
-                deviceType = DeviceType.UNKNOWN
-            )
-
-        )
-    }
-
     private fun mockBluetoothDevice(address: String, name: String): BluetoothDevice {
         val adapter = BluetoothAdapter.getDefaultAdapter()
         val device = adapter.getRemoteDevice(address)
@@ -543,8 +525,97 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         contentsAdapter.forEachIndexed { index, adapter ->
             adapter.updateItems(splitLists.getOrNull(index) ?: emptyList())
         }
+
+//        checkCourseCompletion(updated)
+
     }
 
+    fun showTooltip(anchor: View) {
+
+        val popupView = LayoutInflater.from(anchor.context)
+            .inflate(R.layout.tooltip_layout, null)
+
+        val popup = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        ).apply {
+            isOutsideTouchable = true
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            isClippingEnabled = false
+        }
+
+        val content = popupView.findViewById<View>(R.id.contentBox)
+
+        content.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+
+        val radius = 30f
+        val blur = 20f
+        val dx = -4f
+        val dy = 4f
+
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.WHITE
+            setShadowLayer(
+                blur,
+                dx,
+                dy,
+                Color.parseColor("#1A000000")
+            )
+        }
+
+        content.background = object : Drawable() {
+
+            override fun draw(canvas: Canvas) {
+
+                val rect = RectF(
+                    blur,
+                    blur,
+                    bounds.width() - blur,
+                    bounds.height() - blur
+                )
+
+                canvas.drawRoundRect(rect, radius, radius, paint)
+            }
+
+            override fun setAlpha(alpha: Int) {}
+            override fun setColorFilter(colorFilter: ColorFilter?) {}
+            override fun getOpacity(): Int = PixelFormat.TRANSLUCENT
+        }
+
+        anchor.post {
+            val location = IntArray(2)
+            anchor.getLocationOnScreen(location)
+
+            val anchorX = location[0]
+            val anchorY = location[1]
+
+            popupView.measure(
+                View.MeasureSpec.UNSPECIFIED,
+                View.MeasureSpec.UNSPECIFIED
+            )
+
+            val popupWidth = popupView.measuredWidth
+            val popupHeight = popupView.measuredHeight
+
+
+            val blur = 20f
+            val dx = -4f
+            val dy = 4f
+            val margin = 10.dpToPx()
+
+            val x = (anchorX - (blur + kotlin.math.abs(dx))).toInt()
+
+            val y = (anchorY - popupHeight - margin + blur).toInt()
+
+            popup.showAtLocation(anchor, Gravity.NO_GRAVITY, x, y)
+        }
+    }
+
+    fun Int.dpToPx(): Int =
+        (this * Resources.getSystem().displayMetrics.density).toInt()
+    
     private fun splitContentItems(items: List<ContentsItem.Content>): List<List<ContentsItem.Content>> {
         val size = items.size / 3
 
