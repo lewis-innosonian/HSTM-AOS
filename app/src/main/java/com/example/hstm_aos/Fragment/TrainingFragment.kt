@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.util.Log
 import android.view.View
@@ -102,6 +103,8 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
     private var currentSoundRes: Int? = null
     private var originalWidth = 0
 
+    private var timer: CountDownTimer? = null
+
     interface OnTrainingFinishedListener {
         fun onTrainingFinished(apiResult: HstmResponse)
     }
@@ -193,10 +196,10 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
                 drawable?.mutate()?.setTint(Color.parseColor("#EEEEEE"))
             }
 
-            binding.depthTextView.setTextColor(Color.parseColor("#EEEEEE"))
-            binding.depthTextView.compoundDrawablesRelative.forEach { drawable ->
-                drawable?.mutate()?.setTint(Color.parseColor("#EEEEEE"))
-            }
+//            binding.depthTextView.setTextColor(Color.parseColor("#EEEEEE"))
+//            binding.depthTextView.compoundDrawablesRelative.forEach { drawable ->
+//                drawable?.mutate()?.setTint(Color.parseColor("#EEEEEE"))
+//            }
 
             binding.positionTextView.setTextColor(Color.parseColor("#EEEEEE"))
             binding.positionTextView.compoundDrawablesRelative.forEach { drawable ->
@@ -228,11 +231,11 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
         }
 
 
-        binding.depthView.setNormalRange(minDepthValue,maxDepthValue)
+//        binding.depthView.setNormalRange(minDepthValue,maxDepthValue)
         updateCompressionText()
         updateVentText()
 
-        binding.depthView.setTrainingType(trainingType)
+//        binding.depthView.setTrainingType(trainingType)
         binding.handPositionView.setTrainingType(trainingType)
         binding.handPositionView.setManikinType(mannequinType)
         binding.speedView.setTrainingType(trainingType)
@@ -437,6 +440,33 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
 //        }
     }
 
+    //타이머
+
+     fun startTimer(seconds: Int) {
+
+        stopTimer()
+
+        timer = object : CountDownTimer(seconds * 1000L, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                val min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                val sec = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
+                binding.timerText.text = String.format("%02d:%02d", min, sec)
+            }
+
+            override fun onFinish() {
+                binding.timerText.text = "00:00"
+                (activity as? TrainingActivity)?.startStopButtonPerformClick()
+//                binding.startStopButton.performClick()
+            }
+        }.start()
+    }
+
+     fun stopTimer() {
+        timer?.cancel()
+        timer = null
+    }
+
     private fun startAedTimer() {
         binding.waitingAed.visibility = View.VISIBLE
         viewLifecycleOwner.lifecycleScope.launch {
@@ -616,11 +646,11 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
         if (chestCompression != null && !trainingTypes.contains(TrainingType.VO)) {
             val value = chestCompression / 2
             if (chestCompression > 20) {
-                binding.depthView.addValue(value)
+//                binding.depthView.addValue(value)
                 detectCompressionPeak(value, chestCompressionPoint.toInt(),chestCompressionSpeed)
                 hasAction = true
             } else {
-                binding.depthView.addValue(0)
+//                binding.depthView.addValue(0)
             }
         }
 

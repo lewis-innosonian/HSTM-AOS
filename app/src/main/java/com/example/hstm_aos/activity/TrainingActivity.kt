@@ -104,7 +104,11 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
                 if (connected) {
                     stopTraining()
 
-                    stopTimer()
+                    val fragment =
+                        supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                                as? TrainingFragment
+
+                    fragment?.stopTimer()
                     binding.trainingOverLayout.visibility = View.GONE
 
                     if (type == DeviceType.UNKNOWN) {
@@ -124,15 +128,17 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
                         binding.startStopButton.paddingBottom
                     )
 
-                    binding.timerLayout.visibility = View.GONE
                     binding.BackLayout.visibility = View.VISIBLE
-                    binding.timerText.text = "00:00"
 
                     loadTrainingFragment()
                 } else {
                     //팝업
 
-                    stopTimer()
+                    val fragment =
+                        supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                                as? TrainingFragment
+
+                    fragment?.stopTimer()
                     binding.trainingOverLayout.visibility = View.GONE
                     binding.startStopButton.setBgColor(android.graphics.Color.parseColor("#0061F2"))
 
@@ -145,9 +151,7 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
                         binding.startStopButton.paddingBottom
                     )
 
-                    binding.timerLayout.visibility = View.GONE
                     binding.BackLayout.visibility = View.VISIBLE
-                    binding.timerText.text = "00:00"
 
                     loadTrainingFragment()
 
@@ -180,13 +184,13 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
         }
 
 
-        bleManager.getCurrentConnectedDevices().forEach {
-            Log.d("kimtest",
-                "name=${it.device.name}, " +
-                        "type=${it.deviceType}, " +
-                        "rawType=${it.deviceType?.name}"
-            )
-        }
+//        bleManager.getCurrentConnectedDevices().forEach {
+////            Log.d("kimtest",
+////                "name=${it.device.name}, " +
+////                        "type=${it.deviceType}, " +
+////                        "rawType=${it.deviceType?.name}"
+////            )
+//        }
         Log.d("kimtest", "Required types: $requiredTypes")
         binding.startStopButton.setOnClickListener {
 
@@ -212,7 +216,7 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
                 )
 
                 binding.startStopButton.setBgColor(android.graphics.Color.parseColor("#333333"))
-                binding.timerLayout.visibility = View.VISIBLE
+//                binding.timerLayout.visibility = View.VISIBLE
                 binding.BackLayout.visibility = View.GONE
 
                 val fragment =
@@ -220,7 +224,7 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
                             as? TrainingFragment
 
                 fragment?.startCountDown {
-                    startTimer(totalSeconds)
+                    fragment.startTimer(totalSeconds)
                     deviceToUse?.let { device ->
                         val packet = byteArrayOf(0x54, 0x01)
                         bleManager.sendPacketToDevice(device, packet)
@@ -291,9 +295,9 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
                 )
 
                 binding.startStopButton.text = "Practice Start"
-                binding.timerLayout.visibility = View.GONE
+//                binding.timerLayout.visibility = View.GONE
                 binding.BackLayout.visibility = View.VISIBLE
-                binding.timerText.text = "00:00"
+//                binding.timerText.text = "00:00"
 
                 loadTrainingFragment()
 
@@ -352,6 +356,10 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
 
     private fun resetUI(apiResult: HstmResponse) {
 
+        val fragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                    as? TrainingFragment
+
         bleManager.getCurrentConnectedDevices()
             .firstOrNull { device ->
                 device.deviceType == DeviceType.AED
@@ -363,7 +371,7 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
             }
 
         binding.trainingOverLayout.visibility = View.GONE
-        stopTimer()
+        fragment?.stopTimer()
 
         binding.startStopButton.setBgColor(android.graphics.Color.parseColor("#0061F2"))
 
@@ -376,9 +384,7 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
             binding.startStopButton.paddingBottom
         )
 
-        binding.timerLayout.visibility = View.GONE
         binding.BackLayout.visibility = View.VISIBLE
-        binding.timerText.text = "00:00"
 
         contentItem?.status = TrainingStatus.COMPLETED
 
@@ -399,27 +405,30 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
         startActivity(intent)
     }
 
-    private fun startTimer(seconds: Int) {
-
-        stopTimer()
-
-        timer = object : CountDownTimer(seconds * 1000L, 1000) {
-
-            override fun onTick(millisUntilFinished: Long) {
-                val min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-                val sec = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
-                binding.timerText.text = String.format("%02d:%02d", min, sec)
-            }
-
-            override fun onFinish() {
-                binding.timerText.text = "00:00"
-                binding.startStopButton.performClick()
-            }
-        }.start()
+    fun startStopButtonPerformClick(){
+        binding.startStopButton.performClick()
     }
-
-    private fun stopTimer() {
-        timer?.cancel()
-        timer = null
-    }
+//    private fun startTimer(seconds: Int) {
+//
+//        stopTimer()
+//
+//        timer = object : CountDownTimer(seconds * 1000L, 1000) {
+//
+//            override fun onTick(millisUntilFinished: Long) {
+//                val min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+//                val sec = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
+//                binding.timerText.text = String.format("%02d:%02d", min, sec)
+//            }
+//
+//            override fun onFinish() {
+//                binding.timerText.text = "00:00"
+//                binding.startStopButton.performClick()
+//            }
+//        }.start()
+//    }
+//
+//    private fun stopTimer() {
+//        timer?.cancel()
+//        timer = null
+//    }
 }

@@ -99,8 +99,6 @@
 
         <com.example.hstm_aos.customview.RoundedLinearLayout
             android:layout_width="wrap_content"
-            android:layout_marginStart="270dp"
-            android:layout_marginEnd="270dp"
             android:layout_marginTop="18dp"
             android:layout_gravity="center"
             android:paddingEnd="60dp"
@@ -181,6 +179,32 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/custom_font"
                     android:text="0/2"
+                    android:textColor="@color/black1"
+                    android:textFontWeight="700"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/inno_timer_icon" />
+
+                <TextView
+                    android:id="@+id/timerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/custom_font"
+                    android:text="00:00"
                     android:textColor="@color/black1"
                     android:textFontWeight="700"
                     android:textSize="20sp" />

@@ -6,6 +6,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -122,6 +123,8 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
     private var currentSoundRes: Int? = null
 
     private var finishCycle = 8
+
+    private var timer: CountDownTimer? = null
 
     /* =========================
      * Phase
@@ -279,6 +282,33 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
     1 = 가슴압박 끝
     10 = 호흡 시작
     11 = 호흡 끝*/
+
+    //타이머
+
+    fun startTimer(seconds: Int) {
+
+        stopTimer()
+
+        timer = object : CountDownTimer(seconds * 1000L, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                val min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                val sec = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
+                binding.timerText.text = String.format("%02d:%02d", min, sec)
+            }
+
+            override fun onFinish() {
+                binding.timerText.text = "00:00"
+                (activity as? TrainingActivity)?.startStopButtonPerformClick()
+//                binding.startStopButton.performClick()
+            }
+        }.start()
+    }
+
+    fun stopTimer() {
+        timer?.cancel()
+        timer = null
+    }
 
 
     private fun resetHandsOffTimer() {
