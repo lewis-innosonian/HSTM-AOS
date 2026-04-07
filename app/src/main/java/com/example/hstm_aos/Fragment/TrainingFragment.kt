@@ -412,9 +412,10 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
     }
 
 
-    private fun playSound(res: Int) {
+    private fun playSound(res: Int, isVoice: Boolean = true) {
 
-        if (!UserInfoManager.getVoiceGuide(requireContext())){
+
+        if (isVoice && !UserInfoManager.getVoiceGuide(requireContext())){
             return
         }
 
@@ -623,9 +624,6 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
             }
         }
 
-        // ==========================
-        // 2️⃣ 환기 처리
-        // ==========================
         if (ventilationPacket != null && !trainingTypes.contains(TrainingType.CCO)) {
             val ventValue = ventilationPacket * 10
             binding.ventView.addValue(ventValue)
@@ -969,6 +967,14 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
 
         if (isAedActive) return
 
+
+        if (volume < minVolume){
+            playSound(R.raw.under,false)
+        }else if (volume > maxVolume){
+            playSound(R.raw.incorrect,false)
+        }else {
+            playSound(R.raw.correct,false)
+        }
         binding.tvGuide.text = when {
             volume < minVolume -> "Blow more"
             volume > maxVolume -> "Blow less" //Too few
