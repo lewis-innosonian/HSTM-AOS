@@ -14,7 +14,7 @@
     <string name="vent_volume">Vent\nVolume</string>
     <string name="vent_count">Vent\nCount</string>
     <string name="vent_rate">Vent\nRate</string>
-    <string name="vent_speed">Vent\nSpeed</string>
+    <string name="vent_speed">Vent\nPressure</string>
     <string name="finger_position">Finger position</string>
 
     <string name="damaged">Damaged</string>
@@ -29,7 +29,7 @@
     <string name="result_ventilation_volume">Ventilation\nVolume</string>
     <string name="result_ventilation_count">Ventilation\nCount</string>
     <string name="result_ventilation_rate">Ventilation\nRate</string>
-    <string name="result_ventilation_speed">Ventilation\nSpeed</string>
+    <string name="result_ventilation_speed">Ventilation\nPressure</string>
 
 
 
@@ -41,7 +41,7 @@
     <string name="overall_score">Overall Score</string>
     <string name="ventilation_count">Ventilation Count</string>
     <string name="ventilation_rate">Ventilation Rate</string>
-    <string name="ventilation_speed">Ventilation Speed</string>
+    <string name="ventilation_speed">Ventilation Pressure</string>
     <string name="compression_depth_result">Comp depth</string>
     <string name="compression_release_result">Comp release</string>
     <string name="compression_rate_result">Comp rate</string>
