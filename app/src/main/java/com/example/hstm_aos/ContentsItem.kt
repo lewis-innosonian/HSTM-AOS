@@ -24,6 +24,7 @@ sealed class ContentsItem : Serializable {
         val trainingType : Set<TrainingType>,
         val skillTypeId: Int,  // OpenSkill.Skill_Type_id
         val certType: Int,      // OpenSkill.Cert_Type
-        val passing_Score : Int
+        val passing_Score : Int,
+        val Assignment_ID : String
     ) : ContentsItem(), Parcelable
 }

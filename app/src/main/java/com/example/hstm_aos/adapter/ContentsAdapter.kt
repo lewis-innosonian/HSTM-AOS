@@ -42,7 +42,6 @@ class ContentsAdapter(
 
         private val statusIcon = view.findViewById<ImageView>(R.id.trainingStatusImageView)
         private val text = view.findViewById<TextView>(R.id.contentText)
-        private val startLayout = view.findViewById<View>(R.id.startLayout)
         private val rootLayout  = view.findViewById<RelativeLayout>(R.id.rootLayout)
         private val durationTextView = view.findViewById<TextView>(R.id.durationTextView)
 
@@ -54,7 +53,6 @@ class ContentsAdapter(
                 TrainingStatus.LOCKED -> {
                     rootLayout.setOnClickListener(null)
                     statusIcon.setImageResource(R.drawable.inno_training_lock_icon)
-                    startLayout.visibility = View.INVISIBLE
                     text.setTextColor(
                         ContextCompat.getColor(text.context, R.color.black4)
                     )
@@ -68,7 +66,6 @@ class ContentsAdapter(
                         onStartClick(item)
                     }
                     statusIcon.setImageResource(R.drawable.inno_uncheck_icon)
-                    startLayout.visibility = View.INVISIBLE
                     text.setTextColor(
                         ContextCompat.getColor(text.context, R.color.black2)
                     )
@@ -82,7 +79,6 @@ class ContentsAdapter(
                         onStartClick(item)
                     }
                     statusIcon.setImageResource(R.drawable.inno_check_icon)
-                    startLayout.visibility = View.INVISIBLE
                     text.setTextColor(
                         ContextCompat.getColor(text.context, R.color.black2)
                     )

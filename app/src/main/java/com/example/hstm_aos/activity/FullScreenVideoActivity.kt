@@ -12,6 +12,8 @@ import com.example.hstm_aos.R
 import android.os.Handler
 import android.os.Looper
 import android.graphics.Color
+import android.util.Log
+import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.core.content.ContextCompat
 
 class FullScreenVideoActivity : AppCompatActivity() {
@@ -39,6 +41,8 @@ class FullScreenVideoActivity : AppCompatActivity() {
 
         // 인텐트로 전달된 비디오 URL, 위치, 재생 상태
         val videoUrl = intent.getStringExtra("video_url")
+
+        Log.d("kimtest555","${videoUrl}")
         val startPos = intent.getIntExtra("position", 0)
         val shouldPlay = intent.getBooleanExtra("is_playing", false) // ← 재생 여부
 
@@ -55,7 +59,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
                 playPause.setImageResource(R.drawable.inno_pause_white_icon)
                 startProgress()
             } else {
-                video.pause()
+
                 isPlaying = false
                 playPause.setImageResource(R.drawable.inno_play_white_icon)
             }

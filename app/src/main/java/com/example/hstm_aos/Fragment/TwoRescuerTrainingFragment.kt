@@ -2,6 +2,7 @@ package com.example.hstm_aos.Fragment
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.net.Uri
@@ -53,10 +54,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
     private var _binding: FragmentTwoRescuerTrainingBinding? = null
     private val binding get() = _binding!!
-
-    /* =========================
-     * Count / State
-     * ========================= */
+    
     private var compCount = 0
     private var ventCount = 0
     private var cycleCount = 0
@@ -126,9 +124,6 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
     private var timer: CountDownTimer? = null
 
-    /* =========================
-     * Phase
-     * ========================= */
     private enum class Phase { COMPRESSION, VENTILATION }
 
     interface OnTrainingFinishedListener {
@@ -156,15 +151,12 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
         }
     }
 
-    /* =========================
-     * Lifecycle
-     * ========================= */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentTwoRescuerTrainingBinding.bind(view)
 
         exoPlayer = ExoPlayer.Builder(requireContext()).build()
-
+        binding.dualBarChartTitleView.setTrainingType("CPR")
         val activity = requireActivity() as TwoRescuerTrainingActivity
 
         resetHandsOffTimer()
@@ -207,9 +199,9 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
             binding.ventView.setBadgeVisible(true)
         }
-        binding.depthView.setNormalRange(minDepthValue,maxDepthValue)
+//        binding.depthView.setNormalRange(minDepthValue,maxDepthValue)
 
-        binding.depthView.setTrainingType(trainingType)
+//        binding.depthView.setTrainingType(trainingType)
         binding.handPositionView.setTrainingType(trainingType)
         binding.handPositionView.setManikinType(mannequinType)
         binding.speedView.setTrainingType(trainingType)
@@ -292,12 +284,14 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
         timer = object : CountDownTimer(seconds * 1000L, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
+                val binding = _binding ?: return
                 val min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
                 val sec = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
                 binding.timerText.text = String.format("%02d:%02d", min, sec)
             }
 
             override fun onFinish() {
+                val binding = _binding ?: return
                 binding.timerText.text = "00:00"
                 (activity as? TwoRescuerTrainingActivity)?.startStopButtonPerformClick()
 //                binding.startStopButton.performClick()
@@ -329,9 +323,6 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
         eventList.add(newEvent)
     }
 
-    /* =========================
-     * Cycle Rule
-     * ========================= */
     private fun isMyCompressionCycle(cycle: Int): Boolean {
         val block = (cycle - 1) / 2
         return block % 2 == 0
@@ -349,9 +340,6 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
         else
             Phase.COMPRESSION
 
-    /* =========================
-     * Data Engine
-     * ========================= */
     private fun getTrainingData(data: ByteArray, isVirtual : Boolean = true) {
 
         var chestCompression = 0
@@ -405,14 +393,14 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
             val value = chestCompression / 2
             if (chestCompression > 20 && (virtualPhase().equals(Phase.COMPRESSION))) {
                 if (mannequinType.contains("infant") && isVirtual){
-                    binding.depthView.addValue((value/1.5).toInt())
+//                    binding.depthView.addValue((value/1.5).toInt())
                 } else {
-                    binding.depthView.addValue(value)
+//                    binding.depthView.addValue(value)
                 }
                 detectCompressionPeak(value, chestCompressionPoint)
                 hasAction = true
             } else {
-                binding.depthView.addValue(0)
+//                binding.depthView.addValue(0)
             }
         }
 
@@ -423,7 +411,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
             if (mannequinType.contains("infant") && isVirtual) {
                 binding.ventView.addValue(ventValue/2)
             }else{
-                binding.ventView.addValue(ventValue)
+                binding.ventView.addValue((ventValue/1.5).toInt())
             }
             detectVentPeak(ventValue, alarmBit)
             hasAction = true
@@ -432,9 +420,6 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
         }
 
 
-        // ==========================
-        // 3️⃣ HANDS-OFF 판단
-        // ==========================
 
         if (!isAedActive) {
             val validAction = (chestCompression != null && chestCompression > 20) || (ventilationPacket != null && ventilationPacket > 0)
@@ -528,14 +513,14 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
             val value = chestCompression / 2
             if (chestCompression > 20 && (traineePhase().equals(Phase.COMPRESSION))) {
                 if (mannequinType.contains("infant") && isVirtual){
-                    binding.depthView.addValue((value/1.5).toInt())
+//                    binding.depthView.addValue((value/1.5).toInt())
                 } else {
-                    binding.depthView.addValue(value)
+//                    binding.depthView.addValue(value)
                 }
                 detectCompressionPeak(value, chestCompressionPoint,chestCompressionSpeed)
                 hasAction = true
             } else {
-                binding.depthView.addValue(0)
+//                binding.depthView.addValue(0)
             }
         }
 
@@ -554,10 +539,6 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
             binding.ventView.addValue(0)
         }
 
-
-        // ==========================
-        // 3️⃣ HANDS-OFF 판단
-        // ==========================
 
         if (!isAedActive) {
             val validAction = (chestCompression != null && chestCompression > 20) || (ventilationPacket != null && ventilationPacket > 0)
@@ -705,9 +686,6 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
     }
 
 
-    /* =========================
-     * Compression
-     * ========================= */
     private fun detectCompressionPeak(value: Int, handPoint: Int, rate : Int = 0) {
 
 
@@ -723,6 +701,18 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
         if (isPeak && value < lastValue) {
             compCount++
+            binding.dualBarChartView.setVirtualTimeMode(isVirtualTime)
+            binding.dualBarChartView.handleIncomingTopValue(peakDepth, 0)
+
+            binding.chartScrollView.post {
+                val maxScrollX = binding.dualBarChartView.width - binding.chartScrollView.width
+                val extraPadding = 200
+                val targetX = if (maxScrollX + extraPadding > 0) maxScrollX + extraPadding else 0
+
+                val animator = ObjectAnimator.ofInt(binding.chartScrollView, "scrollX", targetX)
+                animator.duration = 400
+                animator.start()
+            }
 
             if (cycleCount ==0){
                 cycleCount++
@@ -763,9 +753,6 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
         lastValue = value
     }
 
-    /* =========================
-     * Ventilation
-     * ========================= */
     private fun detectVentPeak(value: Int,alarmBit : Int) {
 
         if (mannequinType.equals("infant", ignoreCase = true)) {
@@ -812,9 +799,34 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
         lastVentValue = value
     }
 
-    /* =========================
-     * Timeout Logic (분리 핵심)
-     * ========================= */
+    private fun updateSwitchGuideVisibility() {
+
+        val show = when {
+
+            // Cycle 2 : Virtual partner ventilation
+            (cycleCount == 2 && isVirtualTime ) -> true
+
+            // Cycle 3 : trainee ventilation
+            (cycleCount == 3 && isVirtualTime && virtualPhase() == Phase.COMPRESSION) -> true
+            (cycleCount == 3 && !isVirtualTime && traineePhase() == Phase.VENTILATION) -> true
+
+            // Cycle 5 : before trainee compression
+            (cycleCount == 5 && !isVirtualTime && traineePhase() == Phase.COMPRESSION) -> true
+
+
+            (cycleCount == 6 && isVirtualTime ) -> true
+
+            // Cycle 3 : trainee ventilation
+            (cycleCount == 7 && isVirtualTime && virtualPhase() == Phase.COMPRESSION) -> true
+
+            else -> false
+        }
+
+        binding.switchGuideTextView.visibility =
+            if (show) View.VISIBLE else View.INVISIBLE
+    }
+
+
     private fun startTimeoutWatcher() {
         compressionTimeoutJob?.cancel()
         compressionTimeoutJob = viewLifecycleOwner.lifecycleScope.launch {
@@ -868,9 +880,6 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
         }
     }
 
-    /* =========================
-     * Cycle Complete
-     * ========================= */
     private fun onCycleCompleted() {
         cycleCount++
 
@@ -878,6 +887,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
             isFinish = true
             lifecycleScope.launch {
+                delay(1000)
                 (activity as? TwoRescuerTrainingActivity)!!.stopTraining()
                 val result = callApiAndGetResult()
                 if (result != null) {
@@ -908,9 +918,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
     }
 
-    /* =========================
-     * Virtual
-     * ========================= */
+
     private fun startVirtualTime() {
         if (isVirtualTime || isFinish) return
 
@@ -963,15 +971,18 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
         updateGuideText()
     }
 
-    /* =========================
-     * UI
-     * ========================= */
+
     private fun updateGuideText() {
 
 
         Log.d("kimtest5555","update")
 
 
+        if (cycleCount > finishCycle){
+            return
+        }
+
+        updateSwitchGuideVisibility()
 
         if (isVirtualTime) {
             binding.tvGuide.text = "Waiting for your turn"
@@ -1009,14 +1020,14 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
             if (isMyTurn) {
                 binding.depthContainer.setMyTurn("${UserInfoManager.getFirstName(requireContext())} ${UserInfoManager.getLastName(requireContext())}")
                 binding.ventContainer.setVirtualTurn()
-                binding.depthView.setVirtualData(false)
+//                binding.depthView.setVirtualData(false)
                 binding.handPositionView.setVirtualData(false)
                 binding.speedView.setVirtualData(false)
                 binding.ventView.setVirtualData(true)
             } else {
                 binding.depthContainer.setVirtualTurn()
                 binding.ventContainer.setMyTurn("${UserInfoManager.getFirstName(requireContext())} ${UserInfoManager.getLastName(requireContext())}")
-                binding.depthView.setVirtualData(true)
+//                binding.depthView.setVirtualData(true)
                 binding.handPositionView.setVirtualData(true)
                 binding.speedView.setVirtualData(true)
                 binding.ventView.setVirtualData(false)
@@ -1038,7 +1049,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
             binding.ventContainer.setVirtualTurn()
             binding.depthContainer.setMyTurn("${UserInfoManager.getFirstName(requireContext())} ${UserInfoManager.getLastName(requireContext())}")
-            binding.depthView.setVirtualData(false)
+//            binding.depthView.setVirtualData(false)
             binding.handPositionView.setVirtualData(false)
             binding.speedView.setVirtualData(false)
             binding.ventView.setVirtualData(true)
@@ -1046,11 +1057,12 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
             // chest → vent
             binding.depthContainer.setVirtualTurn()
             binding.ventContainer.setMyTurn("${UserInfoManager.getFirstName(requireContext())} ${UserInfoManager.getLastName(requireContext())}")
-            binding.depthView.setVirtualData(true)
+//            binding.depthView.setVirtualData(true)
             binding.handPositionView.setVirtualData(true)
             binding.speedView.setVirtualData(true)
             binding.ventView.setVirtualData(false)
         }
+
     }
 
 
@@ -1138,6 +1150,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
     override fun onDestroyView() {
         super.onDestroyView()
         stopVirtualTime()
+        stopTimer()
         _binding = null
     }
 
@@ -1252,9 +1265,7 @@ class TwoRescuerTrainingFragment : Fragment(R.layout.fragment_two_rescuer_traini
 
 }
 
-/* =========================
- * FileRecordSender
- * ========================= */
+
 class FileRecordSender(
     private val context: Context,
     private val assetFileName: String,

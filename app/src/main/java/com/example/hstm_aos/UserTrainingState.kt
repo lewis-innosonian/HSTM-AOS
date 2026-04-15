@@ -5,7 +5,7 @@ object UserTrainingState {
 
     private fun key(content: ContentsItem.Content): String {
         val types = content.trainingType.joinToString("_") { it.name }
-        return "${content.skillTypeId}_${content.certType}_${types}"
+        return "${content.skillTypeId}_${content.certType}_${types}_${content.Assignment_ID}"
     }
 
     fun markCompleted(content: ContentsItem.Content) {

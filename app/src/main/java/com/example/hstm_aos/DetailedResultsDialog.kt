@@ -43,8 +43,8 @@ class DetailedResultsDialog : DialogFragment() {
         webView.webChromeClient = WebChromeClient()
 
         val url = when (Locale.getDefault().language) {
-            "ko" -> "https://innosonian.notion.site/Korean-1a466162145d805d80fdc33deede3933"
-            else -> "https://innosonian.notion.site/English-USA-1a466162145d8016b1c0f07a004b085a"
+            "ko" -> "https://innosonian.github.io/vcc-help-content/HelpContent/en(only_for_hstm).html"
+            else -> "https://innosonian.github.io/vcc-help-content/HelpContent/en(only_for_hstm).html"
         }
 
         webView.loadUrl(url)

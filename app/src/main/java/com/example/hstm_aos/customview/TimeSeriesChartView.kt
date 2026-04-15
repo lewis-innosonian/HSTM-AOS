@@ -297,7 +297,7 @@ class TimeSeriesChartView @JvmOverloads constructor(
             // VENT BAR
             if (data.actionType == "vent" && showVent && !isCCO) {
                 val minVent = if (isBaby) 20f else 400f
-                val maxVent = if (isBaby) 40f else 700f
+                val maxVent = if (isBaby) 40f else 600f
                 val ventMaxValue = if (isBaby) 100f else 1000f
 
                 val rawH = (data.ventMax / ventMaxValue * bottomHeight).coerceAtMost(bottomHeight)
@@ -307,7 +307,7 @@ class TimeSeriesChartView @JvmOverloads constructor(
                 val paint = when {
                     data.is_virtual_action -> virtual
                     data.ventMax  < minVent -> gray
-                    data.ventMax.toFloat() in minVent..maxVent -> blue
+                    data.ventMax.toFloat() in minVent..maxVent -> green
                     else -> red
                 }
 
@@ -342,7 +342,7 @@ class TimeSeriesChartView @JvmOverloads constructor(
 
     private fun drawNormalVent(c: Canvas, bottomStart: Float, bottomH: Float) {
         val minVent = if (isBaby) 20f else 400f
-        val maxVent = if (isBaby) 40f else 700f
+        val maxVent = if (isBaby) 40f else 600f
         val ventMaxValue = if (isBaby) 100f else 1000f
 
         val yMin = bottomStart + bottomH - bottomH * maxVent / ventMaxValue - ventLinePaint.strokeWidth / 2f
@@ -361,7 +361,7 @@ class TimeSeriesChartView @JvmOverloads constructor(
 
     private fun drawVentLines(c: Canvas, start: Float, h: Float) {
         val minVent = if (isBaby) 20f else 400f
-        val maxVent = if (isBaby) 40f else 700f
+        val maxVent = if (isBaby) 40f else 600f
 
         val ventMaxValue = if (isBaby) 100f else 1000f
 
@@ -488,7 +488,7 @@ class TimeSeriesGuideView @JvmOverloads constructor(
         }
         if (showVent) {
             val ventWidth = maxOf(
-                textPaintVent.measureText(if (isBaby) "40ml" else "700ml"),
+                textPaintVent.measureText(if (isBaby) "40ml" else "600ml"),
                 textPaintVent.measureText(if (isBaby) "20ml" else "400ml"),
                 textPaintVent.measureText("0ml")
             )
@@ -539,7 +539,7 @@ class TimeSeriesGuideView @JvmOverloads constructor(
         }
 
         if (showVent && !isCCO) {
-            val maxVent = if (isBaby) 40f else 700f
+            val maxVent = if (isBaby) 40f else 600f
             val minVent = if (isBaby) 20f else 400f
             val ventBase = if (isVO) 0f else bottomStart
 

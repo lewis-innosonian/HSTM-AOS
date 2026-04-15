@@ -64,29 +64,6 @@
             android:textSize="14sp"
             tools:text="Content text" />
 </LinearLayout>
-        <LinearLayout
-            android:id="@+id/startLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:visibility="invisible">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/custom_font"
-                android:text="Start"
-                android:textColor="#0061F2"
-                android:textFontWeight="600"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/inno_arrow_right_blue" />
-
-        </LinearLayout>
-
 
     </RelativeLayout>
 

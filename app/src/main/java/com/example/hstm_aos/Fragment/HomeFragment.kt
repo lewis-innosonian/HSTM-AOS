@@ -45,6 +45,7 @@ import com.example.hstm_aos.model.OpenSkill
 import kotlinx.coroutines.launch
 import java.io.Serializable
 import java.util.Locale
+import kotlin.math.ceil
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -60,14 +61,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val originalItems = mutableListOf<ContentsItem>()
 
     // 서버에서 전달받은 스킬
-    private val ALScontents = mutableMapOf<Int, OpenSkill>()
-    private val BLScontents = mutableMapOf<Int, OpenSkill>()
-    private val PALScontents = mutableMapOf<Int, OpenSkill>()
+    private val ALScontents = mutableListOf<OpenSkill>()
+    private val BLScontents = mutableListOf<OpenSkill>()
+    private val PALScontents = mutableListOf<OpenSkill>()
     //
     private lateinit var howtoConnectDialog: HowToConnectDialog
     private lateinit var congratulationsDialog : CongratulationsDialog
     private val completedCourseLogged = mutableSetOf<Int>()
     private var lastCompletedCourseCount = 0
+
+    private val shownCourseDialogs = mutableSetOf<Int>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentHomeBinding.bind(view)
 
@@ -257,15 +261,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         BLScontents.clear()
         PALScontents.clear()
 
-        skills.forEach { skill ->
-            skill.Skill_Type_id?.let { id ->
+        skills
+            .distinctBy { "${it.Cert_Type}_${it.Skill_Type_id}" }
+            .forEach { skill ->
+
                 when (skill.Cert_Type) {
-                    1 -> ALScontents[id] = skill
-                    2 -> BLScontents[id] = skill
-                    3 -> PALScontents[id] = skill
+                    1 -> ALScontents.add(skill)
+                    2 -> BLScontents.add(skill)
+                    3 -> PALScontents.add(skill)
                 }
             }
-        }
     }
 
     private fun fillContentItems() {
@@ -292,6 +297,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
+        fun convertToLocalTime(utcString: String): String {
+            val inputFormat = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
+            inputFormat.timeZone = java.util.TimeZone.getTimeZone("UTC")
+
+            val date = inputFormat.parse(utcString) ?: return ""
+
+            val outputFormat = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
+            outputFormat.timeZone = java.util.TimeZone.getDefault()
+
+            return outputFormat.format(date)
+        }
+
         fun getTrainingType(skillId: Int): Set<TrainingType> {
             val types = mutableSetOf<TrainingType>()
             if (compressionIds.contains(skillId)) types.add(TrainingType.CCO)
@@ -310,16 +327,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 createdAt = "Due: TBD"
             )
         )
-        ALScontents.values.forEach { skill ->
+        ALScontents.forEach { skill ->
             skill.Skill_Type_id?.let { id ->
                 // 원래 Due_Date 문자열
-                val originalDate = skill.Due_Date
+                val originalDate = skill.Due_Date?.let { convertToLocalTime(it) }
                 // 포맷 변환
                 val formattedDate = originalDate?.let {
                     try {
                         val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
                         val date = parser.parse(it)
-                        val formatter = SimpleDateFormat("MMM dd. yyyy", Locale.US)
+                        val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.US)
                         "Due: ${formatter.format(date)}"
                     } catch (e: Exception) {
                         "Due: TBD"
@@ -335,7 +352,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         trainingType = getTrainingType(id),
                         skillTypeId = id,
                         certType = skill.Cert_Type ?: 0,
-                        passing_Score = skill.Passing_Score ?:0
+                        passing_Score = skill.Passing_Score ?:0,
+                        Assignment_ID = skill.Assignment_ID?:""
                     )
                 )
             }
@@ -349,15 +367,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 createdAt = "Due: TBD"
             )
         )
-        BLScontents.values.forEach { skill ->
+        BLScontents.forEach { skill ->
             skill.Skill_Type_id?.let { id ->
-                val originalDate = skill.Due_Date
+                val originalDate = skill.Due_Date?.let { convertToLocalTime(it) }
                 // 포맷 변환
                 val formattedDate = originalDate?.let {
                     try {
                         val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
                         val date = parser.parse(it)
-                        val formatter = SimpleDateFormat("MMM dd. yyyy", Locale.US)
+                        val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.US)
                         "Due: ${formatter.format(date)}"
                     } catch (e: Exception) {
                         "Due: TBD"
@@ -374,7 +392,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         trainingType = getTrainingType(id),
                         skillTypeId = id,              // 고유 ID
                         certType = skill.Cert_Type ?: 0,
-                        passing_Score = skill.Passing_Score ?:0
+                        passing_Score = skill.Passing_Score ?:0,
+                        Assignment_ID = skill.Assignment_ID?:""
                     )
                 )
             }
@@ -388,16 +407,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 createdAt = "Due: TBD"
             )
         )
-        PALScontents.values.forEach { skill ->
+        PALScontents.forEach { skill ->
             skill.Skill_Type_id?.let { id ->
 
-                val originalDate = skill.Due_Date
+                val originalDate = skill.Due_Date?.let { convertToLocalTime(it) }
                 // 포맷 변환
                 val formattedDate = originalDate?.let {
                     try {
                         val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
                         val date = parser.parse(it)
-                        val formatter = SimpleDateFormat("MMM dd. yyyy", Locale.US)
+                        val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.US)
                         "Due: ${formatter.format(date)}"
                     } catch (e: Exception) {
                         "Due: TBD"
@@ -414,7 +433,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         trainingType = getTrainingType(id),
                         skillTypeId = id,              // 고유 ID
                         certType = skill.Cert_Type ?: 0,
-                        passing_Score = skill.Passing_Score ?:0
+                        passing_Score = skill.Passing_Score ?:0,
+                        Assignment_ID = skill.Assignment_ID?:""
                     )
                 )
             }
@@ -424,6 +444,145 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         updateTrainingStatus()
     }
 
+
+    private fun checkCourseCompletion() {
+
+        val all = originalItems.filterIsInstance<ContentsItem.Content>()
+
+        val als = all.filter { it.certType == 1 }
+        val bls = all.filter { it.certType == 2 }
+        val pals = all.filter { it.certType == 3 }
+
+        fun isAllCompleted(list: List<ContentsItem.Content>): Boolean {
+            return list.isNotEmpty() &&
+                    list.all { UserTrainingState.isCompleted(it) }
+        }
+
+        val alsDone = isAllCompleted(als)
+        val blsDone = isAllCompleted(bls)
+        val palsDone = isAllCompleted(pals)
+
+        Log.d("CHECK", "ALS = ${als.count { UserTrainingState.isCompleted(it) }} / ${als.size}")
+
+
+
+        if (alsDone && blsDone && palsDone) {
+
+            if (alsDone) {
+                Log.d("TRAINING_COMPLETE", "ALS 전체 완료")
+
+                if (!shownCourseDialogs.contains(1)) {
+                    shownCourseDialogs.add(1)
+
+                    (requireActivity() as MainActivity).showLottie()
+
+                    val dialog = FinishCourseDialog.newInstance("ALS").apply {
+                        setCallback {
+                            (requireActivity() as MainActivity).hideLottie()
+                            (requireActivity() as MainActivity).setupLogoutButton()
+                        }
+                    }
+
+                    dialog.show(parentFragmentManager, "als_done_dialog")
+                }
+            }
+
+            if (blsDone) {
+                Log.d("TRAINING_COMPLETE", "BLS 전체 완료")
+
+                if (!shownCourseDialogs.contains(2)) {   // 🔥 FIX
+                    shownCourseDialogs.add(2)
+
+                    (requireActivity() as MainActivity).showLottie()
+
+                    val dialog = FinishCourseDialog.newInstance("BLS").apply {
+                        setCallback {
+                            (requireActivity() as MainActivity).hideLottie()
+                            (requireActivity() as MainActivity).setupLogoutButton()
+                        }
+                    }
+
+                    dialog.show(parentFragmentManager, "bls_done_dialog")
+                }
+            }
+
+            if (palsDone) {
+                Log.d("TRAINING_COMPLETE", "PALS 전체 완료")
+
+                if (!shownCourseDialogs.contains(3)) {   // 🔥 FIX
+                    shownCourseDialogs.add(3)
+
+                    (requireActivity() as MainActivity).showLottie()
+
+                    val dialog = FinishCourseDialog.newInstance("PALS Program").apply {
+                        setCallback {
+                            (requireActivity() as MainActivity).hideLottie()
+                            (requireActivity() as MainActivity).setupLogoutButton()
+                        }
+                    }
+
+                    dialog.show(parentFragmentManager, "pals_done_dialog")
+                }
+            }
+
+        } else {
+
+            if (alsDone) {
+                Log.d("TRAINING_COMPLETE", "ALS 전체 완료")
+
+                if (!shownCourseDialogs.contains(1)) {
+                    shownCourseDialogs.add(1)
+
+                    (requireActivity() as MainActivity).showLottie()
+
+                    val dialog = CongratulationsDialog.newInstance("ALS").apply {
+                        setCallback {
+                            (requireActivity() as MainActivity).hideLottie()
+                        }
+                    }
+
+                    dialog.show(parentFragmentManager, "als_done_dialog")
+                }
+            }
+
+            if (blsDone) {
+                Log.d("TRAINING_COMPLETE", "BLS 전체 완료")
+
+                if (!shownCourseDialogs.contains(2)) {   // 🔥 FIX
+                    shownCourseDialogs.add(2)
+
+                    (requireActivity() as MainActivity).showLottie()
+
+                    val dialog = CongratulationsDialog.newInstance("BLS").apply {
+                        setCallback {
+                            (requireActivity() as MainActivity).hideLottie()
+                        }
+                    }
+
+                    dialog.show(parentFragmentManager, "bls_done_dialog")
+                }
+            }
+
+            if (palsDone) {
+                Log.d("TRAINING_COMPLETE", "PALS 전체 완료")
+
+                if (!shownCourseDialogs.contains(3)) {   // 🔥 FIX
+                    shownCourseDialogs.add(3)
+
+                    (requireActivity() as MainActivity).showLottie()
+
+                    val dialog = CongratulationsDialog.newInstance("PALS Program").apply {
+                        setCallback {
+                            (requireActivity() as MainActivity).hideLottie()
+                        }
+                    }
+
+                    dialog.show(parentFragmentManager, "pals_done_dialog")
+                }
+            }
+
+        }
+    }
 
     private fun mockBluetoothDevice(address: String, name: String): BluetoothDevice {
         val adapter = BluetoothAdapter.getDefaultAdapter()
@@ -505,6 +664,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private fun updateTrainingStatus() {
+
         val connectedDeviceTypes = deviceTypeMap.filter { (addr, _) ->
             connectionMap[addr] == true
         }.values.toSet()
@@ -526,7 +686,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             adapter.updateItems(splitLists.getOrNull(index) ?: emptyList())
         }
 
-//        checkCourseCompletion(updated)
 
     }
 
@@ -615,15 +774,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     fun Int.dpToPx(): Int =
         (this * Resources.getSystem().displayMetrics.density).toInt()
-    
-    private fun splitContentItems(items: List<ContentsItem.Content>): List<List<ContentsItem.Content>> {
-        val size = items.size / 3
 
-        return listOf(
-            items.subList(0, size),
-            items.subList(size, size * 2),
-            items.subList(size * 2, items.size)
-        )
+    private fun splitContentItems(items: List<ContentsItem.Content>): List<List<ContentsItem.Content>> {
+
+        val als = items.filter { it.certType == 1 }
+        val bls = items.filter { it.certType == 2 }
+        val pals = items.filter { it.certType == 3 }
+
+        return listOf(als, bls, pals)
     }
 
 
@@ -631,6 +789,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         updateTrainingStatus()
+        checkCourseCompletion()
     }
 
 

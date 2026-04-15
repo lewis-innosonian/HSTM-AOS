@@ -142,20 +142,26 @@ class CustomHandPositionView @JvmOverloads constructor(
         invalidate()
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val width = MeasureSpec.getSize(widthMeasureSpec)
-
-        val height = when (MeasureSpec.getMode(heightMeasureSpec)) {
-            MeasureSpec.EXACTLY -> MeasureSpec.getSize(heightMeasureSpec)
-            MeasureSpec.AT_MOST -> MeasureSpec.getSize(heightMeasureSpec)
-            else -> suggestedMinimumHeight
-        }
-
-        setMeasuredDimension(width, height)
-    }
+//    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+//        val width = MeasureSpec.getSize(widthMeasureSpec)
+//
+//        val height = when (MeasureSpec.getMode(heightMeasureSpec)) {
+//            MeasureSpec.EXACTLY -> MeasureSpec.getSize(heightMeasureSpec)
+//            MeasureSpec.AT_MOST -> MeasureSpec.getSize(heightMeasureSpec)
+//            else -> suggestedMinimumHeight
+//        }
+//
+//        setMeasuredDimension(width, height)
+//    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
+//        val left = 0
+//        val top = 0
+//        val right = width
+//        val bottom = height
+
 
         val size = min(width, height)
         val left = (width - size) / 2

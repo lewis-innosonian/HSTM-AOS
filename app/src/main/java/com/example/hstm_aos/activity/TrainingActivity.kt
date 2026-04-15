@@ -50,6 +50,8 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
 
     private lateinit var disConnectDialog: DisConnectDialog
 
+    private var isTraining = false
+
     override fun onTrainingFinished(apiResult: HstmResponse) {
         Log.d("kimtest", "API result from fragment: $apiResult")
         contentItem?.status = TrainingStatus.COMPLETED
@@ -224,6 +226,7 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
                             as? TrainingFragment
 
                 fragment?.startCountDown {
+                    isTraining = true
                     fragment.startTimer(totalSeconds)
                     deviceToUse?.let { device ->
                         val packet = byteArrayOf(0x54, 0x01)
@@ -233,6 +236,9 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
 
             } else {
 
+                if (!isTraining){
+                    return@setOnClickListener
+                }
 
 
 
@@ -388,10 +394,10 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
 
         contentItem?.status = TrainingStatus.COMPLETED
 
-        contentItem?.let {
-            it.status = TrainingStatus.COMPLETED
-            UserTrainingState.markCompleted(it) // 고유 키로 완료 처리
-        }
+//        contentItem?.let {
+//            it.status = TrainingStatus.COMPLETED
+//            UserTrainingState.markCompleted(it) // 고유 키로 완료 처리
+//        }
         // Fragment 리셋
         loadTrainingFragment()
 

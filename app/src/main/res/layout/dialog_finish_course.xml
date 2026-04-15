@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.example.hstm_aos.customview.RoundedLinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="60dp"
+        android:paddingBottom="60dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        app:rv_radius="20dp"
+        app:rv_backgroundColor="@color/white"
+        >
+        <TextView
+            android:id="@+id/titleTextView"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="600"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Congratulations!"
+            android:textColor="#333333"
+            android:textSize="28dp" />
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/messageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="You’ve successfully completed\nthe {COURSE_NAME} course.\nYou’ve finished all courses\nand can now logout or close this session."
+            android:textColor="#666666"
+            android:fontFamily="@font/custom_font"
+            android:textFontWeight="400"
+            android:textSize="24dp" />
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            >
+
+            <com.example.hstm_aos.customview.RoundedButton
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="600"
+                android:id="@+id/reconnectButton"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:minWidth="200dp"
+                android:gravity="center"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:text="Logout"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                app:rb_bgColor="#FD1708"
+                app:rb_radius="10dp"
+
+                />
+
+
+        </LinearLayout>
+    </com.example.hstm_aos.customview.RoundedLinearLayout>
+</layout>

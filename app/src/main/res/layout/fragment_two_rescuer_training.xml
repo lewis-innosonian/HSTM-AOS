@@ -91,8 +91,8 @@
                 android:textFontWeight="600"
                 android:textSize="24sp"
                 android:layout_centerHorizontal="true"
-                android:textColor="#711BFF"
-                android:text="Switching roles"/>
+                android:textColor="#0061F2"
+                android:text="Swich to"/>
 
 
         </RelativeLayout>
@@ -274,36 +274,68 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_marginStart="30dp"
-                    android:orientation="vertical"
+                <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2">
+                    android:layout_weight="2.1"
+                    android:layout_marginStart="30dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/depthTextView"
-                        android:gravity="center"
-                        android:drawableStart="@drawable/inno_depth_icon_17"
-                        android:drawablePadding="6dp"
-                        android:layout_gravity="center"
-                        android:textColor="@color/black2"
-                        android:textSize="18dp"
-                        android:fontFamily="@font/custom_font"
-                        android:textFontWeight="700"
+                    <!-- HEADER -->
+                    <LinearLayout
+                        android:id="@+id/timeSeriesRelativeLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Depth"/>
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center">
 
-                    <com.example.hstm_aos.customview.DepthDashedView
-                        android:id="@+id/depth_view"
-                        android:layout_marginTop="10dp"
+                        <ImageView
+                            android:id="@+id/depthRateImage"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/inno_timer_icon" />
+
+                        <TextView
+                            android:id="@+id/depthRateTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="Depth &amp; Rate"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <!-- CHART AREA -->
+                    <com.example.hstm_aos.customview.CustomRelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        />
+                        android:layout_below="@id/timeSeriesRelativeLayout"
+                        android:layout_marginTop="10dp">
 
+                        <!-- SCROLL -->
+                        <com.example.hstm_aos.customview.CustomHorizontalScrollView
+                            android:id="@+id/chartScrollView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fillViewport="false"
+                            android:scrollbars="none">
 
-                </LinearLayout>
+                            <!-- CHART -->
+                            <com.example.hstm_aos.customview.DualBarChartView
+                                android:id="@+id/dualBarChartView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent" />
+                        </com.example.hstm_aos.customview.CustomHorizontalScrollView>
+
+                        <!-- TITLE OVERLAY -->
+                        <com.example.hstm_aos.customview.DualBarChartTitleView
+                            android:id="@+id/dualBarChartTitleView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </com.example.hstm_aos.customview.CustomRelativeLayout>
+
+                </RelativeLayout>
 
 
 

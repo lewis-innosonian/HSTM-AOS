@@ -128,11 +128,6 @@ class MainActivity : BaseActivity() {
 
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // 상태바 아이콘을 검정색으로
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
-        window.statusBarColor = ContextCompat.getColor(this, R.color.black6)
 
 //        requestBlePermission()
         bleManager.startScan(clear = true)
@@ -149,11 +144,13 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         bleManager.attachActivity(this)
+        bleManager.startScan(clear = true)
         DfuServiceListenerHelper.registerProgressListener(this, dfuListener)
     }
 
     override fun onPause() {
         super.onPause()
+        bleManager.stopScan()
         DfuServiceListenerHelper.unregisterProgressListener(this, dfuListener)
     }
 
@@ -453,6 +450,11 @@ class MainActivity : BaseActivity() {
 
         initUI()
         setupFragments(skills)
+
+        val intent = Intent(this, GuideHelpActivity::class.java)
+        intent.putExtra("documents", ArrayList(docList))
+        startActivity(intent)
+
     }
 
 
@@ -530,14 +532,12 @@ class MainActivity : BaseActivity() {
     }
 
 
-    private fun setupLogoutButton() {
+     fun setupLogoutButton() {
 
-        // 1️⃣ WebView 관련 데이터 삭제
         clearWebViewData()
 
         UserInfoManager.clear(this@MainActivity)
 
-        // 3️⃣ LoginActivity 재시작
         val intent = Intent(this, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
@@ -546,7 +546,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun clearWebViewData() {
-        // WebView 임시 생성 후 캐시 삭제
         val webView = WebView(this)
         webView.clearCache(true)
         webView.clearHistory()
@@ -560,12 +559,12 @@ class MainActivity : BaseActivity() {
 
     private fun initUI() {
         binding.logoutRoundedButton.setOnClickListener {
-//            setupLogoutButton()
+            setupLogoutButton()
 
-            val device = bleManager.getCurrentConnectedDevices().firstOrNull()
-                ?: return@setOnClickListener
-
-            startDfuFromUrl(device.device.address,"https://blog.kakaocdn.net/dna/bL4D8B/dJMcaipkYif/AAAAAAAAAAAAAAAAAAAAADz_lvawIHm_Wh0P9bH8yLBrDpyIUYbVCc9TgSYuV87e/app_dfu_package_3018D.zip?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1777561199&allow_ip=&allow_referer=&signature=GMbrvMN7LzsmJM%2B%2FERkCZRT%2Bi7I%3D&attach=1&knm=tfile.zip")
+//            val device = bleManager.getCurrentConnectedDevices().firstOrNull()
+//                ?: return@setOnClickListener
+//
+//            startDfuFromUrl(device.device.address,"https://blog.kakaocdn.net/dna/bL4D8B/dJMcaipkYif/AAAAAAAAAAAAAAAAAAAAADz_lvawIHm_Wh0P9bH8yLBrDpyIUYbVCc9TgSYuV87e/app_dfu_package_3018D.zip?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1777561199&allow_ip=&allow_referer=&signature=GMbrvMN7LzsmJM%2B%2FERkCZRT%2Bi7I%3D&attach=1&knm=tfile.zip")
 
 
 //
@@ -575,14 +574,14 @@ class MainActivity : BaseActivity() {
 
         }
 
-        binding.logoutRoundedButton1.setOnClickListener {
-            val device = bleManager.getCurrentConnectedDevices().firstOrNull()
-                ?: return@setOnClickListener
-
-            val firmware = assets.open("firmware1.bin").readBytes()
-
-            bleManager.startOta(device.device.address, firmware)
-        }
+//        binding.logoutRoundedButton1.setOnClickListener {
+//            val device = bleManager.getCurrentConnectedDevices().firstOrNull()
+//                ?: return@setOnClickListener
+//
+//            val firmware = assets.open("firmware1.bin").readBytes()
+//
+//            bleManager.startOta(device.device.address, firmware)
+//        }
 
         binding.closeImageView.setOnClickListener {
             binding.guideHelpLayout.visibility = View.GONE
@@ -618,6 +617,15 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    fun showLottie(){
+        binding.dimLayout.visibility = View.VISIBLE
+        binding.passLottieView.visibility = View.VISIBLE
+    }
+
+    fun hideLottie(){
+        binding.dimLayout.visibility = View.GONE
+        binding.passLottieView.visibility = View.GONE
+    }
 
     private fun addTab(title: String, iconRes: Int, fragment: Fragment) {
         val tab = layoutInflater.inflate(R.layout.view_custom_tab, tabContainer, false)

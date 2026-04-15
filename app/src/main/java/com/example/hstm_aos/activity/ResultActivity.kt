@@ -15,7 +15,9 @@ import com.example.hstm_aos.DetailedResultsDialog
 import com.example.hstm_aos.adapter.ChartPagerAdapter
 import com.example.hstm_aos.customview.CustomBarChartView
 import com.example.hstm_aos.R
+import com.example.hstm_aos.TrainingStatus
 import com.example.hstm_aos.UserInfoManager
+import com.example.hstm_aos.UserTrainingState
 import com.example.hstm_aos.ble.DeviceType
 import com.example.hstm_aos.ble.TrainingType
 import com.example.hstm_aos.databinding.ActivityResultBinding
@@ -91,8 +93,24 @@ class ResultActivity : BaseActivity() {
 
         hstmResponse = intent.getSerializableExtra("hstmResponse") as? HstmResponse
 
+        Log.d("kimtest44","sss = ${hstmResponse?.cpr_score?.total_score?.overall?:0} , ${passingScore}")
+
+
+        contentItem?.let {
+            Log.d("kimtest44","complete???? ${it.text}, ${it.Assignment_ID}, ${it.certType}")
+            it.status = TrainingStatus.COMPLETED
+            UserTrainingState.markCompleted(it)
+        }
+
 
         if (passingScore < hstmResponse?.cpr_score?.total_score?.overall?:0){
+
+            contentItem?.let {
+                Log.d("kimtest44","complete???? ${it.text}, ${it.Assignment_ID}, ${it.certType}")
+                it.status = TrainingStatus.COMPLETED
+                UserTrainingState.markCompleted(it)
+            }
+
             binding.guidePromptsTextView.text = "Well done! You passed!\n ${hstmResponse?.guide_prompts?.joinToString("\n")}"
         }else {
             binding.guidePromptsTextView.text = hstmResponse?.guide_prompts?.joinToString("\n")

@@ -42,7 +42,7 @@ class WebViewPopupFragment : DialogFragment() {
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
             webViewClient = WebViewClient()
-            urla?.let { loadUrl("https://login.hstream.com/v2/oauth2/authorize") }
+            urla?.let { loadUrl(it) }
         }
 
         return view

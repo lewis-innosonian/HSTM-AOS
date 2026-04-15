@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.example.hstm_aos.R
 import kotlin.math.min
@@ -35,7 +36,7 @@ class VentCustomView @JvmOverloads constructor(
 
 //    private val lungBg: Bitmap? = getBitmapFromDrawable(R.mipmap.inno_vent_background)
     private var trainingType: String = "CPR"
-    private var normalRange: IntRange = 400..700
+    private var normalRange: IntRange = 400..600
     private var maxValue: Int = normalRange.last + 200
     private var currentValue: Int = 0
     private var markerValue: Int? = null
@@ -48,6 +49,7 @@ class VentCustomView @JvmOverloads constructor(
     private val borderPaint = Paint().apply { color = Color.parseColor("#999999"); style = Paint.Style.STROKE; strokeWidth = dp(1f); isAntiAlias = true }
     private val dashedPaint = Paint().apply { color = Color.parseColor("#999999"); style = Paint.Style.STROKE; strokeWidth = dp(1f); pathEffect = DashPathEffect(floatArrayOf(15f,10f),0f); isAntiAlias = true }
     private val grayPaint = Paint().apply { color = Color.parseColor("#D9D9D9"); style = Paint.Style.FILL; isAntiAlias = true }
+    private val virtualPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.virtual_color); style = Paint.Style.FILL; isAntiAlias = true }
     private val greenPaint = Paint().apply { color = Color.parseColor("#56ED89"); style = Paint.Style.FILL; isAntiAlias = true }
     private val redPaint = Paint().apply { color = Color.parseColor("#FB9C9C"); style = Paint.Style.FILL; isAntiAlias = true }
     private val markerPaint = Paint().apply { style = Paint.Style.STROKE; strokeWidth = dp(5f); isAntiAlias = true }
@@ -102,7 +104,7 @@ class VentCustomView @JvmOverloads constructor(
         val part2Range = (normalRange.last - normalRange.first).toFloat()
         val part3Range = (maxValue - normalRange.last).toFloat()
 
-        val fillPaint = if (virtualData) grayPaint else when {
+        val fillPaint = if (virtualData) virtualPaint else when {
             currentValue >= normalRange.last -> redPaint
             currentValue >= normalRange.first -> greenPaint
             else -> grayPaint

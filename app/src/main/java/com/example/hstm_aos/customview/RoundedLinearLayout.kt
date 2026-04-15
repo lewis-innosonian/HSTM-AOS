@@ -24,6 +24,7 @@ class RoundedLinearLayout @JvmOverloads constructor(
         setWillNotDraw(false)
         clipChildren = true
         clipToPadding = true
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
 
         context.theme.obtainStyledAttributes(
             attrs,

@@ -30,6 +30,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
 class TwoRescuerTrainingActivity : BaseActivity() ,
@@ -50,6 +51,7 @@ class TwoRescuerTrainingActivity : BaseActivity() ,
     private lateinit var mannequin: String
     private lateinit var disConnectDialog: DisConnectDialog
 
+    private var isTraining = false
 
     override fun onTrainingFinished(apiResult: HstmResponse) {
         Log.d("kimtest", "API result from fragment: $apiResult")
@@ -232,6 +234,7 @@ class TwoRescuerTrainingActivity : BaseActivity() ,
                             as? TwoRescuerTrainingFragment
 
                 fragment?.startCountDown {
+                    isTraining = true
                     fragment.startTimer(totalSeconds)
                     deviceToUse?.let { device ->
                         val packet = byteArrayOf(0x54, 0x01)
@@ -240,6 +243,12 @@ class TwoRescuerTrainingActivity : BaseActivity() ,
                 }
 
             } else {
+
+                if (!isTraining){
+                    return@setOnClickListener
+                }
+
+
                 binding.trainingOverLayout.visibility = View.VISIBLE
 
                 val fragment =
@@ -380,10 +389,10 @@ class TwoRescuerTrainingActivity : BaseActivity() ,
 
         contentItem?.status = TrainingStatus.COMPLETED
 
-        contentItem?.let {
-            it.status = TrainingStatus.COMPLETED
-            UserTrainingState.markCompleted(it) // 고유 키로 완료 처리
-        }
+//        contentItem?.let {
+//            it.status = TrainingStatus.COMPLETED
+//            UserTrainingState.markCompleted(it) // 고유 키로 완료 처리
+//        }
         // Fragment 리셋
         loadTrainingFragment()
 
@@ -391,6 +400,7 @@ class TwoRescuerTrainingActivity : BaseActivity() ,
             putExtra("deviceTypes", ArrayList(contentItem?.requiredDeviceTypes))
             putExtra("trainingTypes", ArrayList(trainingTypes))
             putExtra("passing_score", contentItem?.passing_Score)
+            putExtra("contentItem", contentItem as Serializable)
             putExtra("hstmResponse", apiResult)
         }
         startActivity(intent)

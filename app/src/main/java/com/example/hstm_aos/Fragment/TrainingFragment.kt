@@ -2,8 +2,10 @@ package com.example.hstm_aos.Fragment
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -28,6 +30,7 @@ import com.example.hstm_aos.model.HstmResponse
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -57,6 +60,7 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
 
     private var isPeak = false
     private var lastValue = 0
+    private var minValue = 0
 
     private var isVentPeak = false
     private var lastVentValue = 0
@@ -201,11 +205,17 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
 //                drawable?.mutate()?.setTint(Color.parseColor("#EEEEEE"))
 //            }
 
+            val color = Color.parseColor("#EEEEEE")
+            binding.depthRateImage.imageTintList = ColorStateList.valueOf(color)
+            binding.depthRateTitle.setTextColor(Color.parseColor("#EEEEEE"))
             binding.positionTextView.setTextColor(Color.parseColor("#EEEEEE"))
             binding.positionTextView.compoundDrawablesRelative.forEach { drawable ->
                 drawable?.mutate()?.setTint(Color.parseColor("#EEEEEE"))
             }
         }
+
+
+        binding.dualBarChartTitleView.setTrainingType(trainingType)
 
         if (trainingTypes.contains(TrainingType.AED)) {
             trainingType = "CPR"
@@ -238,6 +248,8 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
 //        binding.depthView.setTrainingType(trainingType)
         binding.handPositionView.setTrainingType(trainingType)
         binding.handPositionView.setManikinType(mannequinType)
+        binding.dualBarChartView.setManikinType(mannequinType)
+
         binding.speedView.setTrainingType(trainingType)
         binding.ventView.setTrainingType(trainingType)
         viewLifecycleOwner.lifecycleScope.launch {
@@ -449,12 +461,16 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
         timer = object : CountDownTimer(seconds * 1000L, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
+
+                val binding = _binding ?: return
+
                 val min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
                 val sec = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
                 binding.timerText.text = String.format("%02d:%02d", min, sec)
             }
 
             override fun onFinish() {
+                val binding = _binding ?: return
                 binding.timerText.text = "00:00"
                 (activity as? TrainingActivity)?.startStopButtonPerformClick()
 //                binding.startStopButton.performClick()
@@ -663,9 +679,7 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
 
         binding.speedView.moveBarTo(chestCompressionSpeed)
 
-        // ==========================
-        // 3️⃣ HANDS-OFF 판단
-        // ==========================
+
 
         if (!isAedActive) {
             val validAction = when (trainingType.lowercase()) {
@@ -697,7 +711,6 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
             } else {
                 val idleTime = currentTime - lastActionTime
 
-                // 🔹 3초 지나면 hands-off 시작
                 if (idleTime >= HANDS_OFF_INTERVAL) {
 
                     if (!isHandsOff) {
@@ -720,13 +733,12 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
 
         hasAction = false
 
-        // ==========================
-        // 4️⃣ 종료 조건
-        // ==========================
+
         if (trainingType.equals("CPR")) {
             if (cycleCount >= 3 && ventCount >= 2 && !isesult) {
                 isesult = true
                 lifecycleScope.launch {
+                    delay(1000)
                     (activity as? TrainingActivity)?.stopTraining()
                     val result = callApiAndGetResult()
                     if (result != null) {
@@ -739,6 +751,7 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
             if (compCount >= 60&& !isesult) {
                 isesult = true
                 lifecycleScope.launch {
+                    delay(1000)
                     (activity as? TrainingActivity)?.stopTraining()
                     val result = callApiAndGetResult()
                     if (result != null) {
@@ -751,6 +764,7 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
             if (ventCount >= 12 && !isesult) {
                 isesult = true
                 lifecycleScope.launch {
+                    delay(1000)
                     (activity as? TrainingActivity)?.stopTraining()
                     val result = callApiAndGetResult()
                     if (result != null) {
@@ -889,7 +903,13 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
         }
         dlg.start()
     }
-    private fun detectCompressionPeak(value: Int, handPoint: Int, rate : Int = 0) {
+
+
+    private var isRelease = false
+    private var minDepth = Int.MAX_VALUE
+
+
+    private fun detectCompressionPeak(value: Int, handPoint: Int, rate: Int = 0) {
 
         if (value > lastValue) {
             isPeak = true
@@ -899,33 +919,10 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
 
         if (isPeak && value < lastValue) {
 
-            if (cycleCount == 0 && trainingType.equals("CPR")){
+            if (cycleCount == 0 && trainingType.equals("CPR")) {
                 cycleCount++
                 updateCycleText()
             }
-            compCount++
-
-
-            if (peakHandPoint != 1) {
-                playSound(R.raw.e_ocation)
-            } else if (maxDepthValue < lastValue) {
-                playSound(R.raw.e_shollower)
-            }
-            else if (minDepthValue > lastValue){
-                Log.d("kimtest333","???? =${value}")
-                playSound(R.raw.e_deeper)//e_shollower
-            }else if (100 > rate){
-                playSound(R.raw.e_faster) //e_slower
-            }else if (120 < rate){
-                playSound(R.raw.e_slower)
-            }else {
-                playSound(R.raw.e_good)
-            }
-
-            updateCompressionText()
-
-            binding.handPositionView.updateState(peakHandPoint)
-            updateGuide(peakDepth, lastSpeed, peakHandPoint)
 
             if (ventCount >= 1) {
                 cycleCount++
@@ -935,10 +932,55 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
                 updateVentText()
             }
 
+            compCount++
+            binding.dualBarChartView.handleIncomingTopValue(peakDepth, 0)
+            updateCompressionText()
+
+
+
+            binding.chartScrollView.post {
+                val maxScrollX = binding.dualBarChartView.width - binding.chartScrollView.width
+                val extraPadding = 200
+                val targetX = if (maxScrollX + extraPadding > 0) maxScrollX + extraPadding else 0
+
+                val animator = ObjectAnimator.ofInt(binding.chartScrollView, "scrollX", targetX)
+                animator.duration = 400
+                animator.start()
+            }
+
+            if (peakHandPoint != 1) {
+                playSound(R.raw.e_ocation)
+            } else if (maxDepthValue < peakDepth) {
+                playSound(R.raw.e_shollower)
+            } else if (minDepthValue > peakDepth) {
+                playSound(R.raw.e_deeper)
+            } else if (100 > rate) {
+                playSound(R.raw.e_faster)
+            } else if (120 < rate) {
+                playSound(R.raw.e_slower)
+            } else {
+                playSound(R.raw.e_good)
+            }
+
+
+            binding.handPositionView.updateState(peakHandPoint)
+            updateGuide(peakDepth, lastSpeed, peakHandPoint)
+
+
+
             isPeak = false
         }
 
+        if (value < minValue) {
+            isRelease = true
+            if (value < minDepth) {
+                minDepth = value
+            }
+        }
+
+
         lastValue = value
+        minValue = value
     }
 
     private fun detectVentPeak(value: Int,alarmBit : Int) {
