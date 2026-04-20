@@ -20,12 +20,14 @@
 
             <TextView
                 android:id="@+id/tooltipText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#666666"
-                android:textSize="16sp"
+                android:textSize="24sp"
+                android:fontFamily="@font/custom_font"
+                android:textFontWeight="400"
                 android:lineSpacingExtra="4dp"
-                android:text="1. Power on the device.\n2. Searching for devices automatically.\n3. Select a device from the list.\n4. If a manikin is connected, check that its light is on.\n    If AED-Trainer is connected, a sound will be heard." />
+                android:text="1. Power on the device.\n2. Searching for devices automatically.\n3. Select a device from the list.\n4. If a manikin is connected, check that its light is on.\n    If AED-Trainer is connected, a sound will be heard.\n5. Select the connected device from the list again to disconnect." />
 
         </LinearLayout>
 

@@ -1,0 +1,35 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 전체 트랙 -->
+    <item android:id="@android:id/background">
+        <shape>
+            <size android:height="4dp"/>
+            <solid android:color="#D9D9D9"/>
+            <corners android:radius="2dp"/>
+        </shape>
+    </item>
+
+    <!-- 진행 -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <size android:height="4dp"/>
+                <solid android:color="#4CAF50"/>
+                <corners android:radius="2dp"/>
+            </shape>
+        </clip>
+    </item>
+
+    <!-- 가운데 점 -->
+    <item>
+        <inset
+            android:insetLeft="0dp"
+            android:insetRight="0dp">
+            <shape android:shape="oval">
+                <size android:width="6dp" android:height="6dp"/>
+                <solid android:color="#9E9E9E"/>
+            </shape>
+        </inset>
+    </item>
+
+</layer-list>

@@ -1077,6 +1077,7 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
 
         if (cycleCount != 4) {
             binding.button.post {
+
                 expandWithAnimation(
                     binding.button,
                     "Cycle" + " ${cycleCount}/3",
@@ -1159,32 +1160,46 @@ class TrainingFragment : Fragment(R.layout.fragment_training) {
 
     private fun expand(button: RoundedLinearLayout, text: String, cycleCount: String) {
 
-        if (!isAdded){
-            return
-        }
+        if (!isAdded) return
+
         originalWidth = binding.button.width
-        val targetWidth = 400
+
+        binding.cycleTextview.text = text
+        binding.cycleInfoImageView.visibility = View.VISIBLE
+
+        val fixedHeight = button.height
+
+        binding.cycleTextview.measure(
+            View.MeasureSpec.UNSPECIFIED,
+            View.MeasureSpec.makeMeasureSpec(fixedHeight, View.MeasureSpec.EXACTLY)
+        )
+
+        binding.cycleInfoImageView.measure(
+            View.MeasureSpec.UNSPECIFIED,
+            View.MeasureSpec.makeMeasureSpec(fixedHeight, View.MeasureSpec.EXACTLY)
+        )
+
+        val textWidth = binding.cycleTextview.measuredWidth
+        val iconWidth = binding.cycleInfoImageView.measuredWidth
+        val padding = button.paddingStart + button.paddingEnd
+
+        val extra = (16 * resources.displayMetrics.density).toInt()
+
+        val targetWidth = textWidth + iconWidth + padding + extra
 
         val animator = ValueAnimator.ofInt(button.width, targetWidth)
         animator.addUpdateListener { animation ->
             val params = button.layoutParams
             params.width = animation.animatedValue as Int
+            params.height = fixedHeight
             button.layoutParams = params
         }
+
         animator.duration = 300
+
         animator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator) {
-                super.onAnimationStart(animation)
-                Handler().postDelayed({
-                    if (isAdded) {
-                        binding.cycleInfoImageView.visibility = View.VISIBLE
-                        binding.cycleTextview.text = text
-                    }
-                }, 300)
-            }
 
             override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
                 Handler().postDelayed({
                     collapse(binding.button, cycleCount)
                 }, 1500)

@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.example.hstm_aos.ContentsItem
 import com.example.hstm_aos.DisConnectDialog
+import com.example.hstm_aos.FontScaleManager
 import com.example.hstm_aos.Fragment.TrainingFragment
 import com.example.hstm_aos.Fragment.TwoRescuerTrainingFragment
 import com.example.hstm_aos.MainApplication
@@ -63,6 +64,13 @@ class TwoRescuerTrainingActivity : BaseActivity() ,
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_training)
         bleManager = (application as MainApplication).bleManager
+
+        val step = getSharedPreferences("settings", MODE_PRIVATE)
+            .getInt("font_step", 0)
+
+        val scale = FontScaleManager.getScale(step)
+
+        updateScale(scale)
 
         contentItem = intent.getSerializableExtra("contentItem") as? ContentsItem.Content
 

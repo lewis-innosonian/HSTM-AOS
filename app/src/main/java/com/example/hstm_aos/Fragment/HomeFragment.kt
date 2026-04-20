@@ -3,6 +3,7 @@ package com.example.hstm_aos.Fragment
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Canvas
@@ -23,6 +24,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -31,6 +33,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hstm_aos.*
+import com.example.hstm_aos.activity.BaseActivity
 import com.example.hstm_aos.activity.MainActivity
 import com.example.hstm_aos.activity.TrainingActivity
 import com.example.hstm_aos.activity.TwoRescuerTrainingActivity
@@ -87,7 +90,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             showTooltip(binding.howToConnectIcon)
 //            howtoConnectDialog = HowToConnectDialog.newInstance()
 //            howtoConnectDialog.show(parentFragmentManager, "howToConnectDialog")
+
         }
+
+        val prefs = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val savedProgress = prefs.getInt("font_step", 0)
+
+        binding.seekBar.progress = savedProgress
+
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+                val prefs = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE)
+                prefs.edit().putInt("font_step", progress).apply()
+
+                val scale = FontScaleManager.getScale(progress)
+
+                (requireActivity() as BaseActivity).updateScale(scale)
+                (requireActivity() as MainActivity).tabselectTab()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
 
         binding.voiceGuideSV.onCheckedChangeListener = { isChecked ->
             if (isChecked) {
@@ -694,6 +721,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val popupView = LayoutInflater.from(anchor.context)
             .inflate(R.layout.tooltip_layout, null)
 
+
+        val textView = popupView.findViewById<TextView>(R.id.tooltipText)
+
+        // 👉 핵심: 텍스트 기준 width 측정
+        val text = textView.text.toString()
+        val paint1 = textView.paint
+        val textWidth = paint1.measureText(text)
+
+        val padding = 80.dpToPx()
+        val finalWidth = (textWidth + padding).toInt()
+
         val popup = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -704,6 +742,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             isClippingEnabled = false
         }
+
 
         val content = popupView.findViewById<View>(R.id.contentBox)
 
@@ -744,28 +783,40 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         anchor.post {
-            val location = IntArray(2)
-            anchor.getLocationOnScreen(location)
 
-            val anchorX = location[0]
-            val anchorY = location[1]
+            val displayMetrics = anchor.context.resources.displayMetrics
+            val maxWidth = (displayMetrics.widthPixels * 0.9).toInt()
 
+            // 👉 layout 기준으로 제대로 측정
             popupView.measure(
-                View.MeasureSpec.UNSPECIFIED,
+                View.MeasureSpec.makeMeasureSpec(maxWidth, View.MeasureSpec.AT_MOST),
                 View.MeasureSpec.UNSPECIFIED
             )
 
             val popupWidth = popupView.measuredWidth
             val popupHeight = popupView.measuredHeight
 
+            val popup = PopupWindow(
+                popupView,
+                popupWidth,   // 👉 layout 그대로 반영
+                popupHeight,
+                true
+            ).apply {
+                isOutsideTouchable = true
+                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                isClippingEnabled = false
+            }
 
-            val blur = 20f
-            val dx = -4f
-            val dy = 4f
+            val location = IntArray(2)
+            anchor.getLocationOnScreen(location)
+
+            val anchorX = location[0]
+            val anchorY = location[1]
+
             val margin = 10.dpToPx()
+            val blur = 20f
 
-            val x = (anchorX - (blur + kotlin.math.abs(dx))).toInt()
-
+            val x = (anchorX - blur).toInt()
             val y = (anchorY - popupHeight - margin + blur).toInt()
 
             popup.showAtLocation(anchor, Gravity.NO_GRAVITY, x, y)

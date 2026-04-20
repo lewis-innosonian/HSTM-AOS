@@ -2,6 +2,7 @@ package com.example.hstm_aos.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hstm_aos.FontScaleManager
 import com.example.hstm_aos.Fragment.GuideAndHelpFragment
 import com.example.hstm_aos.R
 import com.example.hstm_aos.customview.RoundedButton
@@ -13,6 +14,13 @@ class GuideHelpActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guide_help)
+
+        val step = getSharedPreferences("settings", MODE_PRIVATE)
+            .getInt("font_step", 0)
+
+        val scale = FontScaleManager.getScale(step)
+
+        updateScale(scale)
 
         val skipRoundedButton = findViewById<RoundedButton>(R.id.skipRoundedButton)
 

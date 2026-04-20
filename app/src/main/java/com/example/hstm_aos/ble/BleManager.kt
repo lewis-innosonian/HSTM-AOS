@@ -181,6 +181,9 @@ class BleManager(private var context: Context) {
     fun toggleConnection(device: BleDevice) {
         val address = device.device.address
         if (gattMap.containsKey(address)) {
+            writeQueue.clear()
+            isWriting = false
+
             userDisconnectMap[address] = true
             gattMap[address]?.disconnect()
             return
@@ -227,7 +230,8 @@ class BleManager(private var context: Context) {
                     userDisconnectMap.remove(address)
 
                     gattMap.remove(address)
-                    gatt.close()
+                    gatt?.disconnect()
+                    gatt?.close()
                     emitConnectionState(device!!, false)
                     if (!userDisconnected) {
                         showToast(
@@ -385,7 +389,7 @@ class BleManager(private var context: Context) {
         isWriting = true
 
         char.value = data
-        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
 
         val success = gatt.writeCharacteristic(char)
 
@@ -413,7 +417,7 @@ class BleManager(private var context: Context) {
         val txChar = service.getCharacteristic(UART_TX_UUID) ?: return
 
         txChar.value = data
-        txChar.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+        txChar.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
         gatt.writeCharacteristic(txChar)
     }
 
@@ -524,7 +528,7 @@ class BleManager(private var context: Context) {
         val data = byteArrayOf(0x51, 0x01, 0x01)
 
         char.value = data
-        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
         gatt.writeCharacteristic(char)
 
         Log.d("OTA", "DFU Trigger sent")
@@ -541,7 +545,7 @@ class BleManager(private var context: Context) {
         buffer.putInt(total)
 
         char.value = buffer.array()
-        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
         gatt.writeCharacteristic(char)
 
         Log.d("OTA", "START sent total=$total")
@@ -553,7 +557,7 @@ class BleManager(private var context: Context) {
         val char = service.getCharacteristic(OTA_CONTROL_UUID) ?: return
 
         char.value = byteArrayOf(0x02)
-        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
         gatt.writeCharacteristic(char)
 
         Log.d("OTA", "END sent")
@@ -672,7 +676,7 @@ class BleManager(private var context: Context) {
         val char = service.getCharacteristic(OTA_DATA_UUID) ?: return
 
         char.value = data
-        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+        char.writeType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
 
         val success = gatt.writeCharacteristic(char)
 

@@ -213,7 +213,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:background="@color/white"
-            android:layout_height="144dp"/>
+            android:layout_height="wrap_content"/>
 
 
         <View

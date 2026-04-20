@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.hstm_aos.ContentsItem
 import com.example.hstm_aos.DetailedResultsDialog
+import com.example.hstm_aos.FontScaleManager
 import com.example.hstm_aos.adapter.ChartPagerAdapter
 import com.example.hstm_aos.customview.CustomBarChartView
 import com.example.hstm_aos.R
@@ -47,6 +48,13 @@ class ResultActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_result)
 
+        val step = getSharedPreferences("settings", MODE_PRIVATE)
+            .getInt("font_step", 0)
+
+        val scale = FontScaleManager.getScale(step)
+
+        updateScale(scale)
+        binding.customBarChart.applyFontScale(scale)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // 상태바 아이콘을 검정색으로
@@ -96,11 +104,11 @@ class ResultActivity : BaseActivity() {
         Log.d("kimtest44","sss = ${hstmResponse?.cpr_score?.total_score?.overall?:0} , ${passingScore}")
 
 
-        contentItem?.let {
-            Log.d("kimtest44","complete???? ${it.text}, ${it.Assignment_ID}, ${it.certType}")
-            it.status = TrainingStatus.COMPLETED
-            UserTrainingState.markCompleted(it)
-        }
+//        contentItem?.let {
+//            Log.d("kimtest44","complete???? ${it.text}, ${it.Assignment_ID}, ${it.certType}")
+//            it.status = TrainingStatus.COMPLETED
+//            UserTrainingState.markCompleted(it)
+//        }
 
 
         if (passingScore < hstmResponse?.cpr_score?.total_score?.overall?:0){

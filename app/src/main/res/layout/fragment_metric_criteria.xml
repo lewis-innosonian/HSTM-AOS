@@ -46,18 +46,19 @@
                                 android:text="Compression Depth"
                                 android:textColor="#333333"
                                 android:textFontWeight="600"
-                                android:textSize="20dp" />
+                                android:textSize="20sp" />
 
 
                             <RelativeLayout
                                 android:layout_width="0dp"
-                                android:layout_height="70dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="2.7"
                                 android:gravity="center">
 
 
                                 <LinearLayout
+
                                     android:id="@+id/CompressionDepthLayout"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -68,8 +69,9 @@
                                     android:visibility="visible">
 
                                     <LinearLayout
+                                        android:padding="8dp"
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:gravity="center"
@@ -85,7 +87,7 @@
                                             android:text="@string/feedback_too_shallow"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/compression_depth_too_shallow"
@@ -95,7 +97,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -105,8 +107,9 @@
                                         android:background="#75CCFD" />
 
                                     <LinearLayout
+                                        android:padding="8dp"
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:background="#1A75CCFD"
                                         android:gravity="center"
@@ -119,7 +122,7 @@
                                             android:text="@string/feedback_good"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/compression_depth_good"
@@ -129,7 +132,7 @@
                                             android:text="20%"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="600"
-                                            android:textSize="28dp" />
+                                            android:textSize="28sp" />
 
                                     </LinearLayout>
 
@@ -139,8 +142,9 @@
                                         android:background="#75CCFD" />
 
                                     <LinearLayout
+                                        android:padding="8dp"
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="center"
                                         android:orientation="vertical">
@@ -153,7 +157,7 @@
                                             android:text="@string/feedback_too_deep"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/compression_depth_too_deep"
@@ -163,7 +167,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -178,7 +182,7 @@
                                     android:gravity="center"
                                     android:padding="20dp"
                                     android:text="-"
-                                    android:textSize="22dp"
+                                    android:textSize="22sp"
                                     android:visibility="gone" />
 
                             </RelativeLayout>
@@ -206,12 +210,12 @@
                                 android:text="Compression Release"
                                 android:textColor="#333333"
                                 android:textFontWeight="600"
-                                android:textSize="20dp" />
+                                android:textSize="20sp" />
 
 
                             <RelativeLayout
                                 android:layout_width="0dp"
-                                android:layout_height="70dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="2.7"
                                 android:gravity="center">
@@ -220,7 +224,7 @@
                                 <LinearLayout
                                     android:id="@+id/recoilLayout"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:background="@drawable/detail_result_border_view"
                                     android:gravity="center"
@@ -229,7 +233,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:padding="8dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:gravity="center"
@@ -245,7 +250,7 @@
                                             android:text="@string/incomplete"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/recoil_incomplete"
@@ -255,7 +260,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -265,8 +270,9 @@
                                         android:background="#75CCFD" />
 
                                     <LinearLayout
+                                        android:padding="8dp"
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:background="@drawable/detail_result_border_color_view"
                                         android:gravity="center"
@@ -279,7 +285,7 @@
                                             android:text="@string/feedback_good"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/recoil_good"
@@ -289,7 +295,7 @@
                                             android:text="20%"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="600"
-                                            android:textSize="28dp" />
+                                            android:textSize="28sp" />
 
                                     </LinearLayout>
                                 </LinearLayout>
@@ -303,7 +309,7 @@
                                     android:gravity="center"
                                     android:padding="20dp"
                                     android:text="-"
-                                    android:textSize="22dp"
+                                    android:textSize="22sp"
                                     android:visibility="gone" />
 
                             </RelativeLayout>
@@ -331,12 +337,12 @@
                                 android:text="Compression Rate"
                                 android:textColor="#333333"
                                 android:textFontWeight="600"
-                                android:textSize="20dp" />
+                                android:textSize="20sp" />
 
 
                             <RelativeLayout
                                 android:layout_width="0dp"
-                                android:layout_height="70dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="2.7"
                                 android:gravity="center">
@@ -345,7 +351,7 @@
                                 <LinearLayout
                                     android:id="@+id/compressionRateLayout"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:background="@drawable/detail_result_border_view"
                                     android:gravity="center"
@@ -353,7 +359,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:padding="8dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:gravity="center"
@@ -369,7 +376,7 @@
                                             android:text="@string/feedback_too_slow"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/compression_rate_too_slow"
@@ -379,7 +386,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -390,7 +397,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:padding="8dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:background="#1A75CCFD"
                                         android:gravity="center"
@@ -403,7 +411,7 @@
                                             android:text="@string/feedback_good"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/compression_rate_good"
@@ -413,7 +421,7 @@
                                             android:text="20%"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="600"
-                                            android:textSize="28dp" />
+                                            android:textSize="28sp" />
 
                                     </LinearLayout>
 
@@ -424,7 +432,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:padding="8dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="center"
                                         android:orientation="vertical">
@@ -437,7 +446,7 @@
                                             android:text="@string/feedback_too_fast"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/compression_rate_too_fast"
@@ -447,7 +456,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -462,7 +471,7 @@
                                     android:gravity="center"
                                     android:padding="20dp"
                                     android:text="-"
-                                    android:textSize="22dp"
+                                    android:textSize="22sp"
                                     android:visibility="gone" />
 
                             </RelativeLayout>
@@ -491,12 +500,12 @@
                                 android:text="Hand Position"
                                 android:textColor="#333333"
                                 android:textFontWeight="600"
-                                android:textSize="20dp" />
+                                android:textSize="20sp" />
 
 
                             <RelativeLayout
                                 android:layout_width="0dp"
-                                android:layout_height="70dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="2.7"
                                 android:gravity="center">
@@ -504,7 +513,7 @@
                                 <LinearLayout
                                     android:id="@+id/handPositionLayout"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_weight="2.7"
                                     android:background="@drawable/detail_result_border_view"
@@ -513,7 +522,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:padding="8dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:gravity="center"
@@ -529,7 +539,7 @@
                                             android:text="@string/feedback_incorrect_abdomen"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/hand_position_incorrect_stomach"
@@ -539,7 +549,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -550,7 +560,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_weight="1"
                                         android:background="#1A75CCFD"
                                         android:gravity="center"
@@ -563,7 +574,7 @@
                                             android:text="@string/feedback_good"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/hand_position_good"
@@ -573,7 +584,7 @@
                                             android:text="20%"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="600"
-                                            android:textSize="28dp" />
+                                            android:textSize="28sp" />
 
                                     </LinearLayout>
 
@@ -584,7 +595,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_weight="1"
                                         android:gravity="center"
                                         android:orientation="vertical">
@@ -597,7 +609,7 @@
                                             android:text="@string/feedback_incorrect_lr"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/hand_position_incorrect_lr"
@@ -607,7 +619,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -622,7 +634,7 @@
                                     android:gravity="center"
                                     android:padding="20dp"
                                     android:text="-"
-                                    android:textSize="22dp"
+                                    android:textSize="22sp"
                                     android:visibility="gone" />
 
                             </RelativeLayout>
@@ -650,20 +662,21 @@
                                 android:text="Compression Fraction"
                                 android:textColor="#333333"
                                 android:textFontWeight="600"
-                                android:textSize="20dp" />
+                                android:textSize="20sp" />
 
 
                             <RelativeLayout
                                 android:layout_width="0dp"
-                                android:layout_height="70dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="2.7"
                                 android:gravity="center">
 
                                 <com.example.hstm_aos.customview.RoundedLinearLayout
                                     android:id="@+id/scoreOfCcfLayout"
+                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_weight="2.7"
                                     android:gravity="center"
@@ -690,7 +703,7 @@
                                             android:text="Score"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/score_of_ccf"
@@ -700,7 +713,7 @@
                                             android:text="20%"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="600"
-                                            android:textSize="28dp" />
+                                            android:textSize="28sp" />
 
                                     </LinearLayout>
 
@@ -714,7 +727,7 @@
                                     android:gravity="center"
                                     android:padding="20dp"
                                     android:text="-"
-                                    android:textSize="22dp"
+                                    android:textSize="22sp"
                                     android:visibility="gone" />
 
                             </RelativeLayout>
@@ -743,12 +756,12 @@
                                 android:text="Compression Count"
                                 android:textColor="#333333"
                                 android:textFontWeight="600"
-                                android:textSize="20dp" />
+                                android:textSize="20sp" />
 
 
                             <RelativeLayout
                                 android:layout_width="0dp"
-                                android:layout_height="70dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="2.7"
                                 android:gravity="center">
@@ -756,7 +769,7 @@
                                 <LinearLayout
                                     android:id="@+id/compressionNoLayout"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_weight="2.7"
                                     android:background="@drawable/detail_result_border_view"
@@ -765,7 +778,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:gravity="center"
@@ -781,7 +795,7 @@
                                             android:text="@string/feedback_too_few"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/compression_no_too_few"
@@ -791,7 +805,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -802,7 +816,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_weight="1"
                                         android:background="#1A75CCFD"
                                         android:gravity="center"
@@ -815,7 +830,7 @@
                                             android:text="@string/feedback_good"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/compression_no_good"
@@ -825,7 +840,7 @@
                                             android:text="20%"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="600"
-                                            android:textSize="28dp" />
+                                            android:textSize="28sp" />
 
                                     </LinearLayout>
 
@@ -837,7 +852,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_weight="1"
                                         android:gravity="center"
                                         android:orientation="vertical">
@@ -850,7 +866,7 @@
                                             android:text="@string/feedback_too_many"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/compression_no_too_many"
@@ -860,7 +876,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -875,7 +891,7 @@
                                     android:gravity="center"
                                     android:padding="20dp"
                                     android:text="-"
-                                    android:textSize="22dp"
+                                    android:textSize="22sp"
                                     android:visibility="gone" />
 
                             </RelativeLayout>
@@ -909,12 +925,12 @@
                                 android:text="Ventilation Volume"
                                 android:textColor="#333333"
                                 android:textFontWeight="600"
-                                android:textSize="20dp" />
+                                android:textSize="20sp" />
 
 
                             <RelativeLayout
                                 android:layout_width="0dp"
-                                android:layout_height="70dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="2.7"
                                 android:gravity="center">
@@ -923,7 +939,7 @@
                                 <LinearLayout
                                     android:id="@+id/ventilationVolumeLayout"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_weight="2.7"
                                     android:background="@drawable/detail_result_border_view"
@@ -932,7 +948,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:gravity="center"
@@ -948,7 +965,7 @@
                                             android:text="@string/feedback_too_little"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/ventilation_volume_too_little"
@@ -958,7 +975,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -969,7 +986,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_weight="1"
                                         android:background="#1A75CCFD"
                                         android:gravity="center"
@@ -982,7 +1000,7 @@
                                             android:text="@string/feedback_good"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/ventilation_volume_good"
@@ -992,7 +1010,7 @@
                                             android:text="20%"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="600"
-                                            android:textSize="28dp" />
+                                            android:textSize="28sp" />
 
                                     </LinearLayout>
 
@@ -1003,7 +1021,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_weight="1"
                                         android:gravity="center"
                                         android:orientation="vertical">
@@ -1016,7 +1035,7 @@
                                             android:text="@string/feedback_too_much"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/ventilation_volume_too_much"
@@ -1026,7 +1045,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -1041,7 +1060,7 @@
                                     android:gravity="center"
                                     android:padding="20dp"
                                     android:text="-"
-                                    android:textSize="22dp"
+                                    android:textSize="22sp"
                                     android:visibility="gone" />
 
                             </RelativeLayout>
@@ -1071,12 +1090,12 @@
                                 android:text="Ventilation Count"
                                 android:textColor="#333333"
                                 android:textFontWeight="600"
-                                android:textSize="20dp" />
+                                android:textSize="20sp" />
 
 
                             <RelativeLayout
                                 android:layout_width="0dp"
-                                android:layout_height="70dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="2.7"
                                 android:gravity="center">
@@ -1084,7 +1103,7 @@
                                 <LinearLayout
                                     android:id="@+id/ventilationRateLayout"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_weight="2.7"
                                     android:background="@drawable/detail_result_border_view"
@@ -1093,7 +1112,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_gravity="center"
                                         android:layout_weight="1"
                                         android:gravity="center"
@@ -1109,7 +1129,7 @@
                                             android:text="@string/feedback_too_slow"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/ventilation_rate_infrequently"
@@ -1119,7 +1139,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -1130,7 +1150,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_weight="1"
                                         android:background="#1A75CCFD"
                                         android:gravity="center"
@@ -1144,7 +1165,7 @@
                                             android:text="@string/feedback_good"
                                             android:textColor="#0061F2"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
 
@@ -1156,7 +1177,7 @@
                                             android:textColor="#0061F2"
                                             android:textFontWeight="600"
 
-                                            android:textSize="28dp" />
+                                            android:textSize="28sp" />
 
                                     </LinearLayout>
 
@@ -1167,7 +1188,8 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="8dp"
                                         android:layout_weight="1"
                                         android:gravity="center"
                                         android:orientation="vertical">
@@ -1180,7 +1202,7 @@
                                             android:text="@string/feedback_too_fast"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="14dp" />
+                                            android:textSize="14sp" />
 
                                         <TextView
                                             android:id="@+id/ventilation_rate_too_frequently"
@@ -1190,7 +1212,7 @@
                                             android:text="20%"
                                             android:textColor="#333333"
                                             android:textFontWeight="500"
-                                            android:textSize="20dp" />
+                                            android:textSize="20sp" />
 
                                     </LinearLayout>
 
@@ -1205,7 +1227,7 @@
                                     android:gravity="center"
                                     android:padding="20dp"
                                     android:text="-"
-                                    android:textSize="22dp"
+                                    android:textSize="22sp"
                                     android:visibility="gone" />
 
                             </RelativeLayout>
@@ -1237,12 +1259,12 @@
                             android:text="@string/ventilation_speed"
                             android:textColor="#333333"
                             android:textFontWeight="600"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
 
 
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_height="70dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="2.7"
                             android:gravity="center">
@@ -1250,7 +1272,8 @@
                             <LinearLayout
                                 android:id="@+id/ventilationSpeedShowView"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
                                 android:layout_gravity="center"
                                 android:layout_weight="2.7"
                                 android:background="@drawable/detail_result_border_view"
@@ -1275,7 +1298,7 @@
                                         android:text="@string/feedback_too_slow"
                                         android:textColor="#333333"
                                         android:textFontWeight="500"
-                                        android:textSize="14dp" />
+                                        android:textSize="14sp" />
 
                                     <TextView
                                         android:id="@+id/ventilation_speed_too_slow_data"
@@ -1285,7 +1308,7 @@
                                         android:text="20%"
                                         android:textColor="#333333"
                                         android:textFontWeight="500"
-                                        android:textSize="20dp" />
+                                        android:textSize="20sp" />
 
                                 </LinearLayout>
 
@@ -1296,7 +1319,8 @@
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp"
                                     android:layout_weight="1"
                                     android:background="#1A75CCFD"
                                     android:gravity="center"
@@ -1310,7 +1334,7 @@
                                         android:text="@string/feedback_good"
                                         android:textColor="#0061F2"
                                         android:textFontWeight="500"
-                                        android:textSize="14dp" />
+                                        android:textSize="14sp" />
 
                                     <TextView
 
@@ -1322,7 +1346,7 @@
                                         android:textColor="#0061F2"
                                         android:textFontWeight="600"
 
-                                        android:textSize="28dp" />
+                                        android:textSize="28sp" />
 
                                 </LinearLayout>
 
@@ -1333,7 +1357,8 @@
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp"
                                     android:layout_weight="1"
                                     android:gravity="center"
                                     android:orientation="vertical">
@@ -1346,7 +1371,7 @@
                                         android:text="@string/feedback_too_fast"
                                         android:textColor="#333333"
                                         android:textFontWeight="500"
-                                        android:textSize="14dp" />
+                                        android:textSize="14sp" />
 
                                     <TextView
                                         android:id="@+id/ventilation_speed_too_fast_data"
@@ -1356,7 +1381,7 @@
                                         android:text="20%"
                                         android:textColor="#333333"
                                         android:textFontWeight="500"
-                                        android:textSize="20dp" />
+                                        android:textSize="20sp" />
 
                                 </LinearLayout>
 
@@ -1372,7 +1397,7 @@
                                 android:gravity="center"
                                 android:padding="20dp"
                                 android:text="-"
-                                android:textSize="22dp"
+                                android:textSize="22sp"
                                 android:visibility="gone" />
 
                         </RelativeLayout>

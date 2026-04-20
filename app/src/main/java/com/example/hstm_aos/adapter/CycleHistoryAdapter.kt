@@ -22,6 +22,19 @@ class CycleHistoryAdapter(
     private val manikinType : String
 ) : RecyclerView.Adapter<CycleHistoryAdapter.ViewHolder>() {
 
+    private var releaseRowHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+
+    private var compDeathRowHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+    private var compRateRowHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+
+    private var compHandPositionRowHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+    private var compFractionRowHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+    private var compNoRowHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+    private var ventVolumeRowHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+    private var ventCountRowHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+
+
+
     inner class ViewHolder(private val binding: ItemCycleHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ScoreData, position: Int) {
@@ -116,8 +129,89 @@ class CycleHistoryAdapter(
                 }
             }
             binding.historyLayout.layoutParams = layoutParams
+
+
+            val params = binding.compressionRelease.layoutParams
+            params.height = releaseRowHeight
+            binding.compressionRelease.layoutParams = params
+
+            val params1 = binding.compressionDepthScore.layoutParams
+            params1.height = compDeathRowHeight
+            binding.compressionDepthScore.layoutParams = params1
+
+
+            val params2 = binding.compressionRateScore.layoutParams
+            params2.height = compRateRowHeight
+            binding.compressionRateScore.layoutParams = params2
+
+
+            val params3 = binding.handPositionScore.layoutParams
+            params3.height = compHandPositionRowHeight
+            binding.handPositionScore.layoutParams = params3
+
+
+            val params5 = binding.noOtCompression.layoutParams
+            params5.height = compNoRowHeight
+            binding.noOtCompression.layoutParams = params5
+
+
+
+            val params4 = binding.compressionFraction.layoutParams
+            params4.height = compFractionRowHeight
+            binding.compressionFraction.layoutParams = params4
+
+
+            val params6 = binding.ventilationVolume.layoutParams
+            params6.height = ventVolumeRowHeight
+            binding.ventilationVolume.layoutParams = params6
+
+
+            val params7 = binding.ventilationRate.layoutParams
+            params7.height = ventCountRowHeight
+            binding.ventilationRate.layoutParams = params7
+
+
+            Log.d("kimtest", "noOt height = $compNoRowHeight")
+            Log.d("kimtest", "ventVol height = $ventVolumeRowHeight")
+            Log.d("kimtest", "ventRate height = $ventCountRowHeight")
+
         }
     }
+
+
+    fun setReleaseRowHeight(height: Int) {
+        releaseRowHeight = height
+    }
+
+    fun setRowHeight(height: Int) {
+        compDeathRowHeight = height
+    }
+    fun setCompRateRowHeight(height: Int) {
+        compRateRowHeight = height
+    }
+
+    fun setCompPositionRowHeight(height: Int) {
+        compHandPositionRowHeight = height
+    }
+
+    fun setCompFractionRowHeight(height: Int) {
+        compFractionRowHeight = height
+    }
+
+    fun setCompNoRowHeight(height: Int) {
+        compNoRowHeight = height
+    }
+
+
+    fun setVentVolumeHeight(height: Int) {
+        ventVolumeRowHeight = height
+    }
+
+    fun setVentCountHeight(height: Int) {
+        ventCountRowHeight = height
+    }
+
+
 
     private fun setTextWithNullCheck(textView: TextView, data: Int?) {
         if (data == null) {

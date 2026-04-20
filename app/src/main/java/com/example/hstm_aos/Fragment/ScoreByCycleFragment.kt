@@ -1,8 +1,10 @@
 package com.example.hstm_aos.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnLayout
@@ -25,6 +27,7 @@ class ScoreByCycleFragment : Fragment(R.layout.fragment_score_cycle) {
     private var trainingType : String =""
     private var hstmResponse: HstmResponse? = null
     private var manikinType : String =""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentScoreCycleBinding.bind(view)
@@ -147,17 +150,41 @@ class ScoreByCycleFragment : Fragment(R.layout.fragment_score_cycle) {
             }
         } ?: emptyList()
 
-        cycleHistoryAdapter = CycleHistoryAdapter(
-            cycleInfo = actualData,
-            recyclerViewWidth = recyclerViewWidth,
-            context = requireContext(),
-            trainingType = trainingType,
-            manikinType = manikinType
-        )
+        waitForValidHeight {
 
-        binding.cycleInfoRecyclerView.adapter = null
-        binding.cycleInfoRecyclerView.adapter = cycleHistoryAdapter
+            val adapter = CycleHistoryAdapter(
+                cycleInfo = actualData,
+                recyclerViewWidth = recyclerViewWidth,
+                context = requireContext(),
+                trainingType = trainingType,
+                manikinType = manikinType
+            )
 
+            adapter.setReleaseRowHeight(binding.compReleaseByCycleTitle.height)
+            adapter.setRowHeight(binding.chestScoreByCycleTitle.height)
+            adapter.setCompRateRowHeight(binding.byCycleCompressionRateTitle.height)
+            adapter.setCompPositionRowHeight(binding.cprScoreHandPostionTitle.height)
+            adapter.setCompFractionRowHeight(binding.byCycleCompressionFractionTitle.height)
+            adapter.setCompNoRowHeight(binding.byCycleNoCompressionTitle.height)
+            adapter.setVentVolumeHeight(binding.byCycleVentilationVolumeTitle.height)
+            adapter.setVentCountHeight(binding.byCycleVentCountTextview.height)
+
+            binding.cycleInfoRecyclerView.adapter = adapter
+        }
+    }
+
+    private fun waitForValidHeight(onReady: () -> Unit) {
+        binding.root.post {
+            val h1 = binding.byCycleNoCompressionTitle.height
+            val h2 = binding.byCycleVentilationVolumeTitle.height
+            val h3 = binding.byCycleVentCountTextview.height
+
+            if (h1 > 0 && h2 > 0 && h3 > 0) {
+                onReady()
+            } else {
+                waitForValidHeight(onReady)
+            }
+        }
     }
 
     private fun setTextWithNullCheck(textView: android.widget.TextView, data: Int?) {

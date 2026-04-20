@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -15,6 +16,7 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.ImageView
@@ -47,6 +49,7 @@ import java.io.File
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hstm_aos.FontScaleManager
 import com.example.hstm_aos.adapter.OrganizationAdapter
 import com.example.hstm_aos.ble.DfuService
 import kotlinx.coroutines.CoroutineScope
@@ -119,12 +122,18 @@ class MainActivity : BaseActivity() {
         }
     }
 
+
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+//        bleManager.startScan(clear = true)
+        val step = getSharedPreferences("settings", MODE_PRIVATE)
+            .getInt("font_step", 0)
 
+        val scale = FontScaleManager.getScale(step)
 
+        updateScale(scale)
 
 
 
@@ -144,13 +153,13 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         bleManager.attachActivity(this)
-        bleManager.startScan(clear = true)
+//        bleManager.startScan(clear = true)
         DfuServiceListenerHelper.registerProgressListener(this, dfuListener)
     }
 
     override fun onPause() {
         super.onPause()
-        bleManager.stopScan()
+//        bleManager.stopScan()
         DfuServiceListenerHelper.unregisterProgressListener(this, dfuListener)
     }
 
@@ -482,7 +491,7 @@ class MainActivity : BaseActivity() {
 
         addTab("Home", R.drawable.inno_home_icon, homeFragment)
         addTab("Guide & Help", R.drawable.inno_question_mark_icon, guideFragment)
-        selectTab(0)
+        selectTab(0,true)
     }
 
 
@@ -532,7 +541,7 @@ class MainActivity : BaseActivity() {
     }
 
 
-     fun setupLogoutButton() {
+    fun setupLogoutButton() {
 
         clearWebViewData()
 
@@ -597,8 +606,16 @@ class MainActivity : BaseActivity() {
             "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
 
         tabContainer = findViewById(R.id.tabContainer)
+
+        tabselectTab()
+
     }
 
+    fun tabselectTab(){
+        tabContainer.post {
+            selectTab(0,true)
+        }
+    }
     private fun requestBlePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             requestPermissions(
@@ -656,26 +673,28 @@ class MainActivity : BaseActivity() {
     }
 
 
-    private fun selectTab(selectedIndex: Int) {
+    private fun selectTab(selectedIndex: Int,isScaling:Boolean= false) {
         tabs.forEachIndexed { index, view ->
             val icon = view.findViewById<ImageView>(R.id.tabIcon)
+
+            view.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
 
             if (index == selectedIndex) {
                 view.setBackgroundResource(R.drawable.bg_tab_selected)
                 icon.setColorFilter(Color.WHITE)
                 view.setPadding(dp(20), dp(0), dp(20), dp(0))
-                animateTabWidth(view, true)
+                animateTabWidth(view, true,isScaling)
             } else {
                 view.setBackgroundResource(R.drawable.bg_tab_unselected)
                 icon.setColorFilter(Color.WHITE)
                 view.setPadding(dp(10), dp(10), dp(10), dp(10))
-                animateTabWidth(view, false)
+                animateTabWidth(view, false,isScaling)
             }
         }
     }
 
 
-    private fun animateTabWidth(view: View, expand: Boolean) {
+    private fun animateTabWidth(view: View, expand: Boolean ,isScaling:Boolean = false) {
         val text = view.findViewById<TextView>(R.id.tabText)
         val icon = view.findViewById<ImageView>(R.id.tabIcon)
 
@@ -699,9 +718,19 @@ class MainActivity : BaseActivity() {
             icon.measuredWidth + dp(20)
         }
 
-        ValueAnimator.ofInt(startWidth, endWidth).apply {
-            duration = 220
+//        if (isScaling) {
+//            view.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+//            text.visibility = if (expand) View.VISIBLE else View.GONE
+//            view.requestLayout()
+//            return
+//        }
 
+        ValueAnimator.ofInt(startWidth, endWidth).apply {
+            if (isScaling) {
+                duration = 0
+            }else {
+                duration = 220
+            }
             addUpdateListener { anim ->
                 val w = anim.animatedValue as Int
                 view.layoutParams = view.layoutParams.apply {

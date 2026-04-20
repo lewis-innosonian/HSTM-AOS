@@ -33,6 +33,9 @@ class VentCustomView @JvmOverloads constructor(
     private val lungBg by lazy {
         AppCompatResources.getDrawable(context, R.mipmap.inno_vent_background)
     }
+    private val lungBgOver by lazy {
+        AppCompatResources.getDrawable(context, R.mipmap.inno_vent_red_background)
+    }
 
 //    private val lungBg: Bitmap? = getBitmapFromDrawable(R.mipmap.inno_vent_background)
     private var trainingType: String = "CPR"
@@ -158,7 +161,13 @@ class VentCustomView @JvmOverloads constructor(
 
         val save = canvas.saveLayerAlpha(rect, alpha)
 
-        lungBg?.let { drawable ->
+        val currentBg = if (currentValue > normalRange.last) {
+            AppCompatResources.getDrawable(context, R.mipmap.inno_vent_red_background)
+        } else {
+            lungBg
+        }
+
+        currentBg?.let { drawable ->
             drawable.bounds = Rect(
                 rect.left.toInt(),
                 rect.top.toInt(),

@@ -7,13 +7,13 @@
         android:orientation="horizontal"
         android:id="@+id/historyLayout"
         android:minWidth="450dp"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:minWidth="450dp"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/scoreBackground"
@@ -51,135 +51,124 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/compressionDepthScore"
                     android:textColor="#D9D9D9"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:textSize="20sp"
                     android:fontFamily="@font/custom_font"
                     android:textFontWeight="500"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
                     android:layout_height="wrap_content"
                     android:text="0%" />
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/compressionRelease"
                     android:textColor="#D9D9D9"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:textSize="20sp"
                     android:fontFamily="@font/custom_font"
                     android:textFontWeight="500"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
+
                     android:layout_height="wrap_content"
                     android:text="0%" />
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/compressionRateScore"
                     android:textColor="#D9D9D9"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:textSize="20sp"
                     android:fontFamily="@font/custom_font"
                     android:textFontWeight="500"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
+
                     android:layout_height="wrap_content"
                     android:text="0%" />
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/handPositionScore"
                     android:textColor="#D9D9D9"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:textSize="20sp"
                     android:fontFamily="@font/custom_font"
                     android:textFontWeight="500"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
+
                     android:layout_height="wrap_content"
                     android:text="0%" />
 
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/compressionFraction"
                     android:textColor="#D9D9D9"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:textSize="20sp"
                     android:fontFamily="@font/custom_font"
                     android:textFontWeight="500"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
+
                     android:layout_height="wrap_content"
                     android:text="0%" />
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/noOtCompression"
                     android:textColor="#D9D9D9"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:textSize="20sp"
                     android:fontFamily="@font/custom_font"
                     android:textFontWeight="500"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
+
                     android:layout_height="wrap_content"
                     android:text="0%" />
 
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/ventilationVolume"
                     android:textColor="#D9D9D9"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:textSize="20sp"
                     android:fontFamily="@font/custom_font"
                     android:textFontWeight="500"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
                     android:layout_height="wrap_content"
                     android:text="0%" />
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/ventilationRate"
                     android:textColor="#D9D9D9"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:textSize="20sp"
                     android:fontFamily="@font/custom_font"
                     android:textFontWeight="500"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
+
                     android:layout_height="wrap_content"
                     android:text="0%" />
 
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:visibility="gone"
                     android:id="@+id/ventilationSpeed"
                     android:textColor="#666666"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:textSize="20sp"
                     android:fontFamily="@font/custom_font"
                     android:textFontWeight="500"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
+
                     android:layout_height="wrap_content"
                     android:text="0%" />
 

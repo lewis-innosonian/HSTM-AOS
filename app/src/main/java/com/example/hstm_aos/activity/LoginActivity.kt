@@ -318,6 +318,10 @@ class LoginActivity : ComponentActivity() {
                 ConfigManager.documentURL =
                     json.optString("DocumentURL")
 
+                ConfigManager.getSkillsURL = json.optString("GetSkillsURL").also {
+                    Log.d(TAG, "getSkillsURL = $it")
+                }
+
                 val calcArray = json.optJSONArray("CalcURL")
                 val list = mutableListOf<String>()
                 calcArray?.let {

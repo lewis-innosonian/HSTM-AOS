@@ -126,7 +126,7 @@ class GradientFanView @JvmOverloads constructor(
         }
 
         centerPaint.color = if (virtualData) {
-            Color.parseColor("#D9D9D9")
+            ContextCompat.getColor(context, R.color.virtual_color)
         } else {
             mainColor
         }
@@ -137,7 +137,7 @@ class GradientFanView @JvmOverloads constructor(
 
         barPaint.color = when {
             isVent || !hasValue -> Color.TRANSPARENT
-            virtualData -> Color.parseColor("#D9D9D9")
+            virtualData -> ContextCompat.getColor(context, R.color.virtual_color)
             else -> mainColor
         }
 

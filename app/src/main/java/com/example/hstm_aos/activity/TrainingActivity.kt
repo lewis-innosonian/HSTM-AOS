@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.example.hstm_aos.ContentsItem
 import com.example.hstm_aos.DisConnectDialog
+import com.example.hstm_aos.FontScaleManager
 import com.example.hstm_aos.Fragment.TrainingFragment
 import com.example.hstm_aos.MainApplication
 import com.example.hstm_aos.ManikinTypeChooseDialog
@@ -66,6 +67,14 @@ class TrainingActivity : BaseActivity(), TrainingFragment.OnTrainingFinishedList
             // 상태바 아이콘을 검정색으로
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
+
+        val step = getSharedPreferences("settings", MODE_PRIVATE)
+            .getInt("font_step", 0)
+
+        val scale = FontScaleManager.getScale(step)
+
+        updateScale(scale)
+
         window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         contentItem = intent.getSerializableExtra("contentItem") as? ContentsItem.Content
         contentItem?.let {

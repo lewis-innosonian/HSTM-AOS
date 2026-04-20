@@ -1,0 +1,29 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 전체 트랙 -->
+    <item
+        android:id="@android:id/background"
+        android:gravity="center_vertical">
+
+        <shape>
+            <size android:height="4dp"/>
+            <solid android:color="#D3D3D3"/>
+            <corners android:radius="2dp"/>
+        </shape>
+    </item>
+
+    <!-- 진행 부분 -->
+    <item
+        android:id="@android:id/progress"
+        android:gravity="center_vertical">
+
+        <clip>
+            <shape>
+                <size android:height="4dp"/>
+                <solid android:color="#D3D3D3"/>
+                <corners android:radius="2dp"/>
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>

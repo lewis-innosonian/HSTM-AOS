@@ -13,6 +13,8 @@ import com.example.hstm_aos.R
 
 class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
+    private var fontScale = 1f
+
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.parseColor("#333333")
         strokeWidth = 2f
@@ -58,7 +60,7 @@ class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context,
     private val labelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.parseColor("#333333")
         textSize =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14f, resources.displayMetrics)
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14f, resources.displayMetrics)
         textAlign = Paint.Align.CENTER
         typeface = ResourcesCompat.getFont(context, R.font.font_600)
     }
@@ -103,6 +105,52 @@ class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context,
         this.passScore = score
         invalidate()
     }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+
+        val width = MeasureSpec.getSize(widthMeasureSpec)
+
+        val topPadding = dp(20)
+        val chartHeight = dp(100) * fontScale
+
+        val maxLines = labels.maxOfOrNull { it.split("\n").size } ?: 1
+        val labelHeight = labelPaint.textSize * maxLines + dp(12)
+
+        val bottomPadding = labelHeight + dp(20)
+
+        val desiredHeight = (topPadding + chartHeight + bottomPadding).toInt()
+
+        setMeasuredDimension(width, resolveSize(desiredHeight, heightMeasureSpec))
+    }
+
+    private fun dp(dp: Int): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            resources.displayMetrics
+        )
+    }
+
+    fun applyFontScale(scale: Float) {
+        fontScale = scale
+
+        score80TextPaint.textSize =
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                20f * fontScale,
+                resources.displayMetrics
+            )
+
+        labelPaint.textSize =
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                14f * fontScale,
+                resources.displayMetrics
+            )
+
+        invalidate()
+    }
+
 
     fun setType(type: String, trainingType: String, guideLine: String, includeAed: Boolean = false) {
         this.type = type
@@ -195,8 +243,10 @@ class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context,
         super.onDraw(canvas)
         if (viewWidth == 0 || viewHeight == 0 || values.isEmpty()) return
 
-        val paddingTop = 0
-        val paddingBottom = 74
+        val maxLines = labels.maxOfOrNull { it.split("\n").size } ?: 1
+        val labelHeight = labelPaint.textSize * maxLines + dp(12)
+
+        val paddingBottom = labelHeight + dp(20)
         val baseY = viewHeight - paddingBottom
 
         val maxValue = 100f
@@ -287,7 +337,7 @@ class CustomBarChartView(context: Context, attrs: AttributeSet?) : View(context,
         var textY = y
         for (line in textLines) {
             canvas.drawText(line, x, textY, paint)
-            textY += paint.textSize + 5
+            textY += paint.textSize + dp(4)
         }
     }
 }

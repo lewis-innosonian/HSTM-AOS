@@ -246,14 +246,15 @@
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:minWidth="240dp"
                     >
 
                     <TextView
-                        android:id="@+id/positionTextView"
                         android:gravity="center"
+                        android:id="@+id/positionTextView"
                         android:drawableStart="@drawable/inno_position_icon_17"
                         android:drawablePadding="6dp"
                         android:layout_gravity="center"
@@ -274,9 +275,10 @@
 
                 </LinearLayout>
 
+
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="2.1"
+                    android:layout_weight="1.2"
                     android:layout_marginStart="30dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -301,7 +303,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
                             android:fontFamily="@font/montserrat_bold"
-                            android:text="Depth &amp; Rate"
+                            android:text="Depth"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -338,12 +340,11 @@
                 </RelativeLayout>
 
 
-
-
                 <LinearLayout
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:minWidth="240dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="30dp"
